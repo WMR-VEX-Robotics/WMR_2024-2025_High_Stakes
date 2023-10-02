@@ -55,3 +55,6 @@
 
 ## Q: Why don't you just stop people from commiting to other peoples branches?
 ### A: GitHub does offer that, although you need a GitHub Enterprise account, which costs money, so it's easier to ask people to not.
+
+# Informational links
+[How Odometry Works 5225A](https://blog.jloh02.dev/robotics/odometry/)
