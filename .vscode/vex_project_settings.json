@@ -1,19 +1,18 @@
 {
-	"extension": {
-		"version": "0.5.0",
-		"json": 2
-	},
 	"project": {
-		"name": "2023_2024_Legacy_Competition",
-		"description": "Legacy team bot programming for 2023-2024",
-		"creationDate": "10/2/2023, 8:41:19 PM",
-		"platform": "V5",
-		"language": "cpp",
+		"name": "JAR-Template",
 		"slot": 1,
+		"description": "Empty V5 C++ Project",
+		"platform": "V5",
+		"creationDate": "Tue, 03 Oct 2023 19:23:24 GMT",
+		"language": "cpp",
 		"sdkVersion": "V5_20220726_10_00_00",
 		"cpp": {
-			"includePath": [],
-			"printf_float": true
+			"includePath": []
 		}
+	},
+	"extension": {
+		"version": "0.5.0",
+		"json": 1
 	}
 }
