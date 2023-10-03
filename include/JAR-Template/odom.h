@@ -1,3 +1,4 @@
+#pragma once
 class Odom
 {
 private:

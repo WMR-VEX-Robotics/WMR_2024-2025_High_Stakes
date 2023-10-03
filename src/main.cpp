@@ -14,14 +14,12 @@ using namespace vex;
 // A global instance of competition
 competition Competition;
 
-brain Brain;
-
 // define your global instances of motors and other devices here
 // motors
 motor tlMotor1 = motor(PORT1, ratio6_1, true);
 motor blMotor11 = motor(PORT11, ratio6_1, true);
 motor trMotor10 = motor(PORT10, ratio6_1, false);
-motor brMotor21 = motor(PORT20, ratio6_1, false);
+motor brMotor20 = motor(PORT20, ratio6_1, false);
 motor catapaultMotor = motor(PORT5, ratio36_1, true);
 
 // not motors
@@ -51,7 +49,7 @@ ZERO_TRACKER_NO_ODOM,
 motor_group(tlMotor1, blMotor11),
 
 //Right Motors:
-motor_group(trMotor10, brMotor21),
+motor_group(trMotor10, brMotor20),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
 PORT8,
@@ -155,6 +153,13 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
+void tankDrive_user(){
+  tlMotor1.spin(forward, mainController.Axis2.position(), percent);
+  trMotor10.spin(forward, mainController.Axis3.position(), percent);
+  blMotor11.spin(forward, mainController.Axis2.position(), percent);
+  brMotor20.spin(forward, mainController.Axis3.position(), percent);
+}
+
 void usercontrol(void) {
   // User control code here, inside the loop
   while (1) {
@@ -177,7 +182,7 @@ void usercontrol(void) {
 //
 int main() {
   // Set up callbacks for autonomous and driver control periods.
-  Competition.autonomous(autonomous);
+ Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
 
   // Run the pre-autonomous function.
@@ -185,6 +190,8 @@ int main() {
 
   // Prevent main from exiting with an infinite loop.
   while (true) {
-    wait(100, msec);
+    
   }
+
+
 }
