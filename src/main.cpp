@@ -24,6 +24,7 @@ motor catapaultMotor = motor(PORT5, ratio36_1, true);
 
 // not motors
 controller mainController = controller(primary);
+inertial inertialSensor = inertial(PORT8);
 
 //odometry
 /*---------------------------------------------------------------------------*/
@@ -39,7 +40,7 @@ Drive chassis(
 //Specify your drive setup below. There are eight options:
 //ZERO_TRACKER_NO_ODOM, ZERO_TRACKER_ODOM, TANK_ONE_ENCODER, TANK_ONE_ROTATION, TANK_TWO_ENCODER, TANK_TWO_ROTATION, HOLONOMIC_TWO_ENCODER, and HOLONOMIC_TWO_ROTATION
 //For example, if you are not using odometry, put ZERO_TRACKER_NO_ODOM below:
-ZERO_TRACKER_NO_ODOM,
+ZERO_TRACKER_ODOM,
 
 //Add the names of your Drive motors into the motor groups below, separated by commas, i.e. motor_group(Motor1,Motor2,Motor3).
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
@@ -121,9 +122,7 @@ bool auto_started = false;
 /*---------------------------------------------------------------------------*/
 
 void pre_auton(void) {
-
-  // All activities that occur before the competition starts
-  // Example: clearing encoders, setting servo positions, ...
+  chassis.set_coordinates(0,0,0);
 }
 
 void simpleAuton(){
@@ -189,9 +188,7 @@ int main() {
   pre_auton();
  
   // Prevent main from exiting with an infinite loop.
-  while (true) {
-    tankDrive_user();
-  }
+  tank_odom_test();
 
 
 }
