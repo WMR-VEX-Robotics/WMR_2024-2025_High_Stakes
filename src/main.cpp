@@ -110,6 +110,12 @@ PORT3,     -PORT4,
 int current_auton_selection = 0;
 bool auto_started = false;
 
+void motorsHalt(){
+  tlMotor1.stop(brake);
+  blMotor11.stop(brake);
+  trMotor10.stop(brake);
+  brMotor20.stop(brake);
+}
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -122,16 +128,38 @@ bool auto_started = false;
 /*---------------------------------------------------------------------------*/
 
 void pre_auton(void) {
-  chassis.set_coordinates(0,0,0);
+  inertialSensor.calibrate();
+  tlMotor1.setStopping(coast);
+  blMotor11.setStopping(coast);
+  trMotor10.setStopping(coast);
+  brMotor20.setStopping(coast);
 }
 
-void simpleAuton(){
+void autonSquarifyt1(){
+  default_constants();
+  chassis.drive_settle_error = 3;
   chassis.set_coordinates(0,0,0);
-  chassis.drive_to_point(0,4);
-  chassis.turn_to_angle(90);
-  chassis.drive_to_point(1,4);
-  chassis.turn_to_angle(-90);
-  chassis.drive_to_point(1,5);
+  chassis.turn_to_point(0,12);
+  chassis.drive_to_point(0,12);
+  chassis.turn_to_point(12,12);  
+  chassis.drive_to_point(12,12);
+  chassis.turn_to_point(12,0);
+  chassis.drive_to_point(12,0);
+  chassis.turn_to_point(0,0);
+  chassis.drive_to_point(0,0);
+}
+
+void autonSquarifyt2(){
+  default_constants();
+  chassis.drive_settle_error = 3;
+  chassis.set_coordinates(0,0,0);
+  for(int i = 0; i<=4; i++){chassis.drive_distance(106); chassis.turn_to_angle(90);}
+  if(chassis.get_X_position() >= 0.7 || chassis.get_Y_position() >= 0.7){
+    chassis.turn_to_point(0,0);
+    chassis.drive_to_point(0,0);
+  }
+  wait(200, msec);
+  motorsHalt();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -161,10 +189,11 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void tankDrive_user(){
-  tlMotor1.spin(forward, mainController.Axis2.position(), percent);
-  trMotor10.spin(forward, mainController.Axis3.position(), percent);
-  blMotor11.spin(forward, mainController.Axis2.position(), percent);
-  brMotor20.spin(forward, mainController.Axis3.position(), percent);
+  tlMotor1.spin(forward, mainController.Axis3.position(), percent);
+  trMotor10.spin(forward, mainController.Axis2.position(), percent);
+  blMotor11.spin(forward, mainController.Axis3.position(), percent);
+  brMotor20.spin(forward, mainController.Axis2.position(), percent);
+  mainController.ButtonR2.pressed(motorsHalt);
 }
 
 void usercontrol(void) {
@@ -186,9 +215,7 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
- 
-  // Prevent main from exiting with an infinite loop.
-  tank_odom_test();
+ autonSquarifyt1();
 
 
 }
