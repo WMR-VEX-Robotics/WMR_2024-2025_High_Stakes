@@ -128,6 +128,7 @@ void motorsHalt(){
 /*---------------------------------------------------------------------------*/
 
 void pre_auton(void) {
+<<<<<<< Updated upstream
   inertialSensor.calibrate();
   tlMotor1.setStopping(coast);
   blMotor11.setStopping(coast);
@@ -189,6 +190,21 @@ void competitionAuton(){
 
 void skillsAuton(){
 
+=======
+
+}
+
+void simpleAuton(){
+ inertialSensor.calibrate();
+  default_constants();
+  chassis.set_coordinates(0,0,0);
+  chassis.turn_to_point(0,4);
+  chassis.drive_to_point(0,4);
+  chassis.turn_to_point(2,4);
+  chassis.drive_to_point(2,4);
+  chassis.turn_to_point(0,0);
+  chassis.drive_to_point(0,0);
+>>>>>>> Stashed changes
 }
 
 /*---------------------------------------------------------------------------*/
@@ -200,11 +216,8 @@ void skillsAuton(){
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-
 void autonomous(void) {
-  // ..........................................................................
-  // Insert autonomous user code here.
-  // ..........................................................................
+
 }
 
 /*---------------------------------------------------------------------------*/
@@ -244,7 +257,11 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
+<<<<<<< Updated upstream
  competitionAuton();
 
+=======
+  simpleAuton();
+>>>>>>> Stashed changes
 
 }
