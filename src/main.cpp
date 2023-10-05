@@ -162,6 +162,35 @@ void autonSquarifyt2(){
   motorsHalt();
 }
 
+void getPreload(){
+  wait(2, sec);
+}
+
+void dumpPreload(){
+  wait(2, sec);
+}
+
+void competitionAuton(){
+  default_constants();
+  chassis.drive_settle_error = 3;
+  chassis.set_coordinates(0,0,0);
+  chassis.turn_to_point(0,7);
+  chassis.drive_to_point(0,7);
+  chassis.turn_to_point(-5, 2);
+  chassis.drive_to_point(-5,2);
+  getPreload();
+  chassis.turn_to_point(3, 7);
+  chassis.drive_to_point(3,7);
+  chassis.turn_to_point(3, 11);
+  chassis.drive_to_point(3,11);
+  chassis.turn_to_point(-5, 11);
+  dumpPreload();
+}
+
+void skillsAuton(){
+
+}
+
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
 /*                              Autonomous Task                              */
@@ -215,7 +244,7 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
- autonSquarifyt1();
+ competitionAuton();
 
 
 }
