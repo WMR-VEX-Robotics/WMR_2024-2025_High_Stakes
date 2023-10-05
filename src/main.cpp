@@ -20,7 +20,7 @@ motor tlMotor1 = motor(PORT1, ratio6_1, true);
 motor blMotor11 = motor(PORT11, ratio6_1, true);
 motor trMotor10 = motor(PORT10, ratio6_1, false);
 motor brMotor20 = motor(PORT20, ratio6_1, false);
-motor catapaultMotor = motor(PORT5, ratio36_1, true);
+motor catapaultMotor = motor(PORT5, ratio18_1, true);
 
 // not motors
 controller mainController = controller(primary);
@@ -128,7 +128,6 @@ void motorsHalt(){
 /*---------------------------------------------------------------------------*/
 
 void pre_auton(void) {
-<<<<<<< Updated upstream
   inertialSensor.calibrate();
   tlMotor1.setStopping(coast);
   blMotor11.setStopping(coast);
@@ -190,7 +189,7 @@ void competitionAuton(){
 
 void skillsAuton(){
 
-=======
+
 
 }
 
@@ -204,7 +203,6 @@ void simpleAuton(){
   chassis.drive_to_point(2,4);
   chassis.turn_to_point(0,0);
   chassis.drive_to_point(0,0);
->>>>>>> Stashed changes
 }
 
 /*---------------------------------------------------------------------------*/
@@ -257,11 +255,6 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
-<<<<<<< Updated upstream
  competitionAuton();
-
-=======
-  simpleAuton();
->>>>>>> Stashed changes
 
 }
