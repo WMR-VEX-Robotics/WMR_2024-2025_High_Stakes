@@ -29,6 +29,7 @@ motor rcatapaultMotor = motor(PORT6, ratio18_1, false);
 controller mainController = controller(primary);
 inertial inertialSensor = inertial(PORT8);
 encoder enc1 = encoder(Brain.ThreeWirePort.A);
+encoder enc2 = encoder(Brain.ThreeWirePort.C);
 
 //odometry
 /*---------------------------------------------------------------------------*/
@@ -150,6 +151,7 @@ void pre_auton(void) {
   ensureCalibration();
   // purge encoder(s)
   enc1.resetRotation();
+  enc2.resetRotation();
   // set brakes to the defined mode in the case of autonomous function it should be brake
   setdtBrakemode(brake);
   //mode is reset at the end of autonomous
@@ -180,16 +182,16 @@ void autonSquarifyt2(){
   default_constants();
   chassis.set_coordinates(0,0,0);
   
-  chassis.drive_distance(24);
+  chassis.drive_distance(73.84615384615385);
   chassis.turn_to_angle(90);
 
-  chassis.drive_distance(24);
+  chassis.drive_distance(73.84615384615385);
   chassis.turn_to_angle(180);
   
-  chassis.drive_distance(24);
+  chassis.drive_distance(73.84615384615385);
   chassis.turn_to_angle(270);
   
-  chassis.drive_distance(24);
+  chassis.drive_distance(73.84615384615385);
   chassis.turn_to_angle(0);
 
   if (fabs(chassis.get_X_position()) >= 0.7 || fabs(chassis.get_Y_position()) >= 0.7){
@@ -213,14 +215,14 @@ void dumpPreload(){
 void competitionAuton(){
   default_constants();
   chassis.set_coordinates(0,0,0);
-  chassis.drive_distance(36);
+  chassis.drive_distance(37);
   chassis.turn_to_angle(270);
   chassis.drive_distance(18);
   chassis.turn_to_angle(45);
   chassis.drive_distance(-25.5);
   getPreload();
   dumpPreload();
-  chassis.drive_distance(127.5);
+  chassis.drive_distance(106);
   chassis.turn_to_angle(0);
   getPreload();
   chassis.turn_to_angle(45);
@@ -290,8 +292,6 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
-  default_constants();
-  chassis.set_coordinates(0,0,0);
-  chassis.drive_distance(34);
-
+  autonSquarifyt2();
+  
 }
