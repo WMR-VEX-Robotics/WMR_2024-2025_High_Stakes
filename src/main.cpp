@@ -12,7 +12,9 @@
 using namespace vex;
 
 // A global instance of competition
-competition Competition;
+competition Competition;\
+
+brain Brain; 
 
 // define your global instances of motors and other devices here
 // motors
@@ -20,11 +22,13 @@ motor tlMotor1 = motor(PORT1, ratio6_1, true);
 motor blMotor11 = motor(PORT11, ratio6_1, true);
 motor trMotor10 = motor(PORT10, ratio6_1, false);
 motor brMotor20 = motor(PORT20, ratio6_1, false);
-motor catapaultMotor = motor(PORT5, ratio18_1, true);
+motor lcatapaultMotor = motor(PORT5, ratio18_1, true);
+motor rcatapaultMotor = motor(PORT6, ratio18_1, false);
 
 // not motors
 controller mainController = controller(primary);
 inertial inertialSensor = inertial(PORT8);
+encoder enc1 = encoder(Brain.ThreeWirePort.A);
 
 //odometry
 /*---------------------------------------------------------------------------*/
@@ -40,7 +44,7 @@ Drive chassis(
 //Specify your drive setup below. There are eight options:
 //ZERO_TRACKER_NO_ODOM, ZERO_TRACKER_ODOM, TANK_ONE_ENCODER, TANK_ONE_ROTATION, TANK_TWO_ENCODER, TANK_TWO_ROTATION, HOLONOMIC_TWO_ENCODER, and HOLONOMIC_TWO_ROTATION
 //For example, if you are not using odometry, put ZERO_TRACKER_NO_ODOM below:
-ZERO_TRACKER_ODOM,
+TANK_ONE_ENCODER,
 
 //Add the names of your Drive motors into the motor groups below, separated by commas, i.e. motor_group(Motor1,Motor2,Motor3).
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
@@ -127,39 +131,75 @@ void motorsHalt(){
 /*  not every time that the robot is disabled.                               */
 /*---------------------------------------------------------------------------*/
 
-void pre_auton(void) {
-  inertialSensor.calibrate();
-  tlMotor1.setStopping(coast);
-  blMotor11.setStopping(coast);
-  trMotor10.setStopping(coast);
-  brMotor20.setStopping(coast);
+void setdtBrakemode(brakeType mode){
+  tlMotor1.setStopping(mode);
+  blMotor11.setStopping(mode);
+  trMotor10.setStopping(mode);
+  brMotor20.setStopping(mode);
 }
 
-void autonSquarifyt1(){
+void ensureCalibration(){
+  if (inertialSensor.isCalibrating() != false){
+    wait(200,msec);
+  }
+}
+
+void pre_auton(void) {
+  // purge inertial sensor
+  inertialSensor.calibrate();
+  ensureCalibration();
+  // purge encoder(s)
+  enc1.resetRotation();
+  // set brakes to the defined mode in the case of autonomous function it should be brake
+  setdtBrakemode(brake);
+  //mode is reset at the end of autonomous
+}
+
+void autonSquarifyt1(float n){
   default_constants();
-  chassis.drive_settle_error = 3;
   chassis.set_coordinates(0,0,0);
-  chassis.turn_to_point(0,12);
-  chassis.drive_to_point(0,12);
-  chassis.turn_to_point(12,12);  
-  chassis.drive_to_point(12,12);
-  chassis.turn_to_point(12,0);
-  chassis.drive_to_point(12,0);
+
+  chassis.turn_to_point(0,n);
+  chassis.drive_to_point(0,n);
+
+  chassis.turn_to_point(n, n);  
+  chassis.drive_to_point(n, n);
+
+  chassis.turn_to_point(n,0);
+  chassis.drive_to_point(n,0);
+
   chassis.turn_to_point(0,0);
   chassis.drive_to_point(0,0);
+  
+  wait(200, msec);
+  motorsHalt();
+  setdtBrakemode(coast);
 }
 
 void autonSquarifyt2(){
   default_constants();
-  chassis.drive_settle_error = 3;
   chassis.set_coordinates(0,0,0);
-  for(int i = 0; i<=4; i++){chassis.drive_distance(106); chassis.turn_to_angle(90);}
-  if(chassis.get_X_position() >= 0.7 || chassis.get_Y_position() >= 0.7){
+  
+  chassis.drive_distance(24);
+  chassis.turn_to_angle(90);
+
+  chassis.drive_distance(24);
+  chassis.turn_to_angle(180);
+  
+  chassis.drive_distance(24);
+  chassis.turn_to_angle(270);
+  
+  chassis.drive_distance(24);
+  chassis.turn_to_angle(0);
+
+  if (fabs(chassis.get_X_position()) >= 0.7 || fabs(chassis.get_Y_position()) >= 0.7){
     chassis.turn_to_point(0,0);
     chassis.drive_to_point(0,0);
   }
+
   wait(200, msec);
   motorsHalt();
+  setdtBrakemode(coast);
 }
 
 void getPreload(){
@@ -191,18 +231,6 @@ void skillsAuton(){
 
 
 
-}
-
-void simpleAuton(){
- inertialSensor.calibrate();
-  default_constants();
-  chassis.set_coordinates(0,0,0);
-  chassis.turn_to_point(0,4);
-  chassis.drive_to_point(0,4);
-  chassis.turn_to_point(2,4);
-  chassis.drive_to_point(2,4);
-  chassis.turn_to_point(0,0);
-  chassis.drive_to_point(0,0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -255,6 +283,6 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
- competitionAuton();
+  autonSquarifyt2();
 
 }
