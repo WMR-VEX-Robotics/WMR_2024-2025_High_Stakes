@@ -212,18 +212,25 @@ void dumpPreload(){
 
 void competitionAuton(){
   default_constants();
-  chassis.drive_settle_error = 3;
   chassis.set_coordinates(0,0,0);
-  chassis.turn_to_point(0,7);
-  chassis.drive_to_point(0,7);
-  chassis.turn_to_point(-5, 2);
-  chassis.drive_to_point(-5,2);
+  chassis.drive_distance(36);
+  chassis.turn_to_angle(270);
+  chassis.drive_distance(18);
+  chassis.turn_to_angle(45);
+  chassis.drive_distance(-25.5);
   getPreload();
-  chassis.turn_to_point(3, 7);
-  chassis.drive_to_point(3,7);
-  chassis.turn_to_point(3, 11);
-  chassis.drive_to_point(3,11);
-  chassis.turn_to_point(-5, 11);
+  dumpPreload();
+  chassis.drive_distance(127.5);
+  chassis.turn_to_angle(0);
+  getPreload();
+  chassis.turn_to_angle(45);
+  chassis.drive_distance(-18);
+  chassis.turn_to_angle(90);
+  dumpPreload();
+  chassis.turn_to_angle(315);
+  chassis.drive_distance(18);
+  getPreload();
+  chassis.turn_to_angle(90);
   dumpPreload();
 }
 
@@ -283,6 +290,8 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
-  autonSquarifyt2();
+  default_constants();
+  chassis.set_coordinates(0,0,0);
+  chassis.drive_distance(34);
 
 }
