@@ -29,7 +29,8 @@ motor rcatapaultMotor = motor(PORT6, ratio18_1, false);
 controller mainController = controller(primary);
 inertial inertialSensor = inertial(PORT8);
 encoder enc1 = encoder(Brain.ThreeWirePort.A);
-encoder enc2 = encoder(Brain.ThreeWirePort.C);
+digital_out digiout1 = digital_out(Brain.ThreeWirePort.C);
+digital_out digiout2 = digital_out(Brain.ThreeWirePort.D);
 
 //odometry
 /*---------------------------------------------------------------------------*/
@@ -151,10 +152,11 @@ void pre_auton(void) {
   ensureCalibration();
   // purge encoder(s)
   enc1.resetRotation();
-  enc2.resetRotation();
   // set brakes to the defined mode in the case of autonomous function it should be brake
   setdtBrakemode(brake);
   //mode is reset at the end of autonomous
+  lcatapaultMotor.setStopping(coast);
+  rcatapaultMotor.setStopping(coast);
 }
 
 void autonSquarifyt1(float n){
@@ -178,32 +180,6 @@ void autonSquarifyt1(float n){
   setdtBrakemode(coast);
 }
 
-void autonSquarifyt2(){
-  default_constants();
-  chassis.set_coordinates(0,0,0);
-  
-  chassis.drive_distance(73.84615384615385);
-  chassis.turn_to_angle(90);
-
-  chassis.drive_distance(73.84615384615385);
-  chassis.turn_to_angle(180);
-  
-  chassis.drive_distance(73.84615384615385);
-  chassis.turn_to_angle(270);
-  
-  chassis.drive_distance(73.84615384615385);
-  chassis.turn_to_angle(0);
-
-  if (fabs(chassis.get_X_position()) >= 0.7 || fabs(chassis.get_Y_position()) >= 0.7){
-    chassis.turn_to_point(0,0);
-    chassis.drive_to_point(0,0);
-  }
-
-  wait(200, msec);
-  motorsHalt();
-  setdtBrakemode(coast);
-}
-
 void getPreload(){
   wait(2, sec);
 }
@@ -215,31 +191,28 @@ void dumpPreload(){
 void competitionAuton(){
   default_constants();
   chassis.set_coordinates(0,0,0);
-  chassis.drive_distance(37);
+  chassis.drive_distance(12);
   chassis.turn_to_angle(270);
-  chassis.drive_distance(18);
+  chassis.drive_distance(8);
   chassis.turn_to_angle(45);
   chassis.drive_distance(-25.5);
   getPreload();
   dumpPreload();
-  chassis.drive_distance(106);
+  chassis.drive_distance(36);
   chassis.turn_to_angle(0);
   getPreload();
   chassis.turn_to_angle(45);
-  chassis.drive_distance(-18);
+  chassis.drive_distance(-8);
   chassis.turn_to_angle(90);
   dumpPreload();
   chassis.turn_to_angle(315);
-  chassis.drive_distance(18);
+  chassis.drive_distance(8);
   getPreload();
   chassis.turn_to_angle(90);
   dumpPreload();
-}
-
-void skillsAuton(){
-
-
-
+  wait(200, msec);
+  motorsHalt();
+  setdtBrakemode(coast);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -252,7 +225,7 @@ void skillsAuton(){
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-
+  competitionAuton();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -265,12 +238,31 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
+void wingsDeploy(){
+    if (digiout1.value() == false && digiout2.value() == false){
+      digiout1.set(true);
+      digiout2.set(true);
+    }
+    if (digiout1.value() == true && digiout2.value() == true){
+      digiout1.set(false);
+      digiout2.set(false);
+    }
+}
+
 void tankDrive_user(){
   tlMotor1.spin(forward, mainController.Axis3.position(), percent);
   trMotor10.spin(forward, mainController.Axis2.position(), percent);
   blMotor11.spin(forward, mainController.Axis3.position(), percent);
   brMotor20.spin(forward, mainController.Axis2.position(), percent);
-  mainController.ButtonR2.pressed(motorsHalt);
+  if (mainController.ButtonB.pressing() == true) {
+    motorsHalt();
+  }
+  while (mainController.ButtonR2.pressing() == true){
+    lcatapaultMotor.spin(forward, 12.7, volt);
+    rcatapaultMotor.spin(forward, 12.7, volt);
+  }
+  mainController.ButtonL2.pressed(wingsDeploy);
+
 }
 
 void usercontrol(void) {
@@ -287,11 +279,10 @@ void usercontrol(void) {
 //
 int main() {
   // Set up callbacks for autonomous and driver control periods.
- Competition.autonomous(autonomous);
+  Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
 
   // Run the pre-autonomous function.
   pre_auton();
-  autonSquarifyt2();
   
 }
