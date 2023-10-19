@@ -120,6 +120,7 @@ void pre_auton(void) {
   vexcodeInit();
   default_constants();
   HangingArm.setBrake(hold);
+  chassis.set_coordinates(0, 0, 0);
 
 
 /*  while(auto_started == false){            //Changing the names below will only change their names on the
@@ -161,35 +162,7 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
-
-  /*auto_started = true;
-  switch(current_auton_selection){  
-    case 0:
-      odom_test();
-      //drive_test(); //This is the default auton, if you don't select from the brain.
-      break;        //Change these to be your own auton functions in order to use the auton selector.
-    case 1:         //Tap the screen to cycle through autons.
-      drive_test();
-      break;
-    case 2:
-      turn_test();
-      break;
-    case 3:
-      swing_test();
-      break;
-    case 4:
-      full_test();
-      break;
-    case 5:
-      odom_test();
-      break;
-    case 6:
-      tank_odom_test();
-      break;
-    case 7:
-      holonomic_odom_test();
-      break;
- }*/
+  Brain.Screen.print("Ain't nothin but the wind");
 }
 
 /*---------------------------------------------------------------------------*/
@@ -328,7 +301,7 @@ void pneumaticsSwitch() {
   wait(1,seconds);
 }*/
 
-void standardControl(){
+void standardControl_2(){
   //Start Controller1 Scheme
   //Two Stick Arcade Mode
  /*LeftFront.spin(forward, ((Controller1.Axis3.position()) + Controller1.Axis1.position()), percent);
@@ -370,8 +343,48 @@ void standardControl(){
   //End Controller2 Scheme
 }
 
+void standardControl_1(){
+  //Start Controller1 Scheme
+  //Two Stick Arcade Mode
+
+  chassis.control_arcade();
+
+  //Run intake inwards/outwards bound r1,r2
+  if (Controller1.ButtonL1.pressing() == true){
+    IntakeVacuum.spin(forward, 100, percent);
+  } else if (Controller1.ButtonR1.pressing() == true){
+    IntakeVacuum.spin(reverse, 100, percent);
+  } else {
+    IntakeVacuum.stop(hold);
+  }
+
+  //Run catapault
+  if (Controller1.ButtonR2.pressing() == true){
+    LeftCata.spin(forward, 100, percent);
+    RightCata.spin(forward, 100, percent);
+  } else {
+    LeftCata.stop(hold);
+    RightCata.stop(hold);
+  }
+
+  /*if (Controller1.ButtonL2.pressing() == true){
+    travelMode();
+  }*/
+  //@TODO: Create Travel Mode Toggle
+
+  Controller1.ButtonB.pressed(pneumaticsSwitch);
+  if (Controller1.ButtonUp.pressing() == true){
+    HangingArm.spin(forward, 100, pct);
+  } else if (Controller1.ButtonDown.pressing() == true){
+    HangingArm.spin(reverse, 100, pct);
+  } else {
+    HangingArm.stop(hold);
+  }
+  //End Controller1 Scheme
+}
+
 void usercontrol(void) {
-  standardControl();
+  standardControl_1();
 }
 
 //
@@ -380,16 +393,11 @@ void usercontrol(void) {
 int main() {
 
   // Set up callbacks for autonomous and driver control periods.
-  //Competition.autonomous(autonomous);
-  //Competition.drivercontrol(usercontrol);
+  Competition.autonomous(autonomous);
+  Competition.drivercontrol(usercontrol);
 
   // Run the pre-autonomous function.
   pre_auton();
   //chassis.turn_to_angle(20);
 
-  // Prevent main from exiting with an infinite loop.
-  chassis.set_coordinates(0, 0, 0);
-  while(true){
-    standardControl();
-  }
 }
