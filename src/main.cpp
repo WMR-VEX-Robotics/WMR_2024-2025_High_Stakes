@@ -7,7 +7,7 @@ brain Brain;
 
 //Other Devices
 controller Controller1 = controller(primary);
-//controller Controller2 = controller(partner);
+controller Controller2 = controller(partner);
 pneumatics wall = pneumatics(Brain.ThreeWirePort.C);
 
 //Motor Devices
@@ -119,6 +119,7 @@ void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!  
   vexcodeInit();
   default_constants();
+  HangingArm.setBrake(hold);
 
 
 /*  while(auto_started == false){            //Changing the names below will only change their names on the
@@ -311,9 +312,21 @@ void pneumaticsSwitch() {
   }
 }
 
-void travelMode() {
-
-}
+/*void travelMode() {
+  int timer = 0;
+  while(LeftCata.torque(Nm)>0.10 && timer<200){
+    LeftCata.spin(forward,100,pct);
+    RightCata.spin(forward,100,pct);
+    timer+=1;
+  }
+  LeftCata.setVelocity(100,pct);
+  RightCata.setVelocity(100,pct);
+  LeftCata.spinFor(300,degrees,false);
+  RightCata.spinFor(300,degrees,false);
+  LeftCata.setBrake(hold);
+  RightCata.setBrake(hold);
+  wait(1,seconds);
+}*/
 
 void standardControl(){
   //Start Controller1 Scheme
@@ -337,18 +350,23 @@ void standardControl(){
   if (Controller1.ButtonR2.pressing() == true){
     LeftCata.spin(forward, 100, percent);
     RightCata.spin(forward, 100, percent);
-  } else {
-    LeftCata.stop(coast);
-    RightCata.stop(coast);
+  }
+  else
+  {
+    LeftCata.stop(hold);
+    RightCata.stop(hold);
   }
 
+  /*if (Controller1.ButtonL2.pressing() == true){
+    travelMode();
+  }*/
   //@TODO: Create Travel Mode Toggle
 
   //End Controller1 Scheme
 
   //Start Controller2 Scheme
-  Controller1.ButtonB.pressed(pneumaticsSwitch);
-  HangingArm.spin(forward, Controller1.Axis1.position(), percent);
+  Controller2.ButtonB.pressed(pneumaticsSwitch);
+  HangingArm.spin(forward, Controller2.Axis3.position(), percent);
   //End Controller2 Scheme
 }
 
@@ -370,8 +388,8 @@ int main() {
   //chassis.turn_to_angle(20);
 
   // Prevent main from exiting with an infinite loop.
-   chassis.set_coordinates(0, 0, 0);
+  chassis.set_coordinates(0, 0, 0);
   while(true){
-    jeffControl();
+    standardControl();
   }
 }
