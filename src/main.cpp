@@ -351,17 +351,17 @@ void standardControl_1(){
 
   //Run intake inwards/outwards bound r1,r2
   if (Controller1.ButtonL1.pressing() == true){
-    IntakeVacuum.spin(forward, 100, percent);
+    IntakeVacuum.spin(forward, 80, percent);
   } else if (Controller1.ButtonR1.pressing() == true){
-    IntakeVacuum.spin(reverse, 100, percent);
+    IntakeVacuum.spin(reverse, 80, percent);
   } else {
     IntakeVacuum.stop(hold);
   }
 
   //Run catapault
   if (Controller1.ButtonR2.pressing() == true){
-    LeftCata.spin(forward, 100, percent);
-    RightCata.spin(forward, 100, percent);
+    LeftCata.spin(forward, 80, percent);
+    RightCata.spin(forward, 80, percent);
   } else {
     LeftCata.stop(hold);
     RightCata.stop(hold);
@@ -381,10 +381,11 @@ void standardControl_1(){
     HangingArm.stop(hold);
   }
   //End Controller1 Scheme
+
 }
 
 void usercontrol(void) {
-  standardControl_1();
+  while(1){standardControl_1();}
 }
 
 //
