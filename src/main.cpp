@@ -3,17 +3,20 @@
 using namespace vex;
 competition Competition;
 
-//devices
 brain Brain;
+
+//Other Devices
 controller Controller1 = controller(primary);
 //controller Controller2 = controller(partner);
 pneumatics wall = pneumatics(Brain.ThreeWirePort.C);
+
+//Motor Devices
 motor LeftFront = motor(PORT5, ratio6_1, true);
 motor LeftRear = motor(PORT1, ratio6_1, true);
 motor RightFront = motor(PORT4, ratio6_1, false);
 motor RightRear = motor(PORT3, ratio6_1, false);
-motor LeftCata = motor(PORT15, ratio36_1, false);
-motor RightCata = motor(PORT14, ratio18_1, false);
+motor LeftCata = motor(PORT15, ratio36_1, true);
+motor RightCata = motor(PORT14, ratio36_1, false);
 motor IntakeVacuum = motor(PORT11, ratio18_1, false);
 motor HangingArm = motor(PORT13,ratio36_1,false);
 
@@ -208,7 +211,7 @@ void closeWall() {
   Brain.Screen.printAt(0,50, "closed");
 }
 
-void usercontrol(void) {
+void jeffControl(){
   wait(2,seconds);
   chassis.set_coordinates(0, 0, 0);
   IntakeVacuum.setBrake(hold);
@@ -300,6 +303,59 @@ void usercontrol(void) {
   }
 }
 
+void pneumaticsSwitch() {
+  if (wall.value() == true) {
+    wall.close();
+  } else {
+    wall.open();
+  }
+}
+
+void travelMode() {
+
+}
+
+void standardControl(){
+  //Start Controller1 Scheme
+  //Two Stick Arcade Mode
+ /*LeftFront.spin(forward, ((Controller1.Axis3.position()) + Controller1.Axis1.position()), percent);
+  LeftRear.spin(forward, ((Controller1.Axis3.position()) - Controller1.Axis1.position()), percent);
+  RightFront.spin(forward, ((Controller1.Axis3.position()) + Controller1.Axis1.position()), percent);
+  RightRear.spin(forward, ((Controller1.Axis3.position()) - Controller1.Axis1.position()), percent);*/
+  chassis.control_arcade();
+
+  //Run intake inwards/outwards bound r1,r2
+  if (Controller1.ButtonL1.pressing() == true){
+    IntakeVacuum.spin(forward, 100, percent);
+  } else if (Controller1.ButtonR1.pressing() == true){
+    IntakeVacuum.spin(reverse, 100, percent);
+  } else {
+    IntakeVacuum.stop(hold);
+  }
+
+  //Run catapault
+  if (Controller1.ButtonR2.pressing() == true){
+    LeftCata.spin(forward, 100, percent);
+    RightCata.spin(forward, 100, percent);
+  } else {
+    LeftCata.stop(coast);
+    RightCata.stop(coast);
+  }
+
+  //@TODO: Create Travel Mode Toggle
+
+  //End Controller1 Scheme
+
+  //Start Controller2 Scheme
+  Controller1.ButtonB.pressed(pneumaticsSwitch);
+  HangingArm.spin(forward, Controller1.Axis1.position(), percent);
+  //End Controller2 Scheme
+}
+
+void usercontrol(void) {
+  standardControl();
+}
+
 //
 // Main will set up the competition functions and callbacks.
 //
@@ -307,15 +363,15 @@ int main() {
 
   // Set up callbacks for autonomous and driver control periods.
   //Competition.autonomous(autonomous);
-  Competition.drivercontrol(usercontrol);
+  //Competition.drivercontrol(usercontrol);
 
   // Run the pre-autonomous function.
-  //pre_auton();
+  pre_auton();
   //chassis.turn_to_angle(20);
 
   // Prevent main from exiting with an infinite loop.
-  
-  while (true) {
-    wait(100, msec);
+   chassis.set_coordinates(0, 0, 0);
+  while(true){
+    jeffControl();
   }
 }
