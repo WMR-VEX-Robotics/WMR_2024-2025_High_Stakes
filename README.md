@@ -58,3 +58,12 @@
 
 # Informational links
 [How Odometry Works 5225A](https://blog.jloh02.dev/robotics/odometry/)
+
+# Installing Necessary Programming Software
+- Launch Powershell-x86
+- run the following two commands and accept the eula
+- winget install -e Microsoft.VisualStudioCode
+- winget install -e Github.GithubDesktop
+- Run Visual Studio Code and install the Vex, C++ and Python extensions
+- Run Github Desktop and sign into your Github account select the current repository and select your branch to start programming!
+- Please ensure to push all changes at the end of each session (or periodically for longer sessions)
