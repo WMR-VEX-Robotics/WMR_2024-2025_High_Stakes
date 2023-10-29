@@ -210,7 +210,7 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void wingsDeploy(){
+void wingsDeployRetract(){
   // snippet to deploy pneumatic wings
     if (solonoid1.value() == false){
       // if closed make open
@@ -240,7 +240,7 @@ void tankDrive_user(){
   }
 
   //deploy wings
-  mainController.ButtonL2.pressed(wingsDeploy);
+  mainController.ButtonL2.pressed(wingsDeployRetract);
 
 }
 
