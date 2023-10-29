@@ -29,8 +29,7 @@ motor rcatapaultMotor = motor(PORT6, ratio18_1, false);
 controller mainController = controller(primary);
 inertial inertialSensor = inertial(PORT8);
 encoder enc1 = encoder(Brain.ThreeWirePort.A);
-digital_out digiout1 = digital_out(Brain.ThreeWirePort.C);
-digital_out digiout2 = digital_out(Brain.ThreeWirePort.D);
+pneumatics solonoid1 = pneumatics(Brain.ThreeWirePort.C);
 
 //odometry
 /*---------------------------------------------------------------------------*/
@@ -117,6 +116,7 @@ int current_auton_selection = 0;
 bool auto_started = false;
 
 void motorsHalt(){
+  // stop the motor with implicit type brake
   tlMotor1.stop(brake);
   blMotor11.stop(brake);
   trMotor10.stop(brake);
@@ -134,6 +134,7 @@ void motorsHalt(){
 /*---------------------------------------------------------------------------*/
 
 void setdtBrakemode(brakeType mode){
+  // change brake mode
   tlMotor1.setStopping(mode);
   blMotor11.setStopping(mode);
   trMotor10.setStopping(mode);
@@ -141,6 +142,7 @@ void setdtBrakemode(brakeType mode){
 }
 
 void ensureCalibration(){
+  // MAKE SURE THE INERTIAL SENSOR CALIBRATES
   if (inertialSensor.isCalibrating() != false){
     wait(200,msec);
   }
@@ -159,60 +161,30 @@ void pre_auton(void) {
   rcatapaultMotor.setStopping(coast);
 }
 
-void autonSquarifyt1(float n){
-  default_constants();
-  chassis.set_coordinates(0,0,0);
-
-  chassis.turn_to_point(0,n);
-  chassis.drive_to_point(0,n);
-
-  chassis.turn_to_point(n, n);  
-  chassis.drive_to_point(n, n);
-
-  chassis.turn_to_point(n,0);
-  chassis.drive_to_point(n,0);
-
-  chassis.turn_to_point(0,0);
-  chassis.drive_to_point(0,0);
-  
-  wait(200, msec);
-  motorsHalt();
-  setdtBrakemode(coast);
-}
-
-void getPreload(){
-  wait(2, sec);
-}
-
-void dumpPreload(){
-  wait(2, sec);
-}
-
 void competitionAuton(){
+  // for competition
   default_constants();
   chassis.set_coordinates(0,0,0);
-  chassis.drive_distance(12);
-  chassis.turn_to_angle(270);
-  chassis.drive_distance(8);
-  chassis.turn_to_angle(45);
-  chassis.drive_distance(-25.5);
-  getPreload();
-  dumpPreload();
-  chassis.drive_distance(36);
-  chassis.turn_to_angle(0);
-  getPreload();
-  chassis.turn_to_angle(45);
-  chassis.drive_distance(-8);
-  chassis.turn_to_angle(90);
-  dumpPreload();
-  chassis.turn_to_angle(315);
-  chassis.drive_distance(8);
-  getPreload();
-  chassis.turn_to_angle(90);
-  dumpPreload();
-  wait(200, msec);
-  motorsHalt();
   setdtBrakemode(coast);
+}
+
+void skillsAuton() {
+  // for skills
+  default_constants();
+  chassis.set_coordinates(0,0,0);
+  setdtBrakemode(coast);
+}
+
+void autonType(int type) {
+  // select different types of auton
+  if (type == 0) {
+    Brain.Screen.print("No Auton Loaded");
+  } else if (type == 1) {
+    competitionAuton();
+  } else if (type == 2) {
+    skillsAuton();
+  }
+
 }
 
 /*---------------------------------------------------------------------------*/
@@ -225,7 +197,7 @@ void competitionAuton(){
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  competitionAuton();
+  autonType(0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -239,28 +211,35 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void wingsDeploy(){
-    if (digiout1.value() == false && digiout2.value() == false){
-      digiout1.set(true);
-      digiout2.set(true);
-    }
-    if (digiout1.value() == true && digiout2.value() == true){
-      digiout1.set(false);
-      digiout2.set(false);
+  // snippet to deploy pneumatic wings
+    if (solonoid1.value() == false){
+      // if closed make open
+      solonoid1.set(true);
+    } else {
+      // if open make closed
+      solonoid1.set(false);
     }
 }
 
 void tankDrive_user(){
+  // tank drive user control left side on left right side on right
   tlMotor1.spin(forward, mainController.Axis3.position(), percent);
   trMotor10.spin(forward, mainController.Axis2.position(), percent);
   blMotor11.spin(forward, mainController.Axis3.position(), percent);
   brMotor20.spin(forward, mainController.Axis2.position(), percent);
+
+  // brake 
   if (mainController.ButtonB.pressing() == true) {
     motorsHalt();
   }
+
+  // spin catapault at maximum
   while (mainController.ButtonR2.pressing() == true){
     lcatapaultMotor.spin(forward, 12.7, volt);
     rcatapaultMotor.spin(forward, 12.7, volt);
   }
+
+  //deploy wings
   mainController.ButtonL2.pressed(wingsDeploy);
 
 }
@@ -269,8 +248,6 @@ void usercontrol(void) {
   // User control code here, inside the loop
   while (1) {
    tankDrive_user();
-    wait(20, msec); // Sleep the task for a short amount of time to
-                    // prevent wasted resources.
   }
 }
 
