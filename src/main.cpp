@@ -29,7 +29,7 @@ motor rcatapaultMotor = motor(PORT6, ratio18_1, false);
 controller mainController = controller(primary);
 inertial inertialSensor = inertial(PORT8);
 encoder enc1 = encoder(Brain.ThreeWirePort.A);
-pneumatics solonoid1 = pneumatics(Brain.ThreeWirePort.C);
+pneumatics solonoid1 = pneumatics(Brain.ThreeWirePort.H);
 pneumatics solonoid2 = pneumatics(Brain.ThreeWirePort.G);
 
 //odometry
@@ -160,6 +160,11 @@ void pre_auton(void) {
   //mode is reset at the end of autonomous
   lcatapaultMotor.setStopping(coast);
   rcatapaultMotor.setStopping(coast);
+  solonoid1.set(false);
+  solonoid1.close();
+
+  solonoid2.set(false);
+  solonoid2.close();
 }
 
 void competitionAuton(){
@@ -210,18 +215,10 @@ void autonomous(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-
+bool popD = true;
 void wingsDeployRetract(){
   // snippet to deploy pneumatic wings
-    if (solonoid1.value() == false){
-      // if closed make open
-      solonoid1.open();
-      solonoid2.open();
-    } else {
-      // if open make closed
-      solonoid1.close();
-      solonoid2.close();
-    }
+  popD = popD*popD;
 }
 
 void tankDrive_user(){
@@ -244,7 +241,24 @@ void tankDrive_user(){
 
   //deploy wings
   mainController.ButtonL2.pressed(wingsDeployRetract);
-
+    if (popD == true) {
+      // if open make closed
+      solonoid1.close();
+      solonoid2.close();
+      solonoid1.set(false);
+      solonoid2.set(false);
+      Brain.Screen.setFillColor(red);
+      Brain.Screen.drawCircle(0,0,10);
+    }
+    if (popD == false){
+      // if closed make open
+      solonoid1.open();
+      solonoid2.open();
+      solonoid1.set(true);      
+      solonoid2.set(true);
+      Brain.Screen.setFillColor(blue);
+      Brain.Screen.drawCircle(0,50,10);
+    }
 }
 
 void usercontrol(void) {
