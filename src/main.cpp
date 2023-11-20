@@ -30,6 +30,7 @@ controller mainController = controller(primary);
 inertial inertialSensor = inertial(PORT8);
 encoder enc1 = encoder(Brain.ThreeWirePort.A);
 pneumatics solonoid1 = pneumatics(Brain.ThreeWirePort.C);
+pneumatics solonoid2 = pneumatics(Brain.ThreeWirePort.G);
 
 //odometry
 /*---------------------------------------------------------------------------*/
@@ -215,9 +216,11 @@ void wingsDeployRetract(){
     if (solonoid1.value() == false){
       // if closed make open
       solonoid1.set(true);
+      solonoid2.set(true);
     } else {
       // if open make closed
       solonoid1.set(false);
+      solonoid2.set(false);
     }
 }
 
