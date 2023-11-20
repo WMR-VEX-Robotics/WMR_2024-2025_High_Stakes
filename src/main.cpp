@@ -12,7 +12,7 @@
 using namespace vex;
 
 // A global instance of competition
-competition Competition;\
+competition Competition;
 
 brain Brain; 
 
