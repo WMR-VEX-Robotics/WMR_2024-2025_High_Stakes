@@ -215,12 +215,12 @@ void wingsDeployRetract(){
   // snippet to deploy pneumatic wings
     if (solonoid1.value() == false){
       // if closed make open
-      solonoid1.set(true);
-      solonoid2.set(true);
+      solonoid1.open();
+      solonoid2.open();
     } else {
       // if open make closed
-      solonoid1.set(false);
-      solonoid2.set(false);
+      solonoid1.close();
+      solonoid2.close();
     }
 }
 
