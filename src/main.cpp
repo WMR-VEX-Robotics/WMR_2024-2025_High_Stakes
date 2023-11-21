@@ -231,8 +231,8 @@ void autonomous(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-bool popD = true;
-void wingsDeployRetract(bool swapper){
+bool popD = false;
+void wingsDeployRetract(){
   // snippet to deploy pneumatic wings
 if (popD == true) {
       // if open make closed
@@ -240,24 +240,22 @@ if (popD == true) {
       solonoid2.close();
       solonoid1.set(false);
       solonoid2.set(false);
-      popD = false;
 
       // debugging
       Brain.Screen.setFillColor(red);
       Brain.Screen.drawCircle(0,0,10);
-    }
-    if (popD == false){
+    } else if (popD == false){
       // if closed make open
       solonoid1.open();
       solonoid2.open();
       solonoid1.set(true);      
       solonoid2.set(true);
-      popD = true;
 
       // debugging
       Brain.Screen.setFillColor(blue);
       Brain.Screen.drawCircle(0,50,10);
     }
+    popD = !popD;
 }
 
 void tankDrive_user(){
@@ -279,8 +277,19 @@ void tankDrive_user(){
   }
 
   //deploy wings
-  mainController.ButtonL2.pressing() {
-    wingsDeployRetract(!popD);
+  // mainController.ButtonL2.pressed(wingsDeployRetract);
+  if (mainController.ButtonL2.pressing() == true) {
+      solonoid1.open();
+      solonoid2.open();
+      solonoid1.set(true);      
+      solonoid2.set(true);
+      wait(5, msec);
+  } else {
+      solonoid1.close();
+      solonoid2.close();
+      solonoid1.set(false);
+      solonoid2.set(false);
+
   }
 }
 
