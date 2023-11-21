@@ -152,36 +152,52 @@ void ensureCalibration(){
 void pre_auton(void) {
   // purge inertial sensor
   inertialSensor.calibrate();
+  // ensure the inertial sensor is done calibrating before continuing on
   ensureCalibration();
-  // purge encoder(s)
+
+  // purge encoder(s) rotation value
   enc1.resetRotation();
+
   // set brakes to the defined mode in the case of autonomous function it should be brake
   setdtBrakemode(brake);
   //mode is reset at the end of autonomous
+
+  // to prevent catapault motor strain we will set the motors to coast
   lcatapaultMotor.setStopping(coast);
   rcatapaultMotor.setStopping(coast);
+
+  // ensure that the first solonoid is registering as closed visually confirming this fact
   solonoid1.set(false);
   solonoid1.close();
 
+  // ensure that the second solonoid is registering as closed visually confirming this fact
   solonoid2.set(false);
   solonoid2.close();
 }
 
-void competitionAuton(){
-  // for competition
-  default_constants();
-  chassis.set_coordinates(0,0,0);
-  setdtBrakemode(coast);
-}
-
-void skillsAuton() {
   // for skills
+void competitionAuton(){
+  // set operating constant to their default values
   default_constants();
+  // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
+
+  // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
 }
 
-void autonType(int type) {
+  // for skills
+void skillsAuton() {
+  // set operating constant to their default values
+  default_constants();
+  // initialize position as (0,0,0)
+  chassis.set_coordinates(0,0,0);
+  
+  // set the mode of braking to coast for user post execution
+  setdtBrakemode(coast);
+}
+
+void autonType(uint8_t type) {
   // select different types of auton
   if (type == 0) {
     Brain.Screen.print("No Auton Loaded");
@@ -216,9 +232,32 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 bool popD = true;
-void wingsDeployRetract(){
+void wingsDeployRetract(bool swapper){
   // snippet to deploy pneumatic wings
-  popD = popD*popD;
+if (popD == true) {
+      // if open make closed
+      solonoid1.close();
+      solonoid2.close();
+      solonoid1.set(false);
+      solonoid2.set(false);
+      popD = false;
+
+      // debugging
+      Brain.Screen.setFillColor(red);
+      Brain.Screen.drawCircle(0,0,10);
+    }
+    if (popD == false){
+      // if closed make open
+      solonoid1.open();
+      solonoid2.open();
+      solonoid1.set(true);      
+      solonoid2.set(true);
+      popD = true;
+
+      // debugging
+      Brain.Screen.setFillColor(blue);
+      Brain.Screen.drawCircle(0,50,10);
+    }
 }
 
 void tankDrive_user(){
@@ -240,25 +279,9 @@ void tankDrive_user(){
   }
 
   //deploy wings
-  mainController.ButtonL2.pressed(wingsDeployRetract);
-    if (popD == true) {
-      // if open make closed
-      solonoid1.close();
-      solonoid2.close();
-      solonoid1.set(false);
-      solonoid2.set(false);
-      Brain.Screen.setFillColor(red);
-      Brain.Screen.drawCircle(0,0,10);
-    }
-    if (popD == false){
-      // if closed make open
-      solonoid1.open();
-      solonoid2.open();
-      solonoid1.set(true);      
-      solonoid2.set(true);
-      Brain.Screen.setFillColor(blue);
-      Brain.Screen.drawCircle(0,50,10);
-    }
+  mainController.ButtonL2.pressing() {
+    wingsDeployRetract(!popD);
+  }
 }
 
 void usercontrol(void) {
