@@ -28,7 +28,8 @@ motor rcatapaultMotor = motor(PORT6, ratio18_1, false);
 // not motors
 controller mainController = controller(primary);
 inertial inertialSensor = inertial(PORT8);
-encoder enc1 = encoder(Brain.ThreeWirePort.A);
+//encoder enc1 = encoder(Brain.ThreeWirePort.A);
+rotation rot1 = rotation(PORT8, true);
 pneumatics solonoid1 = pneumatics(Brain.ThreeWirePort.H);
 pneumatics solonoid2 = pneumatics(Brain.ThreeWirePort.G);
 
@@ -46,7 +47,7 @@ Drive chassis(
 //Specify your drive setup below. There are eight options:
 //ZERO_TRACKER_NO_ODOM, ZERO_TRACKER_ODOM, TANK_ONE_ENCODER, TANK_ONE_ROTATION, TANK_TWO_ENCODER, TANK_TWO_ROTATION, HOLONOMIC_TWO_ENCODER, and HOLONOMIC_TWO_ROTATION
 //For example, if you are not using odometry, put ZERO_TRACKER_NO_ODOM below:
-TANK_ONE_ENCODER,
+TANK_ONE_ROTATION,
 
 //Add the names of your Drive motors into the motor groups below, separated by commas, i.e. motor_group(Motor1,Motor2,Motor3).
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
@@ -156,7 +157,13 @@ void pre_auton(void) {
   ensureCalibration();
 
   // purge encoder(s) rotation value
-  enc1.resetRotation();
+  //enc1.resetRotation();
+
+  //purge rotation values
+  rot1.resetPosition();
+  if (rot1.position(deg) != 0) {
+    rot1.setPosition(0, deg);
+  }
 
   // set brakes to the defined mode in the case of autonomous function it should be brake
   setdtBrakemode(brake);
@@ -234,7 +241,7 @@ void autonomous(void) {
 bool popD = false;
 void wingsDeployRetract(){
   // snippet to deploy pneumatic wings
-if (popD == true) {
+    if (popD == true) {
       // if open make closed
       solonoid1.close();
       solonoid2.close();
