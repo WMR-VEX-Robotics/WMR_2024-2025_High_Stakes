@@ -11,14 +11,15 @@ controller Controller2 = controller(partner);
 pneumatics wall = pneumatics(Brain.ThreeWirePort.C);
 
 //Motor Devices
-motor LeftFront = motor(PORT5, ratio6_1, true);
-motor LeftRear = motor(PORT1, ratio6_1, true);
-motor RightFront = motor(PORT4, ratio6_1, false);
-motor RightRear = motor(PORT3, ratio6_1, false);
-motor LeftCata = motor(PORT15, ratio36_1, true);
-motor RightCata = motor(PORT14, ratio36_1, false);
-motor IntakeVacuum = motor(PORT11, ratio18_1, false);
-motor HangingArm = motor(PORT13,ratio36_1,false);
+motor LeftFront = motor(PORT20, ratio6_1, true);
+motor LeftRear = motor(PORT9, ratio6_1, true);
+motor RightFront = motor(PORT11, ratio6_1, false);
+motor RightRear = motor(PORT5, ratio6_1, false);
+motor LeftCata = motor(PORT19, ratio36_1, false);
+motor RightCata = motor(PORT13, ratio36_1, true);
+motor IntakeVacuum = motor(PORT18, ratio18_1, false);
+motor HangingArm = motor(PORT12,ratio36_1,false);
+motor Flipper = motor(PORT16,ratio18_1, false);
 
 
 
@@ -232,6 +233,15 @@ void standardControl_1(){
   } else {
     LeftCata.stop(hold);
     RightCata.stop(hold);
+  }
+
+  //flipper
+  if (Controller1.ButtonLeft.pressing() == true){
+    Flipper.spin(forward, 80, percent);
+  } else if (Controller1.ButtonRight.pressing() == true){
+    Flipper.spin(reverse, 80, percent);
+  } else {
+    Flipper.stop(hold);
   }
 
   /*if (Controller1.ButtonL2.pressing() == true){
