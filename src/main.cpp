@@ -16,9 +16,9 @@ motor LeftRear = motor(PORT9, ratio6_1, true);
 motor RightFront = motor(PORT11, ratio6_1, false);
 motor RightRear = motor(PORT5, ratio6_1, false);
 motor LeftCata = motor(PORT19, ratio36_1, false);
-motor RightCata = motor(PORT13, ratio36_1, true);
-motor IntakeVacuum = motor(PORT18, ratio18_1, false);
-motor HangingArm = motor(PORT12,ratio36_1,false);
+motor RightCata = motor(PORT12, ratio36_1, true);
+motor IntakeVacuum = motor(PORT18, ratio18_1, true);
+motor HangingArm = motor(PORT13,ratio36_1, false);
 motor Flipper = motor(PORT16,ratio18_1, false);
 
 
@@ -250,6 +250,7 @@ void standardControl_1(){
   //@TODO: Create Travel Mode Toggle
 
   Controller1.ButtonB.pressed(pneumaticsSwitch);
+
   if (Controller1.ButtonUp.pressing() == true){
     HangingArm.spin(forward, 100, pct);
   } else if (Controller1.ButtonDown.pressing() == true){
