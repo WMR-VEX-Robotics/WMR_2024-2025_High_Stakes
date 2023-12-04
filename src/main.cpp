@@ -58,7 +58,7 @@ motor_group(LeftFront,LeftRear),
 motor_group(RightFront,RightRear),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT17,
+PORT4,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
@@ -92,7 +92,7 @@ PORT3,     -PORT4,
 //If you are using position tracking, this is the Forward Tracker port (the tracker which runs parallel to the direction of the chassis).
 //If this is a rotation sensor, enter it in "PORT1" format, inputting the port below.
 //If this is an encoder, enter the port as an integer. Triport A will be a "1", Triport B will be a "2", etc.
-PORT9,
+PORT5,
 
 //Input the Forward Tracker diameter (reverse it to make the direction switch):
 2.75,
@@ -103,7 +103,7 @@ PORT9,
 0,
 
 //Input the Sideways Tracker Port, following the same steps as the Forward Tracker Port:
-PORT10,
+PORT2,
 
 //Sideways tracker diameter (reverse to make the direction switch):
 2.75,
@@ -164,6 +164,9 @@ void pre_auton(void) {
 
 void autonomous(void) {
   Brain.Screen.print("Ain't nothin but the wind");
+  chassis.turn_to_angle(90);
+  chassis.turn_to_angle(45);
+  chassis.turn_to_angle(235);
 }
 
 /*---------------------------------------------------------------------------*/
