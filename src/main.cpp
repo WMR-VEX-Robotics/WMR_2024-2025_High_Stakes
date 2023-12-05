@@ -22,8 +22,9 @@ motor tlMotor1 = motor(PORT1, ratio6_1, true);
 motor blMotor11 = motor(PORT11, ratio6_1, true);
 motor trMotor10 = motor(PORT10, ratio6_1, false);
 motor brMotor20 = motor(PORT20, ratio6_1, false);
-motor lcatapaultMotor = motor(PORT5, ratio18_1, true);
-motor rcatapaultMotor = motor(PORT6, ratio18_1, false);
+motor lcatapaultMotor5 = motor(PORT5, ratio18_1, true);
+motor rcatapaultMotor6 = motor(PORT6, ratio18_1, false);
+motor armMotor3 = motor(PORT3, ratio36_1, true);
 
 // not motors
 controller mainController = controller(primary);
@@ -170,8 +171,8 @@ void pre_auton(void) {
   //mode is reset at the end of autonomous
 
   // to prevent catapault motor strain we will set the motors to coast
-  lcatapaultMotor.setStopping(coast);
-  rcatapaultMotor.setStopping(coast);
+  lcatapaultMotor5.setStopping(coast);
+  rcatapaultMotor6.setStopping(coast);
 
   // ensure that the first solonoid is registering as closed visually confirming this fact
   solonoid1.set(false);
@@ -209,8 +210,10 @@ void autonType(uint8_t type) {
   if (type == 0) {
     Brain.Screen.print("No Auton Loaded");
   } else if (type == 1) {
+    Brain.Screen.print("Competition Auton Loaded");
     competitionAuton();
   } else if (type == 2) {
+    Brain.Screen.print("Skills Auton Loaded");
     skillsAuton();
   }
 
@@ -279,8 +282,8 @@ void tankDrive_user(){
 
   // spin catapault at maximum
   while (mainController.ButtonR2.pressing() == true){
-    lcatapaultMotor.spin(forward, 12.7, volt);
-    rcatapaultMotor.spin(forward, 12.7, volt);
+    lcatapaultMotor5.spin(forward, 12.7, volt);
+    rcatapaultMotor6.spin(forward, 12.7, volt);
   }
 
   //deploy wings
@@ -297,6 +300,14 @@ void tankDrive_user(){
       solonoid1.set(false);
       solonoid2.set(false);
 
+  }
+  // for hanging/blocker arm
+  if (mainController.ButtonUp.pressing() == true) {
+    armMotor3.spin(forward);
+  } else if (mainController.ButtonDown.pressing() == true) {
+    armMotor3.spin(reverse);
+  } else {
+    armMotor3.stop(hold);
   }
 }
 
