@@ -164,9 +164,13 @@ void pre_auton(void) {
 
 void autonomous(void) {
   Brain.Screen.print("Ain't nothin but the wind");
+<<<<<<< Updated upstream
   chassis.turn_to_angle(90);
   chassis.turn_to_angle(45);
   chassis.turn_to_angle(235);
+=======
+
+>>>>>>> Stashed changes
 }
 
 /*---------------------------------------------------------------------------*/
@@ -231,8 +235,8 @@ void standardControl_1(){
 
   //Run catapault
   if (Controller1.ButtonR2.pressing() == true){
-    LeftCata.spin(forward, 80, percent);
-    RightCata.spin(forward, 80, percent);
+    LeftCata.spin(forward, 55, percent);
+    RightCata.spin(forward, 55, percent);
   } else {
     LeftCata.stop(hold);
     RightCata.stop(hold);
@@ -273,7 +277,7 @@ void usercontrol(void) {
 // Main will set up the competition functions and callbacks.
 //
 int main() {
-
+  wall.close();
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
