@@ -118,6 +118,13 @@ PORT3,     -PORT4,
 int current_auton_selection = 0;
 bool auto_started = false;
 
+void waitFor(int T, bool B) {
+  for (int i = 0; i <= T; i++) {
+    wait(1, sec);
+  }
+  B = true;
+}
+
 void motorsHalt(){
   // stop the motor with implicit type brake
   tlMotor1.stop(brake);
@@ -150,6 +157,13 @@ void ensureCalibration(){
     wait(200,msec);
   }
 }
+
+void spincataPerc(double P) {
+  lcatapaultMotor5.spin(forward, P, percent);
+  rcatapaultMotor6.spin(forward, P, percent);
+}
+
+
 
 void pre_auton(void) {
   // purge inertial sensor
@@ -194,12 +208,26 @@ void competitionAuton(){
   setdtBrakemode(coast);
 }
 
+int test(int* x) {
+  return 0;
+}
+
   // for skills
 void skillsAuton() {
+  bool stopper = false;
   // set operating constant to their default values
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
+
+  // begin the fun program of skills auton
+  chassis.drive_distance(1);
+  chassis.turn_to_angle(45);
+  chassis.drive_distance(10);
+  chassis.turn_to_angle(325);
+  chassis.drive_distance(-10);
+  int i = 3;
+  thread task1(test, &i);
   
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
@@ -241,31 +269,13 @@ void autonomous(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-bool popD = false;
 void wingsDeployRetract(){
   // snippet to deploy pneumatic wings
-    if (popD == true) {
-      // if open make closed
-      solonoid1.close();
-      solonoid2.close();
-      solonoid1.set(false);
-      solonoid2.set(false);
-
-      // debugging
-      Brain.Screen.setFillColor(red);
-      Brain.Screen.drawCircle(0,0,10);
-    } else if (popD == false){
-      // if closed make open
-      solonoid1.open();
-      solonoid2.open();
-      solonoid1.set(true);      
-      solonoid2.set(true);
-
-      // debugging
-      Brain.Screen.setFillColor(blue);
-      Brain.Screen.drawCircle(0,50,10);
-    }
-    popD = !popD;
+  if (solonoid1.value() == true) {
+    solonoid1.close(); solonoid2.close();
+  } else {
+    solonoid1.open(); solonoid2.open();
+  }
 }
 
 void tankDrive_user(){
@@ -287,20 +297,8 @@ void tankDrive_user(){
   }
 
   //deploy wings
-  // mainController.ButtonL2.pressed(wingsDeployRetract);
-  if (mainController.ButtonL2.pressing() == true) {
-      solonoid1.open();
-      solonoid2.open();
-      solonoid1.set(true);      
-      solonoid2.set(true);
-      wait(5, msec);
-  } else {
-      solonoid1.close();
-      solonoid2.close();
-      solonoid1.set(false);
-      solonoid2.set(false);
+  mainController.ButtonL2.pressed(wingsDeployRetract);
 
-  }
   // for hanging/blocker arm
   if (mainController.ButtonUp.pressing() == true) {
     armMotor3.spin(forward);
