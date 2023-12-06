@@ -18,12 +18,12 @@ brain Brain;
 
 // define your global instances of motors and other devices here
 // motors
-motor tlMotor1 = motor(PORT12, ratio6_1, true);
+motor tlMotor12 = motor(PORT12, ratio6_1, true);
 motor blMotor11 = motor(PORT11, ratio6_1, true);
-motor trMotor10 = motor(PORT1, ratio6_1, false);
-motor brMotor20 = motor(PORT2, ratio6_1, false);
+motor trMotor3 = motor(PORT2, ratio6_1, false);
+motor brMotor4 = motor(PORT4, ratio6_1, false);
 motor lcatapaultMotor5 = motor(PORT5, ratio18_1, true);
-motor rcatapaultMotor6 = motor(PORT6, ratio18_1, false);
+motor rcatapaultMotor6 = motor(PORT6, ratio18_1, true);
 motor armMotor3 = motor(PORT3, ratio36_1, true);
 
 // not motors
@@ -33,6 +33,9 @@ inertial inertialSensor = inertial(PORT10);
 rotation rot1 = rotation(PORT8, true);
 pneumatics solonoid1 = pneumatics(Brain.ThreeWirePort.H);
 pneumatics solonoid2 = pneumatics(Brain.ThreeWirePort.G);
+
+// technically owned by skills
+bool stopper = true;
 
 //odometry
 /*---------------------------------------------------------------------------*/
@@ -54,10 +57,10 @@ TANK_ONE_ROTATION,
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
 
 //Left Motors:
-motor_group(tlMotor1, blMotor11),
+motor_group(tlMotor12, blMotor11),
 
 //Right Motors:
-motor_group(trMotor10, brMotor20),
+motor_group(trMotor3, brMotor4),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
 PORT8,
@@ -118,19 +121,19 @@ PORT3,     -PORT4,
 int current_auton_selection = 0;
 bool auto_started = false;
 
-void waitFor(int T, bool B) {
-  for (int i = 0; i <= T; i++) {
+void allowforskillsCata() {
+  for (int i = 0; i <= 50; i++) {
     wait(1, sec);
   }
-  B = true;
+  stopper = false;
 }
 
 void motorsHalt(){
   // stop the motor with implicit type brake
-  tlMotor1.stop(brake);
+  tlMotor12.stop(brake);
   blMotor11.stop(brake);
-  trMotor10.stop(brake);
-  brMotor20.stop(brake);
+  trMotor3.stop(brake);
+  brMotor4.stop(brake);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -145,10 +148,10 @@ void motorsHalt(){
 
 void setdtBrakemode(brakeType mode){
   // change brake mode
-  tlMotor1.setStopping(mode);
+  tlMotor12.setStopping(mode);
   blMotor11.setStopping(mode);
-  trMotor10.setStopping(mode);
-  brMotor20.setStopping(mode);
+  trMotor3.setStopping(mode);
+  brMotor4.setStopping(mode);
 }
 
 void ensureCalibration(){
@@ -197,7 +200,7 @@ void pre_auton(void) {
   solonoid2.close();
 }
 
-  // for skills
+// for competition
 void competitionAuton(){
   // set operating constant to their default values
   default_constants();
@@ -208,13 +211,22 @@ void competitionAuton(){
   setdtBrakemode(coast);
 }
 
-/*int test(int* x) {
-  return 0;
-}*/
+double percentasVolt(double n) {
+  double increment = 0.127;
+  return increment * n;
+}
 
-  // for skills
+void wingsDeployRetract(){
+  // snippet to deploy pneumatic wings
+  if (solonoid1.value() == true) {
+    solonoid1.close(); solonoid2.close();
+  } else {
+    solonoid1.open(); solonoid2.open();
+  }
+}
+
+// for skills
 void skillsAuton() {
-  //bool stopper = false;
   // set operating constant to their default values
   default_constants();
   // initialize position as (0,0,0)
@@ -226,9 +238,41 @@ void skillsAuton() {
   chassis.drive_distance(10);
   chassis.turn_to_angle(325);
   chassis.drive_distance(-10);
-  //int i = 3;
-  //thread task1(test, &i);
-  
+  thread task1(allowforskillsCata);
+  task1.threadPriorityHigh;
+  task1.detach();
+
+  while (stopper == true) {
+    lcatapaultMotor5.spin(forward,percentasVolt(80.0),volt);
+    rcatapaultMotor6.spin(forward,percentasVolt(80.0),volt);
+  }
+  task1.threadPrioritylow;
+
+  chassis.drive_distance(1);
+  chassis.turn_to_angle(45);
+  chassis.drive_distance(3);
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(5);
+  chassis.turn_to_angle(45);
+  chassis.drive_distance(12);
+  chassis.turn_to_angle(325);
+  wingsDeployRetract();
+  chassis.drive_distance(8);
+  chassis.drive_distance(-4);
+  wingsDeployRetract();
+  chassis.turn_to_angle(270);
+  chassis.drive_distance(12);
+  chassis.turn_to_angle(0);
+  wingsDeployRetract();
+  chassis.drive_distance(5);
+  chassis.drive_distance(-5);
+  wingsDeployRetract();
+  chassis.turn_to_angle(270);
+  chassis.drive_distance(12);
+  chassis.turn_to_angle(45);
+  wingsDeployRetract();
+  chassis.drive_distance(8);
+
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
 }
@@ -269,31 +313,26 @@ void autonomous(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-void wingsDeployRetract(){
-  // snippet to deploy pneumatic wings
-  if (solonoid1.value() == true) {
-    solonoid1.close(); solonoid2.close();
-  } else {
-    solonoid1.open(); solonoid2.open();
-  }
-}
 
 void tankDrive_user(){
   // tank drive user control left side on left right side on right
-  tlMotor1.spin(forward, mainController.Axis3.position(), percent);
-  trMotor10.spin(forward, mainController.Axis2.position(), percent);
+  tlMotor12.spin(forward, mainController.Axis3.position(), percent);
+  trMotor3.spin(forward, mainController.Axis2.position(), percent);
   blMotor11.spin(forward, mainController.Axis3.position(), percent);
-  brMotor20.spin(forward, mainController.Axis2.position(), percent);
+  brMotor4.spin(forward, mainController.Axis2.position(), percent);
 
   // brake 
   if (mainController.ButtonB.pressing() == true) {
     motorsHalt();
   }
 
-  // spin catapault at maximum
-  while (mainController.ButtonR2.pressing() == true){
-    lcatapaultMotor5.spin(forward, 12.7, volt);
-    rcatapaultMotor6.spin(forward, 12.7, volt);
+  // spin catapault
+  if (mainController.ButtonR2.pressing() == true){
+    lcatapaultMotor5.spin(forward, percentasVolt(80.0), volt);
+    rcatapaultMotor6.spin(forward, percentasVolt(80.0), volt);
+  } else {
+    lcatapaultMotor5.stop(hold);
+    rcatapaultMotor6.stop(hold);
   }
 
   //deploy wings
