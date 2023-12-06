@@ -18,17 +18,17 @@ brain Brain;
 
 // define your global instances of motors and other devices here
 // motors
-motor tlMotor1 = motor(PORT1, ratio6_1, true);
+motor tlMotor1 = motor(PORT12, ratio6_1, true);
 motor blMotor11 = motor(PORT11, ratio6_1, true);
-motor trMotor10 = motor(PORT10, ratio6_1, false);
-motor brMotor20 = motor(PORT20, ratio6_1, false);
+motor trMotor10 = motor(PORT1, ratio6_1, false);
+motor brMotor20 = motor(PORT2, ratio6_1, false);
 motor lcatapaultMotor5 = motor(PORT5, ratio18_1, true);
 motor rcatapaultMotor6 = motor(PORT6, ratio18_1, false);
 motor armMotor3 = motor(PORT3, ratio36_1, true);
 
 // not motors
 controller mainController = controller(primary);
-inertial inertialSensor = inertial(PORT8);
+inertial inertialSensor = inertial(PORT10);
 //encoder enc1 = encoder(Brain.ThreeWirePort.A);
 rotation rot1 = rotation(PORT8, true);
 pneumatics solonoid1 = pneumatics(Brain.ThreeWirePort.H);
