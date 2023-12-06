@@ -8,15 +8,17 @@ brain Brain;
 //Other Devices
 controller Controller1 = controller(primary);
 controller Controller2 = controller(partner);
-pneumatics wall = pneumatics(Brain.ThreeWirePort.C);
+pneumatics wall = pneumatics(Brain.ThreeWirePort.E);
+
+bool reversed_controls = false;
 
 //Motor Devices
 motor LeftFront = motor(PORT20, ratio6_1, true);
 motor LeftRear = motor(PORT9, ratio6_1, true);
 motor RightFront = motor(PORT11, ratio6_1, false);
-motor RightRear = motor(PORT5, ratio6_1, false);
-motor LeftCata = motor(PORT19, ratio36_1, false);
-motor RightCata = motor(PORT12, ratio36_1, true);
+motor RightRear = motor(PORT14, ratio6_1, false);
+motor LeftCata = motor(PORT19, ratio18_1, false);
+motor RightCata = motor(PORT12, ratio18_1, true);
 motor IntakeVacuum = motor(PORT18, ratio18_1, true);
 motor HangingArm = motor(PORT13,ratio36_1, false);
 motor Flipper = motor(PORT16,ratio18_1, false);
@@ -92,7 +94,7 @@ PORT3,     -PORT4,
 //If you are using position tracking, this is the Forward Tracker port (the tracker which runs parallel to the direction of the chassis).
 //If this is a rotation sensor, enter it in "PORT1" format, inputting the port below.
 //If this is an encoder, enter the port as an integer. Triport A will be a "1", Triport B will be a "2", etc.
-PORT5,
+PORT3,
 
 //Input the Forward Tracker diameter (reverse it to make the direction switch):
 2.75,
@@ -164,13 +166,10 @@ void pre_auton(void) {
 
 void autonomous(void) {
   Brain.Screen.print("Ain't nothin but the wind");
-<<<<<<< Updated upstream
   chassis.turn_to_angle(90);
   chassis.turn_to_angle(45);
   chassis.turn_to_angle(235);
-=======
 
->>>>>>> Stashed changes
 }
 
 /*---------------------------------------------------------------------------*/
@@ -201,6 +200,17 @@ void pneumaticsSwitch() {
   }
 }
 
+void reverse_drive() {
+  //Brain.Screen.clearScreen();  
+  reversed_controls = !reversed_controls;
+  Brain.Screen.print(reversed_controls);
+  LeftFront.setReversed(!reversed_controls);
+  LeftRear.setReversed(!reversed_controls);
+  RightFront.setReversed(reversed_controls);
+  RightRear.setReversed(reversed_controls);
+  //task::sleep(200);
+}
+
 /*void travelMode() {
   int timer = 0;
   while(LeftCata.torque(Nm)>0.10 && timer<200){
@@ -216,6 +226,7 @@ void pneumaticsSwitch() {
   RightCata.setBrake(hold);
   wait(1,seconds);
 }*/
+
 
 
 void standardControl_1(){
@@ -257,6 +268,10 @@ void standardControl_1(){
   //@TODO: Create Travel Mode Toggle
 
   Controller1.ButtonB.pressed(pneumaticsSwitch);
+  if (Controller1.ButtonA.pressing() == true){
+    reverse_drive();
+    wait(200,msec);
+  }
 
   if (Controller1.ButtonUp.pressing() == true){
     HangingArm.spin(forward, 100, pct);
