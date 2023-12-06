@@ -208,13 +208,13 @@ void competitionAuton(){
   setdtBrakemode(coast);
 }
 
-int test(int* x) {
+/*int test(int* x) {
   return 0;
-}
+}*/
 
   // for skills
 void skillsAuton() {
-  bool stopper = false;
+  //bool stopper = false;
   // set operating constant to their default values
   default_constants();
   // initialize position as (0,0,0)
@@ -226,8 +226,8 @@ void skillsAuton() {
   chassis.drive_distance(10);
   chassis.turn_to_angle(325);
   chassis.drive_distance(-10);
-  int i = 3;
-  thread task1(test, &i);
+  //int i = 3;
+  //thread task1(test, &i);
   
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
@@ -257,7 +257,7 @@ void autonType(uint8_t type) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType(0);
+  autonType(2);
 }
 
 /*---------------------------------------------------------------------------*/
