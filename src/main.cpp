@@ -115,7 +115,7 @@ PORT2,
 
 );
 
-int current_auton_selection = 2;
+int current_auton_selection = 0;
 bool auto_started = true;
 
 void pre_auton(void) {
@@ -123,6 +123,8 @@ void pre_auton(void) {
   vexcodeInit();
   default_constants();
   HangingArm.setBrake(hold);
+  HangingArm.setVelocity(100, percent);
+  IntakeVacuum.setVelocity(100, percent);
   chassis.set_coordinates(0, 0, 0);
 
 
@@ -169,6 +171,28 @@ void autonomous(void) {
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
       case 0:
         Brain.Screen.print("Auton Running: Qual Match, Left Side");
+        HangingArm.spinFor(1465,degrees,false);
+        IntakeVacuum.spinFor(6000,degrees,false);
+        chassis.drive_distance(-15);
+        chassis.drive_distance(15);
+        chassis.set_drive_constants(2.5, 1.5, .03, 10, 0);
+        chassis.drive_distance(-15);
+        //wait(2,sec);
+        HangingArm.spinFor(-1465,degrees,false);
+        IntakeVacuum.spinFor(-6000,degrees,false);
+        wait(1,seconds);
+        default_constants();
+        chassis.drive_distance(-20);
+        chassis.turn_to_angle(45);
+        chassis.drive_distance(-20);
+        chassis.turn_to_angle(90);
+        HangingArm.spinFor(1300,degrees,false);
+        wait(0.5,seconds);
+        chassis.drive_distance(-25);
+        chassis.turn_to_angle(80);
+        chassis.drive_distance(55);
+        wait(2,sec);
+        //HangingArm.spinFor(-1430,degrees,false);
         break;
       case 1:
         Brain.Screen.print("Auton Running: Qual Match, Right Side");
