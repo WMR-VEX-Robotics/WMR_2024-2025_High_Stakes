@@ -115,7 +115,7 @@ PORT2,
 
 );
 
-int current_auton_selection = 5;
+int current_auton_selection = 2;
 bool auto_started = true;
 
 void pre_auton(void) {
@@ -126,20 +126,20 @@ void pre_auton(void) {
   chassis.set_coordinates(0, 0, 0);
 
 
-/*  while(auto_started == false){            //Changing the names below will only change their names on the
+  while(auto_started == false){            //Changing the names below will only change their names on the
     Brain.Screen.clearScreen();            //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
       case 0:
-        Brain.Screen.printAt(50, 50, "Drive Test");
+        Brain.Screen.printAt(50, 50, "Auton Selected: Qual Match, Left Side");
         break;
       case 1:
-        Brain.Screen.printAt(50, 50, "Drive Test");
+        Brain.Screen.printAt(50, 50, "Auton Selected: Qual Match, Right Side");
         break;
       case 2:
-        Brain.Screen.printAt(50, 50, "Turn Test");
+        Brain.Screen.printAt(50, 50, "Auton Selected: Skills Auton, Shooting Left");
         break;
       case 3:
-        Brain.Screen.printAt(50, 50, "Swing Test");
+        Brain.Screen.printAt(50, 50, "Auton Selected: Skills Auton, Shooting Right");
         break;
       case 4:
         Brain.Screen.printAt(50, 50, "Full Test");
@@ -161,14 +161,45 @@ void pre_auton(void) {
       current_auton_selection = 0;
     }
     task::sleep(10);
-  } */
+  }
 }
 
 void autonomous(void) {
-  Brain.Screen.print("Ain't nothin but the wind");
-  chassis.turn_to_angle(90);
-  chassis.turn_to_angle(45);
-  chassis.turn_to_angle(235);
+  Brain.Screen.clearScreen();            //brain screen for auton selection.
+    switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
+      case 0:
+        Brain.Screen.print("Auton Running: Qual Match, Left Side");
+        break;
+      case 1:
+        Brain.Screen.print("Auton Running: Qual Match, Right Side");
+        break;
+      case 2:
+        Brain.Screen.print("Auton Running: Skills Auton, Shooting Left");
+        HangingArm.spinFor(1315,degrees,false);
+        chassis.drive_distance(5);
+        chassis.turn_to_angle(-45);
+        chassis.drive_distance(7);
+        chassis.turn_to_angle(35);
+        chassis.drive_distance(-10);
+        chassis.turn_to_angle(35);
+        LeftCata.setVelocity(55, percent);
+        RightCata.setVelocity(55, percent);
+        LeftCata.spinFor(25100,degrees,false);
+        RightCata.spinFor(25100,degrees,false);
+        wait(35,sec);
+        HangingArm.spinFor(-600,degrees,false);
+        chassis.set_coordinates(0, 0, 0);
+        chassis.set_heading(-10);
+        chassis.turn_to_angle(45);
+        chassis.drive_distance(28);
+        chassis.turn_to_angle(-180);
+        chassis.drive_distance(-43);
+        HangingArm.spinFor(-730,degrees,false);
+        break;
+      case 3:
+        Brain.Screen.print("Auton Running: Skills Auton, Shooting Right");
+        break;
+    }
 
 }
 
@@ -204,11 +235,11 @@ void reverse_drive() {
   //Brain.Screen.clearScreen();  
   reversed_controls = !reversed_controls;
   Brain.Screen.print(reversed_controls);
-  LeftFront.setReversed(!reversed_controls);
-  LeftRear.setReversed(!reversed_controls);
-  RightFront.setReversed(reversed_controls);
-  RightRear.setReversed(reversed_controls);
-  //task::sleep(200);
+  //LeftFront.setReversed(!reversed_controls);
+  //LeftRear.setReversed(!reversed_controls);
+  //RightFront.setReversed(reversed_controls);
+  //RightRear.setReversed(reversed_controls);
+  task::sleep(200);
 }
 
 /*void travelMode() {
@@ -232,8 +263,8 @@ void reverse_drive() {
 void standardControl_1(){
   //Start Controller1 Scheme
   //Two Stick Arcade Mode
-
-  chassis.control_arcade();
+  
+  chassis.control_arcade(reversed_controls);
 
   //Run intake inwards/outwards bound r1,r2
   if (Controller1.ButtonL1.pressing() == true){
@@ -246,8 +277,8 @@ void standardControl_1(){
 
   //Run catapault
   if (Controller1.ButtonR2.pressing() == true){
-    LeftCata.spin(forward, 55, percent);
-    RightCata.spin(forward, 55, percent);
+    LeftCata.spin(forward, 60, percent);
+    RightCata.spin(forward, 60, percent);
   } else {
     LeftCata.stop(hold);
     RightCata.stop(hold);
