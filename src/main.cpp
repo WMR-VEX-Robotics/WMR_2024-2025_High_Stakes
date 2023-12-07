@@ -22,9 +22,9 @@ motor tlMotor12 = motor(PORT12, ratio6_1, true);
 motor blMotor11 = motor(PORT11, ratio6_1, true);
 motor trMotor3 = motor(PORT2, ratio6_1, false);
 motor brMotor4 = motor(PORT4, ratio6_1, false);
-motor lcatapaultMotor5 = motor(PORT5, ratio18_1, true);
+motor lcatapaultMotor5 = motor(PORT16, ratio18_1, true);
 motor rcatapaultMotor6 = motor(PORT6, ratio18_1, true);
-motor armMotor3 = motor(PORT3, ratio36_1, true);
+motor armMotor3 = motor(PORT13, ratio36_1, true);
 
 // not motors
 controller mainController = controller(primary);
@@ -63,7 +63,7 @@ motor_group(tlMotor12, blMotor11),
 motor_group(trMotor3, brMotor4),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT8,
+PORT10,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
@@ -365,5 +365,5 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
-  
+
 }
