@@ -20,11 +20,11 @@ brain Brain;
 // motors
 motor tlMotor12 = motor(PORT12, ratio6_1, true);
 motor blMotor11 = motor(PORT11, ratio6_1, true);
-motor trMotor3 = motor(PORT2, ratio6_1, false);
+motor trMotor2 = motor(PORT2, ratio6_1, false);
 motor brMotor4 = motor(PORT4, ratio6_1, false);
-motor lcatapaultMotor5 = motor(PORT16, ratio18_1, true);
-motor rcatapaultMotor6 = motor(PORT6, ratio18_1, true);
-motor armMotor3 = motor(PORT13, ratio36_1, true);
+motor lcatapaultMotor16 = motor(PORT16, ratio18_1, true);
+motor rcatapaultMotor9 = motor(PORT9, ratio18_1, true);
+motor armMotor13 = motor(PORT13, ratio36_1, true);
 
 // not motors
 controller mainController = controller(primary);
@@ -60,7 +60,7 @@ TANK_ONE_ROTATION,
 motor_group(tlMotor12, blMotor11),
 
 //Right Motors:
-motor_group(trMotor3, brMotor4),
+motor_group(trMotor2, brMotor4),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
 PORT10,
@@ -123,7 +123,8 @@ bool auto_started = false;
 
 void allowforskillsCata() {
   for (int i = 0; i <= 50; i++) {
-    wait(1, sec);
+    wait(985, msec);
+    vex::task::sleep(15);
   }
   stopper = false;
 }
@@ -132,7 +133,7 @@ void motorsHalt(){
   // stop the motor with implicit type brake
   tlMotor12.stop(brake);
   blMotor11.stop(brake);
-  trMotor3.stop(brake);
+  trMotor2.stop(brake);
   brMotor4.stop(brake);
 }
 
@@ -150,7 +151,7 @@ void setdtBrakemode(brakeType mode){
   // change brake mode
   tlMotor12.setStopping(mode);
   blMotor11.setStopping(mode);
-  trMotor3.setStopping(mode);
+  trMotor2.setStopping(mode);
   brMotor4.setStopping(mode);
 }
 
@@ -161,9 +162,20 @@ void ensureCalibration(){
   }
 }
 
-void spincataPerc(double P) {
-  lcatapaultMotor5.spin(forward, P, percent);
-  rcatapaultMotor6.spin(forward, P, percent);
+double percentasVolt(double n) {
+  double increment = 0.127;
+  return increment * n;
+}
+
+// volt = false percent = true
+void spincataPerc(double P, bool VorP) {
+  if (VorP != false) {
+    lcatapaultMotor16.spin(forward, P, percent);
+    rcatapaultMotor9.spin(forward, P, percent);
+  } else {
+    lcatapaultMotor16.spin(forward, percentasVolt(80.0), volt);
+    rcatapaultMotor9.spin(forward, percentasVolt(80.0), volt);
+  }
 }
 
 
@@ -188,8 +200,8 @@ void pre_auton(void) {
   //mode is reset at the end of autonomous
 
   // to prevent catapault motor strain we will set the motors to coast
-  lcatapaultMotor5.setStopping(coast);
-  rcatapaultMotor6.setStopping(coast);
+  lcatapaultMotor16.setStopping(coast);
+  rcatapaultMotor9.setStopping(coast);
 
   // ensure that the first solonoid is registering as closed visually confirming this fact
   solonoid1.set(false);
@@ -211,11 +223,6 @@ void competitionAuton(){
   setdtBrakemode(coast);
 }
 
-double percentasVolt(double n) {
-  double increment = 0.127;
-  return increment * n;
-}
-
 void wingsDeployRetract(){
   // snippet to deploy pneumatic wings
   if (solonoid1.value() == true) {
@@ -233,22 +240,19 @@ void skillsAuton() {
   chassis.set_coordinates(0,0,0);
 
   // begin the fun program of skills auton
-  chassis.drive_distance(1);
+  /*chassis.drive_distance(1);
   chassis.turn_to_angle(45);
   chassis.drive_distance(10);
   chassis.turn_to_angle(325);
-  chassis.drive_distance(-10);
-  thread task1(allowforskillsCata);
-  task1.threadPriorityHigh;
-  task1.detach();
+  chassis.drive_distance(-10);*/
+  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  task1.detach(); // "allows" for execution from handle
 
   while (stopper == true) {
-    lcatapaultMotor5.spin(forward,percentasVolt(80.0),volt);
-    rcatapaultMotor6.spin(forward,percentasVolt(80.0),volt);
+    spincataPerc(100.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
   }
-  task1.threadPrioritylow;
 
-  chassis.drive_distance(1);
+  /*chassis.drive_distance(1);
   chassis.turn_to_angle(45);
   chassis.drive_distance(3);
   chassis.turn_to_angle(90);
@@ -271,7 +275,7 @@ void skillsAuton() {
   chassis.drive_distance(12);
   chassis.turn_to_angle(45);
   wingsDeployRetract();
-  chassis.drive_distance(8);
+  chassis.drive_distance(8);*/
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
@@ -317,7 +321,7 @@ void autonomous(void) {
 void tankDrive_user(){
   // tank drive user control left side on left right side on right
   tlMotor12.spin(forward, mainController.Axis3.position(), percent);
-  trMotor3.spin(forward, mainController.Axis2.position(), percent);
+  trMotor2.spin(forward, mainController.Axis2.position(), percent);
   blMotor11.spin(forward, mainController.Axis3.position(), percent);
   brMotor4.spin(forward, mainController.Axis2.position(), percent);
 
@@ -328,11 +332,11 @@ void tankDrive_user(){
 
   // spin catapault
   if (mainController.ButtonR2.pressing() == true){
-    lcatapaultMotor5.spin(forward, percentasVolt(80.0), volt);
-    rcatapaultMotor6.spin(forward, percentasVolt(80.0), volt);
+    lcatapaultMotor16.spin(forward, percentasVolt(80.0), volt);
+    rcatapaultMotor9.spin(forward, percentasVolt(80.0), volt);
   } else {
-    lcatapaultMotor5.stop(hold);
-    rcatapaultMotor6.stop(hold);
+    lcatapaultMotor16.stop(hold);
+    rcatapaultMotor9.stop(hold);
   }
 
   //deploy wings
@@ -340,11 +344,11 @@ void tankDrive_user(){
 
   // for hanging/blocker arm
   if (mainController.ButtonUp.pressing() == true) {
-    armMotor3.spin(forward);
+    armMotor13.spin(forward);
   } else if (mainController.ButtonDown.pressing() == true) {
-    armMotor3.spin(reverse);
+    armMotor13.spin(reverse);
   } else {
-    armMotor3.stop(hold);
+    armMotor13.stop(hold);
   }
 }
 
