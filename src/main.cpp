@@ -22,8 +22,8 @@ motor tlMotor12 = motor(PORT12, ratio6_1, true);
 motor blMotor11 = motor(PORT11, ratio6_1, true);
 motor trMotor2 = motor(PORT2, ratio6_1, false);
 motor brMotor4 = motor(PORT4, ratio6_1, false);
-motor lcatapaultMotor16 = motor(PORT16, ratio18_1, true);
-motor rcatapaultMotor9 = motor(PORT9, ratio18_1, true);
+motor lcatapaultMotor20 = motor(PORT20, ratio18_1, true);
+motor rcatapaultMotor7 = motor(PORT7, ratio18_1, true);
 motor armMotor13 = motor(PORT13, ratio36_1, true);
 
 // not motors
@@ -123,8 +123,8 @@ void allowforskillsCata() {
     wait(985, msec);
     vex::task::sleep(15);
   }
-  lcatapaultMotor16.stop(coast);
-  rcatapaultMotor9.stop(coast);
+  lcatapaultMotor20.stop(coast);
+  rcatapaultMotor7.stop(coast);
 }
 
 void motorsHalt(){
@@ -168,11 +168,11 @@ double percentasVolt(double n) {
 // volt = false percent = true
 void spincataPerc(double P, bool VorP) {
   if (VorP != false) {
-    lcatapaultMotor16.spin(forward, P, percent);
-    rcatapaultMotor9.spin(forward, P, percent);
+    lcatapaultMotor20.spin(forward, P, percent);
+    rcatapaultMotor7.spin(forward, P, percent);
   } else {
-    lcatapaultMotor16.spin(forward, percentasVolt(80.0), volt);
-    rcatapaultMotor9.spin(forward, percentasVolt(80.0), volt);
+    lcatapaultMotor20.spin(forward, percentasVolt(80.0), volt);
+    rcatapaultMotor7.spin(forward, percentasVolt(80.0), volt);
   }
 }
 
@@ -198,8 +198,8 @@ void pre_auton(void) {
   //mode is reset at the end of autonomous
 
   // to prevent catapault motor strain we will set the motors to coast
-  lcatapaultMotor16.setStopping(coast);
-  rcatapaultMotor9.setStopping(coast);
+  lcatapaultMotor20.setStopping(coast);
+  rcatapaultMotor7.setStopping(coast);
 
   // ensure that the first solonoid is registering as closed visually confirming this fact
   solonoid1.set(false);
@@ -277,15 +277,16 @@ void skillsAuton() {
   setdtBrakemode(coast);
 }
 
+// 1 if by match 2 if by skills 0 if by stupid (none loaded)
 void autonType(uint8_t type) {
   // select different types of auton
   if (type == 0) {
-    Brain.Screen.print("No Auton Loaded");
+    Brain.Screen.print("No Auton Loaded. Skipping...");
   } else if (type == 1) {
-    Brain.Screen.print("Competition Auton Loaded");
+    Brain.Screen.print("Competition Auton Loaded.");
     competitionAuton();
   } else if (type == 2) {
-    Brain.Screen.print("Skills Auton Loaded");
+    Brain.Screen.print("Skills Auton Loaded.");
     skillsAuton();
   }
 
@@ -328,11 +329,11 @@ void tankDrive_user(){
 
   // spin catapault
   if (mainController.ButtonR2.pressing() == true){
-    lcatapaultMotor16.spin(forward, percentasVolt(80.0), volt);
-    rcatapaultMotor9.spin(forward, percentasVolt(80.0), volt);
+    lcatapaultMotor20.spin(forward, percentasVolt(80.0), volt);
+    rcatapaultMotor7.spin(forward, percentasVolt(80.0), volt);
   } else {
-    lcatapaultMotor16.stop(hold);
-    rcatapaultMotor9.stop(hold);
+    lcatapaultMotor20.stop(hold);
+    rcatapaultMotor7.stop(hold);
   }
 
   //deploy wings
