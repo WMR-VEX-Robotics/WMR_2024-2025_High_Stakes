@@ -34,9 +34,6 @@ rotation rot1 = rotation(PORT8, true);
 pneumatics solonoid1 = pneumatics(Brain.ThreeWirePort.H);
 pneumatics solonoid2 = pneumatics(Brain.ThreeWirePort.G);
 
-// technically owned by skills
-bool stopper = true;
-
 //odometry
 /*---------------------------------------------------------------------------*/
 /*                             JAR-Template Config                           */
@@ -122,11 +119,12 @@ int current_auton_selection = 0;
 bool auto_started = false;
 
 void allowforskillsCata() {
-  for (int i = 0; i <= 50; i++) {
+  for (int i = 0; i <= 35; i++) {
     wait(985, msec);
     vex::task::sleep(15);
   }
-  stopper = false;
+  lcatapaultMotor16.stop(coast);
+  rcatapaultMotor9.stop(coast);
 }
 
 void motorsHalt(){
@@ -240,19 +238,17 @@ void skillsAuton() {
   chassis.set_coordinates(0,0,0);
 
   // begin the fun program of skills auton
-  /*chassis.drive_distance(1);
+  chassis.drive_distance(1);
   chassis.turn_to_angle(45);
   chassis.drive_distance(10);
   chassis.turn_to_angle(325);
-  chassis.drive_distance(-10);*/
+  chassis.drive_distance(-10);
   thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
 
-  while (stopper == true) {
-    spincataPerc(100.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
-  }
+  spincataPerc(100.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
 
-  /*chassis.drive_distance(1);
+  chassis.drive_distance(1);
   chassis.turn_to_angle(45);
   chassis.drive_distance(3);
   chassis.turn_to_angle(90);
@@ -275,7 +271,7 @@ void skillsAuton() {
   chassis.drive_distance(12);
   chassis.turn_to_angle(45);
   wingsDeployRetract();
-  chassis.drive_distance(8);*/
+  chassis.drive_distance(8);
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
