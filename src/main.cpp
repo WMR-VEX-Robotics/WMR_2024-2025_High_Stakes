@@ -117,6 +117,7 @@ PORT2,
 
 int current_auton_selection = 0;
 bool auto_started = true;
+bool driver_skills = true;
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!  
@@ -221,7 +222,21 @@ void autonomous(void) {
         HangingArm.spinFor(-730,degrees,false);
         break;
       case 3:
-        Brain.Screen.print("Auton Running: Skills Auton, Shooting Right");
+        Brain.Screen.print("Dummy plug system engaged: Running: Skills Auton, Shooting Left");
+        HangingArm.spinFor(1315,degrees,false);
+        chassis.drive_distance(5);
+        chassis.turn_to_angle(-45);
+        chassis.drive_distance(7);
+        chassis.turn_to_angle(35);
+        chassis.drive_distance(-10);
+        chassis.turn_to_angle(35);
+        LeftCata.setVelocity(55, percent);
+        RightCata.setVelocity(55, percent);
+        LeftCata.spinFor(25100,degrees,false);
+        RightCata.spinFor(25100,degrees,false);
+        wait(35,sec);
+        Brain.Screen.print("Dummy plug system disengaged.");
+        HangingArm.spinFor(1315,degrees,false);
         break;
     }
 
@@ -340,7 +355,8 @@ void standardControl_1(){
 }
 
 void usercontrol(void) {
-  while(1){standardControl_1();}
+  //Competition.autonomous(autonomous);
+  //while(1){standardControl_1();}
 }
 
 //
@@ -349,11 +365,10 @@ void usercontrol(void) {
 int main() {
   wall.close();
   // Set up callbacks for autonomous and driver control periods.
-  Competition.autonomous(autonomous);
-  Competition.drivercontrol(usercontrol);
+  //Competition.autonomous(autonomous);
+  //Competition.drivercontrol(usercontrol);
+  //Brain.Screen.print("Dummy plug system engaged: Running: Skills Auton, Shooting Left");
 
   // Run the pre-autonomous function.
   pre_auton();
-  //chassis.turn_to_angle(20);
-
 }
