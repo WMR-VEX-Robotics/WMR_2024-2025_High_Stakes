@@ -181,7 +181,7 @@ void autonomous(void) {
         HangingArm.spinFor(-1465,degrees,false);
         IntakeVacuum.spinFor(-6000,degrees,false);
         wait(1,seconds);
-        default_constants();
+        chassis.set_drive_constants(11, 1.5, .03, 10, 0);
         chassis.drive_distance(-20);
         chassis.turn_to_angle(45);
         chassis.drive_distance(-20);
@@ -189,9 +189,9 @@ void autonomous(void) {
         HangingArm.spinFor(1300,degrees,false);
         wait(0.5,seconds);
         chassis.drive_distance(-25);
-        chassis.turn_to_angle(80);
+        chassis.turn_to_angle(86);
         chassis.drive_distance(55);
-        wait(2,sec);
+        default_constants();
         //HangingArm.spinFor(-1430,degrees,false);
         break;
       case 1:
