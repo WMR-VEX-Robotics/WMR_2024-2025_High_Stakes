@@ -68,7 +68,7 @@ PORT10,
 //External ratio, must be in decimal, in the format of input teeth/output teeth.
 //If your motor has an 84-tooth gear and your wheel has a 60-tooth gear, this value will be 1.4.
 //If the motor drives the wheel directly, this value is 1:
-0.6,
+0.5,
 
 //Gyro scale, this is what your gyro reads when you spin the robot 360 degrees.
 //For most cases 360 will do fine here, but this scale factor can be very helpful when precision is necessary.
@@ -102,7 +102,7 @@ PORT3,     -PORT4,
 //Input Forward Tracker center distance (a positive distance corresponds to a tracker on the right side of the robot, negative is left.)
 //For a zero tracker tank drive with odom, put the positive distance from the center of the robot to the right side of the drive.
 //This distance is in inches:
--2,
+0,
 
 //Input the Sideways Tracker Port, following the same steps as the Forward Tracker Port:
 1,
@@ -118,13 +118,16 @@ PORT3,     -PORT4,
 int current_auton_selection = 0;
 bool auto_started = false;
 
+bool halter = true;
+
 void allowforskillsCata() {
-  for (int i = 0; i <= 35; i++) {
+  for (int i = 0; i <= 26; i++) {
     wait(985, msec);
     vex::task::sleep(15);
   }
   lcatapaultMotor20.stop(coast);
   rcatapaultMotor7.stop(coast);
+  halter = false;
 }
 
 void motorsHalt(){
@@ -232,46 +235,59 @@ void wingsDeployRetract(){
 
 // for skills
 void skillsAuton() {
+  //wingsDeployRetract();
   // set operating constant to their default values
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
   // begin the fun program of skills auton
-  chassis.drive_distance(1);
+  chassis.drive_distance(8);
+  chassis.turn_to_angle(-45);
+  chassis.drive_distance(7);
   chassis.turn_to_angle(45);
-  chassis.drive_distance(10);
-  chassis.turn_to_angle(325);
-  chassis.drive_distance(-10);
+  chassis.drive_distance(-12);
+  chassis.turn_to_angle(55);
+
+  spincataPerc(85.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
+
   thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
 
-  spincataPerc(100.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
+  // gross programming but if the bot moves the bot moves. It shouldn't.
+  while (halter != false) {
+    wait(10, msec);
+  }
 
   chassis.drive_distance(1);
-  chassis.turn_to_angle(45);
-  chassis.drive_distance(3);
+  chassis.turn_to_angle(113);
+  chassis.drive_distance(12);
   chassis.turn_to_angle(90);
-  chassis.drive_distance(5);
-  chassis.turn_to_angle(45);
+  chassis.drive_distance(72);
+  chassis.turn_to_angle(360);
+  chassis.drive_distance(18);
+  chassis.turn_to_angle(-45);
+  chassis.drive_distance(36);
+  chassis.turn_to_angle(360);
   chassis.drive_distance(12);
-  chassis.turn_to_angle(325);
+  chassis.turn_to_angle(90);
   wingsDeployRetract();
-  chassis.drive_distance(8);
-  chassis.drive_distance(-4);
+  chassis.drive_distance(36);
   wingsDeployRetract();
-  chassis.turn_to_angle(270);
-  chassis.drive_distance(12);
-  chassis.turn_to_angle(0);
+  chassis.drive_distance(-34);
+  chassis.turn_to_angle(360);
+  chassis.drive_distance(20);
+  chassis.turn_to_angle(100);
   wingsDeployRetract();
-  chassis.drive_distance(5);
-  chassis.drive_distance(-5);
+  chassis.drive_distance(36);
   wingsDeployRetract();
-  chassis.turn_to_angle(270);
-  chassis.drive_distance(12);
-  chassis.turn_to_angle(45);
-  wingsDeployRetract();
-  chassis.drive_distance(8);
+  /*chassis.turn_to_angle(155);
+  chassis.drive_distance(38);
+  chassis.turn_to_angle(180);
+  armMotor13.spinFor(360, degrees, false);
+  chassis.drive_distance(18);
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(40);*/
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
@@ -317,10 +333,11 @@ void autonomous(void) {
 
 void tankDrive_user(){
   // tank drive user control left side on left right side on right
-  tlMotor12.spin(forward, mainController.Axis3.position(), percent);
+  /*tlMotor12.spin(forward, mainController.Axis3.position(), percent);
   trMotor2.spin(forward, mainController.Axis2.position(), percent);
   blMotor11.spin(forward, mainController.Axis3.position(), percent);
-  brMotor4.spin(forward, mainController.Axis2.position(), percent);
+  brMotor4.spin(forward, mainController.Axis2.position(), percent);*/
+  chassis.control_arcade();
 
   // brake 
   if (mainController.ButtonB.pressing() == true) {
@@ -329,8 +346,7 @@ void tankDrive_user(){
 
   // spin catapault
   if (mainController.ButtonR2.pressing() == true){
-    lcatapaultMotor20.spin(forward, percentasVolt(80.0), volt);
-    rcatapaultMotor7.spin(forward, percentasVolt(80.0), volt);
+    spincataPerc(85.0, false);
   } else {
     lcatapaultMotor20.stop(hold);
     rcatapaultMotor7.stop(hold);
@@ -351,6 +367,7 @@ void tankDrive_user(){
 
 void usercontrol(void) {
   // User control code here, inside the loop
+  //wingsDeployRetract();
   while (1) {
    tankDrive_user();
   }
@@ -360,6 +377,7 @@ void usercontrol(void) {
 // Main will set up the competition functions and callbacks.
 //
 int main() {
+  //wingsDeployRetract();
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
