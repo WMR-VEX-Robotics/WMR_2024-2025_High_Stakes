@@ -1,2 +1,25 @@
 /bin
 compile_commands.json
+TransportSecurity
+Preferences
+Network Persistent State
+machineid
+Cookies-Journal
+Cookies
+code.lock
+/WebStorage/
+/User
+/Service Worker
+/logs
+/Local Storage
+/GPUCache
+/Dictionaries
+/DawnCache
+/databases
+/Crashpad
+/Code Cache
+/CachedProfilesData
+/CachedExtensionVSIXs
+/CachedData
+/Cache
+1.85-main.sock
