@@ -214,11 +214,32 @@ void pre_auton(void) {
 }
 
 // for competition
-void competitionAuton(){
+void competitionAutonR(){
   // set operating constant to their default values
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
+
+  chassis.drive_distance(2);
+  chassis.turn_to_angle(-90);
+  armMotor13.spinFor(400, degrees, false);
+  chassis.drive_distance(40);
+
+  // set the mode of braking to coast for user post execution
+  setdtBrakemode(coast);
+}
+
+// for competition
+void competitionAutonL(){
+  // set operating constant to their default values
+  default_constants();
+  // initialize position as (0,0,0)
+  chassis.set_coordinates(0,0,0);
+  
+  chassis.drive_distance(2);
+  chassis.turn_to_angle(-90);
+  armMotor13.spinFor(400, degrees, false);
+  chassis.drive_distance(40);
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
@@ -299,11 +320,14 @@ void autonType(uint8_t type) {
   if (type == 0) {
     Brain.Screen.print("No Auton Loaded. Skipping...");
   } else if (type == 1) {
-    Brain.Screen.print("Competition Auton Loaded.");
-    competitionAuton();
+    Brain.Screen.print("Competition Auton Loaded. R");
+    competitionAutonR();
   } else if (type == 2) {
     Brain.Screen.print("Skills Auton Loaded.");
     skillsAuton();
+  } else if (type == 3) {
+    Brain.Screen.print("Competition Auton Loaded. L");
+    competitionAutonL();
   }
 
 }
