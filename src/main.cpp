@@ -342,7 +342,7 @@ void autonType(uint8_t type) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType(2);
+  autonType(0);
 }
 
 /*---------------------------------------------------------------------------*/
