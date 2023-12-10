@@ -121,7 +121,7 @@ bool auto_started = false;
 bool halter = true;
 
 void allowforskillsCata() {
-  for (int i = 0; i <= 26; i++) {
+  for (int i = 0; i <= 28; i++) {
     wait(985, msec);
     vex::task::sleep(15);
   }
@@ -214,7 +214,7 @@ void pre_auton(void) {
 }
 
 // for competition
-void competitionAutonR(){
+void competitionAutonL(){
   // set operating constant to their default values
   default_constants();
   // initialize position as (0,0,0)
@@ -222,24 +222,24 @@ void competitionAutonR(){
 
   chassis.drive_distance(2);
   chassis.turn_to_angle(-90);
-  armMotor13.spinFor(400, degrees, false);
-  chassis.drive_distance(40);
+  armMotor13.spinFor(425, degrees, false);
+  chassis.drive_distance(36);
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
 }
 
 // for competition
-void competitionAutonL(){
+void competitionAutonR(){
   // set operating constant to their default values
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
   
   chassis.drive_distance(2);
-  chassis.turn_to_angle(-90);
-  armMotor13.spinFor(400, degrees, false);
-  chassis.drive_distance(40);
+  chassis.turn_to_angle(90);
+  armMotor13.spinFor(425, degrees, false);
+  chassis.drive_distance(36);
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
@@ -270,14 +270,14 @@ void skillsAuton() {
   chassis.drive_distance(-12);
   chassis.turn_to_angle(55);
 
-  spincataPerc(85.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
+  spincataPerc(95.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
 
   thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
 
   // gross programming but if the bot moves the bot moves. It shouldn't.
   while (halter != false) {
-    wait(10, msec);
+    wait(2, msec);
   }
 
   chassis.drive_distance(1);
@@ -321,13 +321,13 @@ void autonType(uint8_t type) {
     Brain.Screen.print("No Auton Loaded. Skipping...");
   } else if (type == 1) {
     Brain.Screen.print("Competition Auton Loaded. R");
-    competitionAutonR();
+    competitionAutonL();
   } else if (type == 2) {
     Brain.Screen.print("Skills Auton Loaded.");
     skillsAuton();
   } else if (type == 3) {
     Brain.Screen.print("Competition Auton Loaded. L");
-    competitionAutonL();
+    competitionAutonR();
   }
 
 }
@@ -342,7 +342,7 @@ void autonType(uint8_t type) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType(0);
+  autonType(3);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -370,7 +370,7 @@ void tankDrive_user(){
 
   // spin catapault
   if (mainController.ButtonR2.pressing() == true){
-    spincataPerc(85.0, false);
+    spincataPerc(95.0, false);
   } else {
     lcatapaultMotor20.stop(hold);
     rcatapaultMotor7.stop(hold);
@@ -402,6 +402,7 @@ void usercontrol(void) {
 //
 int main() {
   //wingsDeployRetract();
+  spincataPerc(95.0, false);
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
