@@ -121,7 +121,7 @@ bool auto_started = false;
 bool halter = true;
 
 void allowforskillsCata() {
-  for (int i = 0; i <= 28; i++) {
+  for (int i = 0; i <= 30; i++) {
     wait(985, msec);
     vex::task::sleep(15);
   }
