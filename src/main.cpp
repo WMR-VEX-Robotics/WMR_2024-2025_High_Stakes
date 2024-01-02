@@ -263,12 +263,12 @@ void skillsAuton() {
   chassis.set_coordinates(0,0,0);
 
   // begin the fun program of skills auton
-  chassis.drive_distance(8);
-  chassis.turn_to_angle(-45);
-  chassis.drive_distance(7);
+  chassis.drive_distance(-18);
+  chassis.turn_to_angle(-50);
+/*chassis.drive_distance(7);
   chassis.turn_to_angle(45);
   chassis.drive_distance(-12);
-  chassis.turn_to_angle(55);
+  chassis.turn_to_angle(55);*/
 
   spincataPerc(95.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
 
@@ -342,7 +342,7 @@ void autonType(uint8_t type) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType(3);
+  autonType(2);
 }
 
 /*---------------------------------------------------------------------------*/
