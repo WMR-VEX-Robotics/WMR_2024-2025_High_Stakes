@@ -14,17 +14,20 @@ using namespace vex;
 // A global instance of competition
 competition Competition;
 
-brain Brain; 
+brain Brain;
 
 // define your global instances of motors and other devices here
 // motors
-motor tlMotor12 = motor(PORT12, ratio6_1, true);
-motor blMotor11 = motor(PORT11, ratio6_1, true);
-motor trMotor2 = motor(PORT2, ratio6_1, false);
-motor brMotor4 = motor(PORT4, ratio6_1, false);
+motor tlMotor12 = motor(PORT12, ratio6_1, false);
+motor blMotor11 = motor(PORT11, ratio6_1, false);
+motor trMotor2 = motor(PORT2, ratio6_1, true);
+motor brMotor4 = motor(PORT4, ratio6_1, true);
 motor lcatapaultMotor20 = motor(PORT20, ratio18_1, true);
 motor rcatapaultMotor7 = motor(PORT7, ratio18_1, true);
-motor armMotor13 = motor(PORT13, ratio36_1, true);
+motor armMotor13 = motor(PORT13, ratio18_1, true);
+
+motor horizMotor = motor(PORT19, ratio18_1, true);
+motor vertiMotor = motor(PORT18, ratio18_1, true);
 
 // not motors
 controller mainController = controller(primary);
@@ -33,6 +36,10 @@ inertial inertialSensor = inertial(PORT10);
 rotation rot1 = rotation(PORT8, true);
 pneumatics solonoid1 = pneumatics(Brain.ThreeWirePort.H);
 pneumatics solonoid2 = pneumatics(Brain.ThreeWirePort.G);
+
+
+
+
 
 //odometry
 /*---------------------------------------------------------------------------*/
@@ -179,7 +186,28 @@ void spincataPerc(double P, bool VorP) {
   }
 }
 
+bool current_forwards = true;
 
+void motorReverse() {
+
+  //motor tlMotor12 = motor(PORT12, ratio6_1, false);
+  //motor blMotor11 = motor(PORT11, ratio6_1, false);
+  //motor trMotor2 = motor(PORT2, ratio6_1, true);
+  //motor brMotor4 = motor(PORT4, ratio6_1, true);
+  if (current_forwards == false) {
+    current_forwards = true;
+    tlMotor12.setReversed(true);
+    blMotor11.setReversed(true);
+    trMotor2.setReversed(true);
+    brMotor4.setReversed(true);
+  } else {
+    current_forwards = false;
+    tlMotor12.setReversed(false);
+    blMotor11.setReversed(false);
+    trMotor2.setReversed(false);
+    brMotor4.setReversed(false);
+  }
+}
 
 void pre_auton(void) {
   // purge inertial sensor
@@ -263,12 +291,12 @@ void skillsAuton() {
   chassis.set_coordinates(0,0,0);
 
   // begin the fun program of skills auton
-  chassis.drive_distance(-18);
-  chassis.turn_to_angle(-50);
-/*chassis.drive_distance(7);
+  chassis.drive_distance(8);
+  chassis.turn_to_angle(-45);
+  chassis.drive_distance(7);
   chassis.turn_to_angle(45);
   chassis.drive_distance(-12);
-  chassis.turn_to_angle(55);*/
+  chassis.turn_to_angle(55);
 
   spincataPerc(95.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
 
@@ -379,14 +407,19 @@ void tankDrive_user(){
   //deploy wings
   mainController.ButtonL2.pressed(wingsDeployRetract);
 
+
+  mainController.ButtonX.pressed(motorReverse);
+
   // for hanging/blocker arm
-  if (mainController.ButtonUp.pressing() == true) {
+  if (mainController.ButtonR1.pressing() == true) {
     armMotor13.spin(forward);
-  } else if (mainController.ButtonDown.pressing() == true) {
+  } else if (mainController.ButtonL1.pressing() == true) {
     armMotor13.spin(reverse);
   } else {
-    armMotor13.stop(hold);
+    armMotor13.stop(coast);
   }
+
+
 }
 
 void usercontrol(void) {
@@ -397,10 +430,15 @@ void usercontrol(void) {
   }
 }
 
+/*void blah() {
+  Brain.Screen.print(camera.takeSnapshot(camera__GREENBOX));
+}*/
+
 //
 // Main will set up the competition functions and callbacks.
 //
 int main() {
+  //wingsDeployRetract();
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);

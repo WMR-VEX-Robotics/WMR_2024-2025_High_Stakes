@@ -11,7 +11,8 @@ using code = vision::code;
 // VEXcode generated functions
 
 
-
+signature camera__GREENBOX = signature(2, -5767, -4965, -5366, -3803, -2861, -3332, 2.5, 0);
+vision camera = vision(PORT18, 50, camera__GREENBOX);
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
  * 
