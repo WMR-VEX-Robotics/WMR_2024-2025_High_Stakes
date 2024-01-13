@@ -270,12 +270,29 @@ void competitionAutonL(){
 
   chassis.drive_distance(3);
 
+  chassis.drive_distance(-6);
+
+  chassis.drive_distance(3);
+
   chassis.turn_to_angle(270);
 
   armMotor13.stop(coast);
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
+}
+
+void goofy_auton() {
+  default_constants();
+  // initialize position as (0,0,0)
+  chassis.set_coordinates(0,0,0);
+
+  while (true) {
+    for (int i = 0; i <= 3; i++) {
+      chassis.turn_to_angle(90*i);
+      chassis.drive_distance(100);
+    }
+  }
 }
 
 // for competition
@@ -306,6 +323,10 @@ void competitionAutonR(){
   chassis.turn_to_angle(180);
 
   chassis.drive_distance(-10);
+
+  chassis.drive_distance(3);
+
+  chassis.drive_distance(-6);
 
   chassis.drive_distance(3);
 
@@ -364,7 +385,7 @@ void skillsAuton() {
   //chassis.turn_to_angle(113);
   //chassis.drive_distance(12);
   chassis.turn_to_angle(35);
-  chassis.drive_distance(78);
+  chassis.drive_distance(80);
   chassis.set_coordinates(0, 0, 0);
   wait(10, msec);
   chassis.turn_to_angle(90);
@@ -441,7 +462,7 @@ void autonType(uint8_t type) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType(1);
+  autonType(2);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -464,12 +485,12 @@ void tankDrive_user(){
     tlMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
      blMotor9.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     trMotor11.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    brMotor8.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+     brMotor8.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
   } else {
     tlMotor12.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
      blMotor9.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     trMotor11.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    brMotor8.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+     brMotor8.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
   }
 
   // brake 
