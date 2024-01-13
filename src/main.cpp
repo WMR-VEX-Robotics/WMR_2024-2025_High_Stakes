@@ -8,20 +8,20 @@ brain Brain;
 //Other Devices
 controller Controller1 = controller(primary);
 controller Controller2 = controller(partner);
-pneumatics wall = pneumatics(Brain.ThreeWirePort.E);
+pneumatics wall = pneumatics(Brain.ThreeWirePort.H);
+pneumatics hanglock = pneumatics(Brain.ThreeWirePort.G);
 
 bool reversed_controls = false;
 
 //Motor Devices
-motor LeftFront = motor(PORT20, ratio6_1, true);
-motor LeftRear = motor(PORT9, ratio6_1, true);
-motor RightFront = motor(PORT11, ratio6_1, false);
-motor RightRear = motor(PORT14, ratio6_1, false);
-motor LeftCata = motor(PORT19, ratio18_1, false);
-motor RightCata = motor(PORT12, ratio18_1, true);
-motor IntakeVacuum = motor(PORT18, ratio18_1, true);
-motor HangingArm = motor(PORT13,ratio36_1, false);
-motor Flipper = motor(PORT16,ratio18_1, false);
+motor LeftFront = motor(PORT19, ratio6_1, true);
+motor LeftRear = motor(PORT20, ratio6_1, true);
+motor RightFront = motor(PORT9, ratio6_1, false);
+motor RightRear = motor(PORT10, ratio6_1, false);
+motor Cata = motor(PORT14, ratio18_1, false);
+motor IntakeVacuum = motor(PORT15, ratio18_1, true);
+motor lift1 = motor(PORT8,ratio36_1, true);
+motor lift2 = motor(PORT16,ratio36_1, false);
 
 
 
@@ -48,7 +48,7 @@ Drive chassis(
 //Specify your drive setup below. There are seven options:
 //ZERO_TRACKER_NO_ODOM, ZERO_TRACKER_ODOM, TANK_ONE_ENCODER, TANK_ONE_ROTATION, TANK_TWO_ENCODER, TANK_TWO_ROTATION, HOLONOMIC_TWO_ENCODER, and HOLONOMIC_TWO_ROTATION
 //For example, if you are not using odometry, put ZERO_TRACKER_NO_ODOM below:
-TANK_TWO_ROTATION,
+ZERO_TRACKER_ODOM,
 
 //Add the names of your Drive motors into the motor groups below, separated by commas, i.e. motor_group(Motor1,Motor2,Motor3).
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
@@ -60,7 +60,7 @@ motor_group(LeftFront,LeftRear),
 motor_group(RightFront,RightRear),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT4,
+PORT17,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
@@ -94,7 +94,7 @@ PORT3,     -PORT4,
 //If you are using position tracking, this is the Forward Tracker port (the tracker which runs parallel to the direction of the chassis).
 //If this is a rotation sensor, enter it in "PORT1" format, inputting the port below.
 //If this is an encoder, enter the port as an integer. Triport A will be a "1", Triport B will be a "2", etc.
-PORT3,
+PORT4,
 
 //Input the Forward Tracker diameter (reverse it to make the direction switch):
 2.75,
@@ -115,7 +115,7 @@ PORT2,
 
 );
 
-int current_auton_selection = 0;
+int current_auton_selection = 2;
 bool auto_started = true;
 bool driver_skills = true;
 
@@ -123,8 +123,8 @@ void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!  
   vexcodeInit();
   default_constants();
-  HangingArm.setBrake(hold);
-  HangingArm.setVelocity(100, percent);
+  lift1.setBrake(hold);
+  lift2.setBrake(hold);
   IntakeVacuum.setVelocity(100, percent);
   chassis.set_coordinates(0, 0, 0);
 
@@ -168,75 +168,72 @@ void pre_auton(void) {
 }
 
 void autonomous(void) {
+  default_constants();
   Brain.Screen.clearScreen();            //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
       case 0:
-        Brain.Screen.print("Auton Running: Qual Match, Left Side");
-        HangingArm.spinFor(1465,degrees,false);
-        IntakeVacuum.spinFor(6000,degrees,false);
-        chassis.drive_distance(-15);
-        chassis.drive_distance(15);
-        chassis.set_drive_constants(2.5, 1.5, .03, 10, 0);
-        chassis.drive_distance(-15);
-        //wait(2,sec);
-        HangingArm.spinFor(-1465,degrees,false);
-        IntakeVacuum.spinFor(-6000,degrees,false);
-        wait(1,seconds);
-        chassis.set_drive_constants(11, 1.5, .03, 10, 0);
-        chassis.drive_distance(-20);
-        chassis.turn_to_angle(45);
-        chassis.drive_distance(-20);
-        chassis.turn_to_angle(90);
-        HangingArm.spinFor(1300,degrees,false);
-        wait(0.5,seconds);
-        chassis.drive_distance(-25);
-        chassis.turn_to_angle(86);
-        chassis.drive_distance(55);
         default_constants();
-        //HangingArm.spinFor(-1430,degrees,false);
+        Brain.Screen.print("Auton Running: Qual Match, Left Side");
+        turn_test();
         break;
       case 1:
+        default_constants();
+        LeftFront.setVelocity(100, percent);
+        LeftRear.setVelocity(100, percent);
+        RightFront.setVelocity(100, percent);
+        RightRear.setVelocity(100, percent);
         Brain.Screen.print("Auton Running: Qual Match, Right Side");
+        wall.open();
+        chassis.drive_distance(13);
+        chassis.turn_to_angle(40);
+        wall.close();
+        IntakeVacuum.spinFor(600,degrees);
+        wait(250,msec);
+        chassis.turn_to_angle(200);
+        chassis.drive_distance(-50);
+        chassis.drive_distance(6);
+        chassis.drive_distance(-50);
         break;
       case 2:
-        Brain.Screen.print("Auton Running: Skills Auton, Shooting Left");
-        HangingArm.spinFor(1315,degrees,false);
-        chassis.drive_distance(5);
-        chassis.turn_to_angle(-45);
-        chassis.drive_distance(7);
-        chassis.turn_to_angle(35);
-        chassis.drive_distance(-10);
-        chassis.turn_to_angle(35);
-        LeftCata.setVelocity(55, percent);
-        RightCata.setVelocity(55, percent);
-        LeftCata.spinFor(25100,degrees,false);
-        RightCata.spinFor(25100,degrees,false);
-        wait(35,sec);
-        HangingArm.spinFor(-600,degrees,false);
-        chassis.set_coordinates(0, 0, 0);
-        chassis.set_heading(-10);
-        chassis.turn_to_angle(45);
-        chassis.drive_distance(28);
-        chassis.turn_to_angle(-180);
-        chassis.drive_distance(-43);
-        HangingArm.spinFor(-730,degrees,false);
+        Brain.Screen.print("Auton Running: Qual Match, Right Side ");
+        default_constants();
+        LeftFront.setVelocity(100, percent);
+        LeftRear.setVelocity(100, percent);
+        RightFront.setVelocity(100, percent);
+        RightRear.setVelocity(100, percent);
+        chassis.drive_distance(-50);
+        wait(1,seconds);
+        chassis.drive_distance(20);
+        chassis.turn_to_angle(-5);
+        wall.open();
+        wait(250,msec);
+        chassis.drive_distance(10);
+        chassis.turn_to_angle(-10);
+        wall.close();
+        chassis.turn_to_angle(-60);
+        chassis.drive_distance(4);
+        chassis.turn_to_angle(125);
+        chassis.drive_distance(-40);
+        //IntakeVacuum.spinFor(2000,degrees,false);
+        //wait(1,sec);
+        //wall.close();
         break;
       case 3:
         Brain.Screen.print("Dummy plug system engaged: Running: Skills Auton, Shooting Left");
-        HangingArm.spinFor(1315,degrees,false);
+        //HangingArm.spinFor(1315,degrees,false);
         chassis.drive_distance(5);
         chassis.turn_to_angle(-45);
         chassis.drive_distance(7);
         chassis.turn_to_angle(35);
         chassis.drive_distance(-10);
         chassis.turn_to_angle(35);
-        LeftCata.setVelocity(55, percent);
-        RightCata.setVelocity(55, percent);
-        LeftCata.spinFor(25100,degrees,false);
-        RightCata.spinFor(25100,degrees,false);
+        //LeftCata.setVelocity(55, percent);
+        //ightCata.setVelocity(55, percent);
+        //LeftCata.spinFor(25100,degrees,false);
+        //RightCata.spinFor(25100,degrees,false);
         wait(35,sec);
         Brain.Screen.print("Dummy plug system disengaged.");
-        HangingArm.spinFor(1315,degrees,false);
+        //HangingArm.spinFor(1315,degrees,false);
         break;
     }
 
@@ -267,6 +264,25 @@ void pneumaticsSwitch() {
     wall.close();
   } else {
     wall.open();
+  }
+}
+
+
+void disengagelock(){
+  hanglock.open();
+  Brain.Screen.printAt(0,50, "open");
+}
+
+void engagelock() {
+  hanglock.close();
+  Brain.Screen.printAt(0,50, "closed");
+}
+
+void lock_hang() {
+  if (hanglock.value() == true) {
+    hanglock.close();
+  } else {
+    hanglock.open();
   }
 }
 
@@ -316,20 +332,9 @@ void standardControl_1(){
 
   //Run catapault
   if (Controller1.ButtonR2.pressing() == true){
-    LeftCata.spin(forward, 60, percent);
-    RightCata.spin(forward, 60, percent);
+    Cata.spin(forward, 60, percent);
   } else {
-    LeftCata.stop(hold);
-    RightCata.stop(hold);
-  }
-
-  //flipper
-  if (Controller1.ButtonLeft.pressing() == true){
-    Flipper.spin(forward, 80, percent);
-  } else if (Controller1.ButtonRight.pressing() == true){
-    Flipper.spin(reverse, 80, percent);
-  } else {
-    Flipper.stop(hold);
+    Cata.stop(hold);
   }
 
   /*if (Controller1.ButtonL2.pressing() == true){
@@ -338,17 +343,22 @@ void standardControl_1(){
   //@TODO: Create Travel Mode Toggle
 
   Controller1.ButtonB.pressed(pneumaticsSwitch);
+  Controller1.ButtonY.pressed(lock_hang);
+  
   if (Controller1.ButtonA.pressing() == true){
     reverse_drive();
     wait(200,msec);
   }
 
   if (Controller1.ButtonUp.pressing() == true){
-    HangingArm.spin(forward, 100, pct);
+    lift1.spinTo(770,degrees,false);
+    lift2.spinTo(770,degrees,false);
   } else if (Controller1.ButtonDown.pressing() == true){
-    HangingArm.spin(reverse, 100, pct);
+    lift1.spinTo(0,degrees,false);
+    lift2.spinTo(0,degrees,false);
   } else {
-    HangingArm.stop(hold);
+    lift1.stop(hold);
+    lift2.stop(hold);
   }
   //End Controller1 Scheme
 
@@ -356,7 +366,7 @@ void standardControl_1(){
 
 void usercontrol(void) {
   //Competition.autonomous(autonomous);
-  //while(1){standardControl_1();}
+  while(1){standardControl_1();}
 }
 
 //
@@ -364,11 +374,13 @@ void usercontrol(void) {
 //
 int main() {
   wall.close();
+  hanglock.open();
   // Set up callbacks for autonomous and driver control periods.
-  //Competition.autonomous(autonomous);
-  //Competition.drivercontrol(usercontrol);
+  pre_auton();
+  Competition.autonomous(autonomous);
+  Competition.drivercontrol(usercontrol);
   //Brain.Screen.print("Dummy plug system engaged: Running: Skills Auton, Shooting Left");
 
   // Run the pre-autonomous function.
-  pre_auton();
+  
 }
