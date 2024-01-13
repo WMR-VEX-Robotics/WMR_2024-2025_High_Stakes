@@ -21,7 +21,7 @@ brain Brain;
 motor tlMotor12 = motor(PORT12, ratio6_1, true);
 motor blMotor9 = motor(PORT9, ratio6_1, true);
 motor trMotor11 = motor(PORT11, ratio6_1, false);
-motor brMotor10 = motor(PORT10, ratio6_1, false);
+motor brMotor8 = motor(PORT8, ratio6_1, false);
 motor lcatapaultMotor7 = motor(PORT7, ratio18_1, true);
 motor rcatapaultMotor4 = motor(PORT4, ratio18_1, true);
 motor armMotor13 = motor(PORT13, ratio18_1, true);
@@ -63,10 +63,10 @@ ZERO_TRACKER_ODOM,
 motor_group(tlMotor12, blMotor9),
 
 //Right Motors:
-motor_group(trMotor11, brMotor10),
+motor_group(trMotor11, brMotor8),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT10,
+PORT19,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
@@ -134,6 +134,7 @@ void allowforskillsCata() {
   lcatapaultMotor7.stop(coast);
   rcatapaultMotor4.stop(coast);
   armMotor13.stop(coast);
+  chassis.set_coordinates(0,0,0);
   halter = false;
 }
 
@@ -142,7 +143,7 @@ void motorsHalt(){
   tlMotor12.stop(brake);
   blMotor9.stop(brake);
   trMotor11.stop(brake);
-  brMotor10.stop(brake);
+  brMotor8.stop(brake);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -160,7 +161,7 @@ void setdtBrakemode(brakeType mode){
   tlMotor12.setStopping(mode);
   blMotor9.setStopping(mode);
   trMotor11.setStopping(mode);
-  brMotor10.setStopping(mode);
+  brMotor8.setStopping(mode);
 }
 
 void ensureCalibration(){
@@ -181,8 +182,8 @@ void spincataPerc(double P, bool VorP) {
     lcatapaultMotor7.spin(forward, P, percent);
     rcatapaultMotor4.spin(forward, P, percent);
   } else {
-    lcatapaultMotor7.spin(forward, percentasVolt(80.0), volt);
-    rcatapaultMotor4.spin(forward, percentasVolt(80.0), volt);
+    lcatapaultMotor7.spin(forward, percentasVolt(85.0), volt);
+    rcatapaultMotor4.spin(forward, percentasVolt(85.0), volt);
   }
 }
 
@@ -193,7 +194,7 @@ void motorReverse() {
   //motor tlMotor12 = motor(PORT12, ratio6_1, false);
   //motor blMotor9 = motor(PORT11, ratio6_1, false);
   //motor trMotor2 = motor(PORT2, ratio6_1, true);
-  //motor brMotor10 = motor(PORT4, ratio6_1, true);
+  //motor brMotor8 = motor(PORT4, ratio6_1, true);
   if (current_forwards == false) {
     current_forwards = true;
   } else {
@@ -220,6 +221,11 @@ void pre_auton(void) {
   setdtBrakemode(brake);
   //mode is reset at the end of autonomous
 
+  tlMotor12.setVelocity(96, percent);
+  blMotor9.setVelocity(96, percent);
+  trMotor11.setVelocity(96, percent);
+  brMotor8.setVelocity(96, percent);
+
   // to prevent catapault motor strain we will set the motors to coast
   lcatapaultMotor7.setStopping(coast);
   rcatapaultMotor4.setStopping(coast);
@@ -235,15 +241,38 @@ void pre_auton(void) {
 
 // for competition
 void competitionAutonL(){
-  // set operating constant to their default values
+// set operating constant to their default values
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  chassis.drive_distance(2);
-  chassis.turn_to_angle(-90);
-  armMotor13.spinFor(425, degrees, false);
-  chassis.drive_distance(36);
+  armMotor13.spin(reverse, 12.7, volt);
+  
+  chassis.drive_distance(8);
+
+  chassis.turn_to_angle(-45);
+  
+  chassis.drive_distance(28);
+
+  chassis.turn_to_angle(0);
+
+  chassis.drive_distance(4);
+
+  armMotor13.spin(forward, 12.7, volt);
+
+  chassis.drive_distance(4);
+
+  chassis.drive_distance(-6);
+
+  chassis.turn_to_angle(180);
+
+  chassis.drive_distance(-10);
+
+  chassis.drive_distance(3);
+
+  chassis.turn_to_angle(270);
+
+  armMotor13.stop(coast);
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
@@ -255,19 +284,34 @@ void competitionAutonR(){
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
+
+  armMotor13.spin(reverse, 12.7, volt);
   
   chassis.drive_distance(8);
 
-  chassis.turn_to_angle(50);
+  chassis.turn_to_angle(45);
   
-  chassis.drive_distance(36);
+  chassis.drive_distance(28);
 
   chassis.turn_to_angle(0);
 
-  armMotor13.spin(reverse);
+  chassis.drive_distance(4);
 
-  chassis.drive_distance(20);
+  armMotor13.spin(forward, 12.7, volt);
 
+  chassis.drive_distance(4);
+
+  chassis.drive_distance(-6);
+
+  chassis.turn_to_angle(180);
+
+  chassis.drive_distance(-10);
+
+  chassis.drive_distance(3);
+
+  chassis.turn_to_angle(270);
+
+  armMotor13.stop(coast);
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
@@ -300,9 +344,9 @@ void skillsAuton() {
   chassis.drive_distance(-12);
   chassis.turn_to_angle(55);
 
-  spincataPerc(95.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
+  /*spincataPerc(85.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
+  armMotor13.spin(reverse, 12.7, volt);*/
 
-  armMotor13.spin(forward, 12.5, volt);
 
   thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
@@ -312,22 +356,26 @@ void skillsAuton() {
     wait(2, msec);
   }
 
+  //wait(2, sec);
+
+  armMotor13.spin(forward, 12.7, volt);
+
   chassis.drive_distance(1);
-  chassis.turn_to_angle(113);
-  chassis.drive_distance(12);
+  //chassis.turn_to_angle(113);
+  //chassis.drive_distance(12);
   chassis.turn_to_angle(90);
-  chassis.drive_distance(72);
+  chassis.drive_distance(78);
   chassis.turn_to_angle(180);
   chassis.drive_distance(-18);
 
   chassis.turn_to_angle(135);
   //-45
-  chassis.drive_distance(-36);
+  chassis.drive_distance(-34);
 
   chassis.turn_to_angle(180);
   //360
 
-  chassis.drive_distance(12);
+  chassis.drive_distance(-12);
 
   chassis.turn_to_angle(270);
   //90
@@ -340,7 +388,7 @@ void skillsAuton() {
   //360 
 
   chassis.drive_distance(-20);
-  chassis.turn_to_angle(100);
+  chassis.turn_to_angle(290);
 
   wingsDeployRetract();
   chassis.drive_distance(-36);
@@ -364,15 +412,19 @@ void autonType(uint8_t type) {
   switch (type) {
     case 0:
       Brain.Screen.print("No Auton Loaded. Skipping...");
+      break;
     case 1:
       Brain.Screen.print("Skills Auton Loaded.");
       skillsAuton();
+      break;
     case 2:
       Brain.Screen.print("Competition Auton Loaded. R");
       competitionAutonR();
+      break;
     case 3:
       Brain.Screen.print("Competition Auton Loaded. L");
       competitionAutonL();
+      break;
   }
 }
 
@@ -404,17 +456,17 @@ void tankDrive_user(){
   /*tlMotor12.spin(forward, mainController.Axis3.position(), percent);
   trMotor2.spin(forward, mainController.Axis2.position(), percent);
   blMotor9.spin(forward, mainController.Axis3.position(), percent);
-  brMotor10.spin(forward, mainController.Axis2.position(), percent);*/
+  brMotor8.spin(forward, mainController.Axis2.position(), percent);*/
   if (current_forwards == true) {
     tlMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
      blMotor9.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     trMotor11.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    brMotor10.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    brMotor8.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
   } else {
     tlMotor12.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
      blMotor9.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     trMotor11.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    brMotor10.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    brMotor8.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
   }
 
   // brake 
@@ -423,7 +475,7 @@ void tankDrive_user(){
   }
 
   // spin catapault
-  if (mainController.ButtonR2.pressing() == true){
+  if (mainController.ButtonL1.pressing() == true){
     spincataPerc(95.0, false);
   } else {
     lcatapaultMotor7.stop(hold);
@@ -437,9 +489,9 @@ void tankDrive_user(){
   mainController.ButtonX.pressed(motorReverse);
 
   // for hanging/blocker arm
-  if (mainController.ButtonR1.pressing() == true) {
+  if (mainController.ButtonR2.pressing() == true) {
     armMotor13.spin(forward, 12.5, volt);
-  } else if (mainController.ButtonL1.pressing() == true) {
+  } else if (mainController.ButtonR1.pressing() == true) {
     armMotor13.spin(reverse, 12.5, volt);
   } else {
     armMotor13.stop(coast);
