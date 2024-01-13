@@ -127,7 +127,7 @@ bool auto_started = false;
 bool halter = true;
 
 void allowforskillsCata() {
-  for (int i = 0; i <= 30; i++) {
+  for (int i = 0; i <= 30 /*2*/; i++) {
     wait(985, msec);
     vex::task::sleep(15);
   }
@@ -344,8 +344,8 @@ void skillsAuton() {
   chassis.drive_distance(-12);
   chassis.turn_to_angle(55);
 
-  /*spincataPerc(85.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
-  armMotor13.spin(reverse, 12.7, volt);*/
+  spincataPerc(85.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
+  armMotor13.spin(reverse, 12.7, volt);
 
 
   thread task1(allowforskillsCata); // creates timer thread for catapult in skills
@@ -363,32 +363,35 @@ void skillsAuton() {
   chassis.drive_distance(1);
   //chassis.turn_to_angle(113);
   //chassis.drive_distance(12);
-  chassis.turn_to_angle(90);
+  chassis.turn_to_angle(35);
   chassis.drive_distance(78);
-  chassis.turn_to_angle(180);
+  chassis.set_coordinates(0, 0, 0);
+  wait(10, msec);
+  chassis.turn_to_angle(90);
   chassis.drive_distance(-18);
 
-  chassis.turn_to_angle(135);
+  chassis.turn_to_angle(45);
   //-45
   chassis.drive_distance(-34);
 
-  chassis.turn_to_angle(180);
+  chassis.turn_to_angle(90);
   //360
 
   chassis.drive_distance(-12);
 
-  chassis.turn_to_angle(270);
+  chassis.turn_to_angle(180);
   //90
 
   wingsDeployRetract();
   chassis.drive_distance(-36);
   wingsDeployRetract();
   chassis.drive_distance(34);
-  chassis.turn_to_angle(180);
+  chassis.turn_to_angle(90);
   //360 
 
   chassis.drive_distance(-20);
-  chassis.turn_to_angle(290);
+
+  chassis.turn_to_angle(185);
 
   wingsDeployRetract();
   chassis.drive_distance(-36);
@@ -438,7 +441,7 @@ void autonType(uint8_t type) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType(1);
+  autonType(3);
 }
 
 /*---------------------------------------------------------------------------*/
