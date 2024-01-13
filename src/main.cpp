@@ -344,7 +344,7 @@ void skillsAuton() {
   chassis.drive_distance(-12);
   chassis.turn_to_angle(55);
 
-  spincataPerc(85.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
+  spincataPerc(92.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
   armMotor13.spin(reverse, 12.7, volt);
 
 
@@ -441,7 +441,7 @@ void autonType(uint8_t type) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType(3);
+  autonType(1);
 }
 
 /*---------------------------------------------------------------------------*/
