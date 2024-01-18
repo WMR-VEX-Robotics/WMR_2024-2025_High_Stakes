@@ -285,7 +285,7 @@ void competitionAutonL(){
 void goofy_auton() {
   default_constants();
   // initialize position as (0,0,0)
-  chassis.set_coordinates(0,0,0);
+    chassis.set_coordinates(0,0,0);
 
   while (true) {
     for (int i = 0; i <= 3; i++) {
