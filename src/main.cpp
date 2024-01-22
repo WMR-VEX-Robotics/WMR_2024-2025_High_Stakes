@@ -37,9 +37,34 @@ inertial inertialSensor = inertial(PORT19);
 pneumatics solonoid1 = pneumatics(Brain.ThreeWirePort.H);
 pneumatics solonoid2 = pneumatics(Brain.ThreeWirePort.G);
 
+int type = -1;
 
+void autonSelect_buttons() {
+    int originX = 10;
+    int width = 100;
+   
+    int originY = 10;
+    int height = 100;
+    
+    int endX = originX + width;
+    int endY = originY + height;
+    
+    Brain.Screen.drawRectangle(originX, originY, width, height);
+    
+    while(true){
+        if (Brain.Screen.pressing()){
 
+            int X = Brain.Screen.xPosition();//X pos of press
+            int Y = Brain.Screen.yPosition();// Y pos of press
 
+            //Checks if press is within boundaries of rectangle
+            if ((X >= originX && X <= endX) && (Y >= originY && Y <= endY)){
+                Brain.Screen.clear();
+                type = 1;
+            }
+        }
+    }
+  }
 
 //odometry
 /*---------------------------------------------------------------------------*/
@@ -430,7 +455,7 @@ void skillsAuton() {
 }
 
 // 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
-void autonType(uint8_t type) {
+void autonType() {
   // select different types of auton
 
   switch (type) {
@@ -542,10 +567,15 @@ void usercontrol(void) {
 int main() {
   //wingsDeployRetract();
   // Set up callbacks for autonomous and driver control periods.
-  Competition.autonomous(autonomous);
-  Competition.drivercontrol(usercontrol);
+  //Competition.autonomous(autonomous);
+  //Competition.drivercontrol(usercontrol);
 
   // Run the pre-autonomous function.
   pre_auton();
 
+  while(type == -1){
+    autonSelect_buttons();
+  }
+
+  autonType();
 }
