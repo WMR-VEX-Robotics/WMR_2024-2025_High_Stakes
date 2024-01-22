@@ -39,27 +39,112 @@ pneumatics solonoid2 = pneumatics(Brain.ThreeWirePort.G);
 
 int type = -1;
 
+// generate a position for the position pair grid with error checks use length 0 for calculated origin position
+int det_Positionon_screen(char dimension, int length, int origin, int position_in_Series) {
+  int object_origin;
+  if (position_in_Series == 0) {
+    object_origin = origin;
+  } else {
+    object_origin = origin;
+    for (int i = 1; i <= position_in_Series; i++) {
+      if (length == 0) {
+        object_origin = object_origin + origin;
+      } else {
+        object_origin = object_origin + length + origin;
+      }
+    }
+  }
+
+  int end = object_origin + length;
+
+  if (dimension == 'Y') {
+    if (length == 0) {
+      return end;
+    } else {
+      if (end < 272) {
+        return end = object_origin + length + origin;
+      } else {
+        return end;
+      }
+    }
+  } else if (dimension == 'X') {
+    if (length == 0) {
+      return end;
+    } else {
+      if (end < 480) {
+        return end = object_origin + length + origin;
+      } else {
+        return end;
+      }
+    }
+  }
+
+  return -1;
+}
+
 void autonSelect_buttons() {
+  bool unselected = true;
     int originX = 10;
     int width = 100;
    
     int originY = 10;
     int height = 100;
     
-    int endX = originX + width;
-    int endY = originY + height;
+
+    int positionsX[] = {det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('X', width, originX, 0), det_Positionon_screen('X', 0, originX, 1), det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('X', 0, originX, 2), det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('X', 0, originX, 3), det_Positionon_screen('X', width, originX, 3)};
+    int positionsY[] = {det_Positionon_screen('Y', 0, originY, 0), det_Positionon_screen('Y', height, originY, 0)};
     
-    Brain.Screen.drawRectangle(originX, originY, width, height);
+    Brain.Screen.drawRectangle(positionsX[0], positionsY[0], width, height, blue);
+    Brain.Screen.drawRectangle(positionsX[1], positionsY[0], width, height, blue);
+    Brain.Screen.newLine();
+    Brain.Screen.newLine();
+    Brain.Screen.newLine();
+    Brain.Screen.newLine();
+    Brain.Screen.newLine();
+    Brain.Screen.newLine();
+    Brain.Screen.print(positionsX[3]);
+    Brain.Screen.drawRectangle(positionsX[3], positionsY[0], width, height, blue);
+    Brain.Screen.drawRectangle(positionsX[5], positionsY[0], width, height, blue);
     
-    while(true){
+    while(unselected == true){
         if (Brain.Screen.pressing()){
 
             int X = Brain.Screen.xPosition();//X pos of press
             int Y = Brain.Screen.yPosition();// Y pos of press
 
             //Checks if press is within boundaries of rectangle
-            if ((X >= originX && X <= endX) && (Y >= originY && Y <= endY)){
-                Brain.Screen.clear();
+            if ((X >= originX && X <= positionsX[1]) && (Y >= originY && Y <= positionsY[1])){
+                Brain.Screen.clearScreen();
+                type = 1;
+            }
+        } else if (Brain.Screen.pressing()){
+
+            int X = Brain.Screen.xPosition();//X pos of press
+            int Y = Brain.Screen.yPosition();// Y pos of press
+
+            //Checks if press is within boundaries of rectangle
+            if ((X >= originX && X <= positionsX[1]) && (Y >= originY && Y <= positionsY[1])){
+                Brain.Screen.clearScreen();
+                type = 1;
+            }
+        } else if (Brain.Screen.pressing()){
+
+            int X = Brain.Screen.xPosition();//X pos of press
+            int Y = Brain.Screen.yPosition();// Y pos of press
+
+            //Checks if press is within boundaries of rectangle
+            if ((X >= originX && X <= positionsX[1]) && (Y >= originY && Y <= positionsY[1])){
+                Brain.Screen.clearScreen();
+                type = 1;
+            }
+        } else if (Brain.Screen.pressing()){
+
+            int X = Brain.Screen.xPosition();//X pos of press
+            int Y = Brain.Screen.yPosition();// Y pos of press
+
+            //Checks if press is within boundaries of rectangle
+            if ((X >= originX && X <= positionsX[1]) && (Y >= originY && Y <= positionsY[1])){
+                Brain.Screen.clearScreen();
                 type = 1;
             }
         }
@@ -487,7 +572,7 @@ void autonType() {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType(2);
+  autonType();
 }
 
 /*---------------------------------------------------------------------------*/
