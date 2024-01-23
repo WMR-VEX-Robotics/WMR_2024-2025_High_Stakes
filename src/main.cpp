@@ -227,9 +227,9 @@ void autonSelect_buttons() {
             }
         }
     }
-  }
+}
 
-  void set_screen_color(int A) {
+void set_screen_color(int A) {
     switch (A) {
       case 0:
         Brain.Screen.clearScreen(blue);
@@ -238,7 +238,7 @@ void autonSelect_buttons() {
       case 2:
         Brain.Screen.clearScreen(red);
     }
-  }
+}
 
 //odometry
 /*---------------------------------------------------------------------------*/
