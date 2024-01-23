@@ -90,12 +90,26 @@ void autonSelect_buttons() {
     int originY = 10;
     int height = 100;
     
-    Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, blue);
-    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, blue);
-    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('Y', 0, originY, 0), width, height, blue);
-    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('Y', 0, originY, 0), width, height, blue);
-    Brain.Screen.setCursor(8, 0);
-    Brain.Screen.print(det_Positionon_screen('X', width, originX, 2));
+    Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, white);
+    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, purple);
+    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
+    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('Y', 0, originY, 0), width, height, yellow);
+    Brain.Screen.setPenColor(black);
+    Brain.Screen.setCursor(4,5);
+    Brain.Screen.setFillColor(white);
+    Brain.Screen.print("None");
+    Brain.Screen.setCursor(4,15);
+    Brain.Screen.setFillColor(purple);
+    Brain.Screen.print("Skills");
+    Brain.Screen.setCursor(4,27);
+    Brain.Screen.setFillColor(green);
+    Brain.Screen.print("Right");
+    Brain.Screen.setCursor(4,38);
+    Brain.Screen.setFillColor(yellow);
+    Brain.Screen.print("Left");
+    Brain.Screen.setCursor(6, 1);
+    Brain.Screen.setPenColor(white);
+    Brain.Screen.setFillColor(black);
     
     while(unselected == true){
         if (Brain.Screen.pressing()){
@@ -104,9 +118,11 @@ void autonSelect_buttons() {
             Y = Brain.Screen.yPosition();// Y pos of press
 
             //Checks if press is within boundaries of rectangle
-            if ((X >= originX && X <= det_Positionon_screen('X', 0, originX, 0)) && (Y >= originY && Y <= det_Positionon_screen('Y', 0, originY, 0))){
+            if ((X >= originX && X <= originX+width) && (Y >= originY && Y <= det_Positionon_screen('Y', height, originY, 0))){
                 Brain.Screen.clearScreen();
                 type = 0;
+                unselected = false;
+                printf("XPress %d\n", X);
             }
         } else if (Brain.Screen.pressing()){
 
@@ -114,9 +130,11 @@ void autonSelect_buttons() {
             Y = Brain.Screen.yPosition();// Y pos of press
 
             //Checks if press is within boundaries of rectangle
-            if (((X >= det_Positionon_screen('X', width, originX, 0)-width) && X <= det_Positionon_screen('X', width, originX, 0)) && (Y >= originY && Y <= det_Positionon_screen('Y', 0, originY, 0))){
+            if ((X >= det_Positionon_screen('X', width, originX, 0) && X <= det_Positionon_screen('X', width, originX, 0)+width) && (Y >= originY && Y <= det_Positionon_screen('Y', height, originY, 0))){
                 Brain.Screen.clearScreen();
                 type = 1;
+                unselected = false;
+                printf("XPress %d\n", X);
             }
         } else if (Brain.Screen.pressing()){
 
@@ -124,9 +142,11 @@ void autonSelect_buttons() {
             Y = Brain.Screen.yPosition();// Y pos of press
 
             //Checks if press is within boundaries of rectangle
-            if ((X >= (X >= det_Positionon_screen('X', width, originX, 1)-width) && X <= det_Positionon_screen('X', width, originX, 1)) && (Y >= originY && Y <= det_Positionon_screen('Y', 0, originY, 0))){
+            if ((X >= det_Positionon_screen('X', width, originX, 1) && X <= det_Positionon_screen('X', width, originX, 1)+width) && (Y >= originY && Y <= det_Positionon_screen('Y', height, originY, 0))){
                 Brain.Screen.clearScreen();
                 type = 2;
+                unselected = false;
+                printf("XPress %d\n", X);
             }
         } else if (Brain.Screen.pressing()){
 
@@ -134,9 +154,11 @@ void autonSelect_buttons() {
             Y = Brain.Screen.yPosition();// Y pos of press
 
             //Checks if press is within boundaries of rectangle
-            if ((X >= (X >= det_Positionon_screen('X', width, originX, 2)-width) && X <= det_Positionon_screen('X', width, originX, 2)) && (Y >= originY && Y <= det_Positionon_screen('Y', 0, originY, 0))){
+            if ((X >= det_Positionon_screen('X', width, originX, 2) && X <= det_Positionon_screen('X', width, originX, 2)+width) && (Y >= originY && Y <= det_Positionon_screen('Y', height, originY, 0))){
                 Brain.Screen.clearScreen();
                 type = 3;
+                unselected = false;
+                printf("XPress %d\n", X);
             }
         }
     }
@@ -339,9 +361,8 @@ void pre_auton(void) {
   solonoid2.set(false);
   solonoid2.close();
 
-  while (type == -1) {
-    autonSelect_buttons();
-  }
+  autonSelect_buttons();
+
 }
 
 // for competition
