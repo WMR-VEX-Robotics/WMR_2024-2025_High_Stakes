@@ -230,14 +230,13 @@ void autonSelect_buttons() {
 }
 
 void set_screen_color(int A) {
-    switch (A) {
-      case 0:
-        Brain.Screen.clearScreen(blue);
-      case 1:
-        Brain.Screen.clearScreen(purple);
-      case 2:
-        Brain.Screen.clearScreen(red);
-    }
+  if (A == 0) {
+    Brain.Screen.clearScreen(vex::color::blue);
+  } else if(A == 2) {
+    Brain.Screen.clearScreen(vex::color::red);
+  } else {
+    Brain.Screen.clearScreen(vex::color::purple);
+  }
 }
 
 //odometry
@@ -657,7 +656,7 @@ void autonType(int autonSelect) {
   switch (autonSelect) {
     case 0:
       Brain.Screen.print("No Auton Loaded. Skipping...");
-      set_screen_color(team);
+      set_screen_color(1);
       break;
     case 1:
       Brain.Screen.print("Skills Auton Loaded.");
@@ -765,4 +764,5 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
+  
 }
