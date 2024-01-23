@@ -35,6 +35,7 @@ pneumatics solonoid1 = pneumatics(Brain.ThreeWirePort.H);
 pneumatics solonoid2 = pneumatics(Brain.ThreeWirePort.G);
 
 int type = -1;
+int team = -1;
 
 // generate a position for the position pair grid with error checks use length 0 for calculated origin position
 int det_Positionon_screen(char dimension, int length, int origin, int position_in_Series) {
@@ -77,6 +78,63 @@ int det_Positionon_screen(char dimension, int length, int origin, int position_i
   }
 
   return -1;
+}
+
+void color_select() {
+  bool unselected = true;
+    int Y;
+    int X;
+
+    int originX = 10;
+    int width = 100;
+   
+    int originY = 10;
+    int height = 100;
+
+    Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, blue);
+    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, purple);
+    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('Y', 0, originY, 0), width, height, red);
+
+
+ while(unselected == true){
+        if (Brain.Screen.pressing()){
+
+            X = Brain.Screen.xPosition();//X pos of press
+            Y = Brain.Screen.yPosition();// Y pos of press
+
+            //Checks if press is within boundaries of rectangle
+            if ((X >= originX && X <= originX+width) && (Y >= originY && Y <= det_Positionon_screen('Y', height, originY, 0))){
+                Brain.Screen.clearScreen();
+                team = 0;
+                unselected = false;
+                printf("XPress %d\n", X);
+            }
+        } else if (Brain.Screen.pressing()){
+
+            X = Brain.Screen.xPosition();//X pos of press
+            Y = Brain.Screen.yPosition();// Y pos of press
+
+            //Checks if press is within boundaries of rectangle
+            if ((X >= det_Positionon_screen('X', width, originX, 0) && X <= det_Positionon_screen('X', width, originX, 0)+width) && (Y >= originY && Y <= det_Positionon_screen('Y', height, originY, 0))){
+                Brain.Screen.clearScreen();
+                team = 1;
+                unselected = false;
+                printf("XPress %d\n", X);
+            }
+        } else if (Brain.Screen.pressing()){
+
+            X = Brain.Screen.xPosition();//X pos of press
+            Y = Brain.Screen.yPosition();// Y pos of press
+
+            //Checks if press is within boundaries of rectangle
+            if ((X >= det_Positionon_screen('X', width, originX, 1) && X <= det_Positionon_screen('X', width, originX, 1)+width) && (Y >= originY && Y <= det_Positionon_screen('Y', height, originY, 0))){
+                Brain.Screen.clearScreen();
+                team = 2;
+                unselected = false;
+                printf("XPress %d\n", X);
+            }
+        }
+ }
 }
 
 void autonSelect_buttons() {
@@ -161,6 +219,17 @@ void autonSelect_buttons() {
                 printf("XPress %d\n", X);
             }
         }
+    }
+  }
+
+  void set_screen_color(int A) {
+    switch (A) {
+      case 0:
+        Brain.Screen.clearScreen(blue);
+      case 1:
+        Brain.Screen.clearScreen(purple);
+      case 2:
+        Brain.Screen.clearScreen(red);
     }
   }
 
@@ -326,10 +395,16 @@ void motorReverse() {
 }
 
 void pre_auton(void) {
+
+  int originX = 10;
+  int originY = 20;
+  int width = 80;
+  int height = 80;
   // purge inertial sensor
   inertialSensor.calibrate();
   // ensure the inertial sensor is done calibrating before continuing on
   ensureCalibration();
+  Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // purge encoder(s) rotation value
   //enc1.resetRotation();
@@ -342,26 +417,34 @@ void pre_auton(void) {
 
   // set brakes to the defined mode in the case of autonomous function it should be brake
   setdtBrakemode(brake);
+  Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
   //mode is reset at the end of autonomous
 
   tlMotor12.setVelocity(96, percent);
   blMotor9.setVelocity(96, percent);
   trMotor11.setVelocity(96, percent);
   brMotor8.setVelocity(96, percent);
+  Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // to prevent catapault motor strain we will set the motors to coast
   lcatapaultMotor7.setStopping(coast);
   rcatapaultMotor4.setStopping(coast);
+  Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 3), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // ensure that the first solonoid is registering as closed visually confirming this fact
   solonoid1.set(false);
   solonoid1.close();
+  Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 4), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // ensure that the second solonoid is registering as closed visually confirming this fact
   solonoid2.set(false);
   solonoid2.close();
+  Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 5), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
+  wait(25, msec);
+  Brain.Screen.clearScreen();
 
   autonSelect_buttons();
+  color_select();
 
 }
 
@@ -406,6 +489,7 @@ void competitionAutonL(){
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
+  set_screen_color(team);
 }
 
 void goofy_auton() {
@@ -462,6 +546,8 @@ void competitionAutonR(){
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
+
+  set_screen_color(team);
 }
 
 void wingsDeployRetract() {
@@ -553,6 +639,8 @@ void skillsAuton() {
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
+
+  set_screen_color(team);
 }
 
 // 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
@@ -562,6 +650,7 @@ void autonType(int autonSelect) {
   switch (autonSelect) {
     case 0:
       Brain.Screen.print("No Auton Loaded. Skipping...");
+      set_screen_color(team);
       break;
     case 1:
       Brain.Screen.print("Skills Auton Loaded.");
