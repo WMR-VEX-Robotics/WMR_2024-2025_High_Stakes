@@ -26,9 +26,6 @@ motor lcatapaultMotor7 = motor(PORT7, ratio18_1, true);
 motor rcatapaultMotor4 = motor(PORT4, ratio18_1, true);
 motor armMotor13 = motor(PORT13, ratio18_1, true);
 
-motor horizMotor = motor(PORT20, ratio18_1, true);
-motor vertiMotor = motor(PORT18, ratio18_1, true);
-
 // not motors
 controller mainController = controller(primary);
 inertial inertialSensor = inertial(PORT19);
@@ -84,68 +81,62 @@ int det_Positionon_screen(char dimension, int length, int origin, int position_i
 
 void autonSelect_buttons() {
   bool unselected = true;
+    int Y;
+    int X;
+
     int originX = 10;
     int width = 100;
    
     int originY = 10;
     int height = 100;
     
-
-    int positionsX[] = {det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('X', width, originX, 0), det_Positionon_screen('X', 0, originX, 1), det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('X', 0, originX, 2), det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('X', 0, originX, 3), det_Positionon_screen('X', width, originX, 3)};
-    int positionsY[] = {det_Positionon_screen('Y', 0, originY, 0), det_Positionon_screen('Y', height, originY, 0)};
-    
-    Brain.Screen.drawRectangle(positionsX[0], positionsY[0], width, height, blue);
-    Brain.Screen.drawRectangle(positionsX[1], positionsY[0], width, height, blue);
-    Brain.Screen.newLine();
-    Brain.Screen.newLine();
-    Brain.Screen.newLine();
-    Brain.Screen.newLine();
-    Brain.Screen.newLine();
-    Brain.Screen.newLine();
-    Brain.Screen.print(positionsX[3]);
-    Brain.Screen.drawRectangle(positionsX[3], positionsY[0], width, height, blue);
-    Brain.Screen.drawRectangle(positionsX[5], positionsY[0], width, height, blue);
+    Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, blue);
+    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, blue);
+    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('Y', 0, originY, 0), width, height, blue);
+    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('Y', 0, originY, 0), width, height, blue);
+    Brain.Screen.setCursor(8, 0);
+    Brain.Screen.print(det_Positionon_screen('X', width, originX, 2));
     
     while(unselected == true){
         if (Brain.Screen.pressing()){
 
-            int X = Brain.Screen.xPosition();//X pos of press
-            int Y = Brain.Screen.yPosition();// Y pos of press
+            X = Brain.Screen.xPosition();//X pos of press
+            Y = Brain.Screen.yPosition();// Y pos of press
 
             //Checks if press is within boundaries of rectangle
-            if ((X >= originX && X <= positionsX[1]) && (Y >= originY && Y <= positionsY[1])){
+            if ((X >= originX && X <= det_Positionon_screen('X', 0, originX, 0)) && (Y >= originY && Y <= det_Positionon_screen('Y', 0, originY, 0))){
+                Brain.Screen.clearScreen();
+                type = 0;
+            }
+        } else if (Brain.Screen.pressing()){
+
+            X = Brain.Screen.xPosition();//X pos of press
+            Y = Brain.Screen.yPosition();// Y pos of press
+
+            //Checks if press is within boundaries of rectangle
+            if (((X >= det_Positionon_screen('X', width, originX, 0)-width) && X <= det_Positionon_screen('X', width, originX, 0)) && (Y >= originY && Y <= det_Positionon_screen('Y', 0, originY, 0))){
                 Brain.Screen.clearScreen();
                 type = 1;
             }
         } else if (Brain.Screen.pressing()){
 
-            int X = Brain.Screen.xPosition();//X pos of press
-            int Y = Brain.Screen.yPosition();// Y pos of press
+            X = Brain.Screen.xPosition();//X pos of press
+            Y = Brain.Screen.yPosition();// Y pos of press
 
             //Checks if press is within boundaries of rectangle
-            if ((X >= originX && X <= positionsX[1]) && (Y >= originY && Y <= positionsY[1])){
+            if ((X >= (X >= det_Positionon_screen('X', width, originX, 1)-width) && X <= det_Positionon_screen('X', width, originX, 1)) && (Y >= originY && Y <= det_Positionon_screen('Y', 0, originY, 0))){
                 Brain.Screen.clearScreen();
-                type = 1;
+                type = 2;
             }
         } else if (Brain.Screen.pressing()){
 
-            int X = Brain.Screen.xPosition();//X pos of press
-            int Y = Brain.Screen.yPosition();// Y pos of press
+            X = Brain.Screen.xPosition();//X pos of press
+            Y = Brain.Screen.yPosition();// Y pos of press
 
             //Checks if press is within boundaries of rectangle
-            if ((X >= originX && X <= positionsX[1]) && (Y >= originY && Y <= positionsY[1])){
+            if ((X >= (X >= det_Positionon_screen('X', width, originX, 2)-width) && X <= det_Positionon_screen('X', width, originX, 2)) && (Y >= originY && Y <= det_Positionon_screen('Y', 0, originY, 0))){
                 Brain.Screen.clearScreen();
-                type = 1;
-            }
-        } else if (Brain.Screen.pressing()){
-
-            int X = Brain.Screen.xPosition();//X pos of press
-            int Y = Brain.Screen.yPosition();// Y pos of press
-
-            //Checks if press is within boundaries of rectangle
-            if ((X >= originX && X <= positionsX[1]) && (Y >= originY && Y <= positionsY[1])){
-                Brain.Screen.clearScreen();
-                type = 1;
+                type = 3;
             }
         }
     }
@@ -347,6 +338,10 @@ void pre_auton(void) {
   // ensure that the second solonoid is registering as closed visually confirming this fact
   solonoid2.set(false);
   solonoid2.close();
+
+  while (type == -1) {
+    autonSelect_buttons();
+  }
 }
 
 // for competition
@@ -540,10 +535,10 @@ void skillsAuton() {
 }
 
 // 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
-void autonType() {
+void autonType(int autonSelect) {
   // select different types of auton
 
-  switch (type) {
+  switch (autonSelect) {
     case 0:
       Brain.Screen.print("No Auton Loaded. Skipping...");
       break;
@@ -572,7 +567,7 @@ void autonType() {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType();
+  autonType(type);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -642,25 +637,15 @@ void usercontrol(void) {
   }
 }
 
-/*void blah() {
-  Brain.Screen.print(camera.takeSnapshot(camera__GREENBOX));
-}*/
-
 //
 // Main will set up the competition functions and callbacks.
 //
 int main() {
   //wingsDeployRetract();
   // Set up callbacks for autonomous and driver control periods.
-  //Competition.autonomous(autonomous);
-  //Competition.drivercontrol(usercontrol);
+  Competition.autonomous(autonomous);
+  Competition.drivercontrol(usercontrol);
 
   // Run the pre-autonomous function.
   pre_auton();
-
-  while(type == -1){
-    autonSelect_buttons();
-  }
-
-  autonType();
 }
