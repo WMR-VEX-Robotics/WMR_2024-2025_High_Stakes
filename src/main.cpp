@@ -85,10 +85,10 @@ void color_select() {
     int Y;
     int X;
 
-    int originX = 10;
+    int originX = 20;
     int width = 100;
    
-    int originY = 10;
+    int originY = 20;
     int height = 100;
 
     Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, blue);
@@ -108,6 +108,7 @@ void color_select() {
                 team = 0;
                 unselected = false;
                 printf("XPress %d\n", X);
+                printf("YPress %d\n", Y);
             }
         } else if (Brain.Screen.pressing()){
 
@@ -120,6 +121,7 @@ void color_select() {
                 team = 1;
                 unselected = false;
                 printf("XPress %d\n", X);
+                printf("YPress %d\n", Y);
             }
         } else if (Brain.Screen.pressing()){
 
@@ -132,6 +134,7 @@ void color_select() {
                 team = 2;
                 unselected = false;
                 printf("XPress %d\n", X);
+                printf("YPress %d\n", Y);
             }
         }
  }
@@ -181,6 +184,7 @@ void autonSelect_buttons() {
                 type = 0;
                 unselected = false;
                 printf("XPress %d\n", X);
+                printf("YPress %d\n", Y);
             }
         } else if (Brain.Screen.pressing()){
 
@@ -193,6 +197,7 @@ void autonSelect_buttons() {
                 type = 1;
                 unselected = false;
                 printf("XPress %d\n", X);
+                printf("YPress %d\n", Y);
             }
         } else if (Brain.Screen.pressing()){
 
@@ -205,6 +210,7 @@ void autonSelect_buttons() {
                 type = 2;
                 unselected = false;
                 printf("XPress %d\n", X);
+                printf("YPress %d\n", Y);
             }
         } else if (Brain.Screen.pressing()){
 
@@ -217,6 +223,7 @@ void autonSelect_buttons() {
                 type = 3;
                 unselected = false;
                 printf("XPress %d\n", X);
+                printf("YPress %d\n", Y);
             }
         }
     }
