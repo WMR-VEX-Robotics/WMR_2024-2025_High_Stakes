@@ -81,6 +81,7 @@ int det_Positionon_screen(char dimension, int length, int origin, int position_i
   return -1;
 }
 
+// Select which team you are
 void color_select() {
   bool unselected = true;
     int Y;
@@ -141,6 +142,7 @@ void color_select() {
  }
 }
 
+// select auton
 void autonSelect_buttons() {
   bool unselected = true;
     int Y;
