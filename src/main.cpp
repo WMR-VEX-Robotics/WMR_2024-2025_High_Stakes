@@ -750,7 +750,7 @@ void tankDrive_user(){
 
   mainController.ButtonX.pressed(motorReverse);
 
-  // for hanging/blocker arm
+  // for intake
   if (mainController.ButtonR2.pressing() == true) {
     intakeMotor13.spin(forward, 12.5, volt);
   } else if (mainController.ButtonR1.pressing() == true) {
