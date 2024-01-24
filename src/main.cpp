@@ -325,11 +325,13 @@ PORT3,     -PORT4,
 int current_auton_selection = 0;
 bool auto_started = false;
 
+// must always start as true!
 bool halter = true;
 
 void allowforskillsCata() {
   for (int i = 0; i <= 30 /*2*/; i++) {
     wait(985, msec);
+
     vex::task::sleep(15);
   }
   catapaultMotor4.stop(coast);
@@ -381,23 +383,23 @@ void spincataPerc(double P, bool VorP) {
   if (VorP != false) {
     catapaultMotor4.spin(forward, P, percent);
   } else {
-    catapaultMotor4.spin(forward, percentasVolt(85.0), volt);
+    catapaultMotor4.spin(forward, percentasVolt(P), volt);
   }
 }
 
 bool current_forwards = true;
 
 void motorReverse() {
-
   //motor tlMotor12 = motor(PORT12, ratio6_1, false);
   //motor blMotor9 = motor(PORT11, ratio6_1, false);
   //motor trMotor2 = motor(PORT2, ratio6_1, true);
   //motor brMotor8 = motor(PORT4, ratio6_1, true);
-  if (current_forwards == false) {
+  /*if (current_forwards == false) {
     current_forwards = true;
   } else {
     current_forwards = false;
-  }
+  }*/
+  current_forwards = !current_forwards;
 }
 
 void pre_auton(void) {
@@ -460,6 +462,10 @@ void competitionAutonL(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
+  catapaultMotor4.spin(reverse);
+  wait(200, msec);
+  catapaultMotor4.stop(coast);
+
   intakeMotor13.spin(reverse, 12.7, volt);
   
   chassis.drive_distance(8);
@@ -497,6 +503,7 @@ void competitionAutonL(){
   set_screen_color(team);
 }
 
+//blegh
 void goofy_auton() {
   default_constants();
   // initialize position as (0,0,0)
@@ -516,6 +523,10 @@ void competitionAutonR(){
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
+
+  catapaultMotor4.spin(reverse);
+  wait(200, msec);
+  catapaultMotor4.stop(coast);
 
   intakeMotor13.spin(reverse, 12.7, volt);
   
@@ -574,6 +585,10 @@ void skillsAuton() {
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
+  catapaultMotor4.spin(reverse);
+  wait(200, msec);
+  catapaultMotor4.stop(coast);
+
   // begin the fun program of skills auton
   chassis.drive_distance(8);
   chassis.turn_to_angle(-45);
@@ -591,7 +606,7 @@ void skillsAuton() {
 
   // gross programming but if the bot moves the bot moves. It shouldn't.
   while (halter != false) {
-    wait(2, msec);
+    wait(2, msec); // sit there and wait while catapult is spinning
   }
 
   //wait(2, sec);
