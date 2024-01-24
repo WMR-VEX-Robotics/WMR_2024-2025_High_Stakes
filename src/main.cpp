@@ -18,11 +18,11 @@ brain Brain;
 
 // define your global instances of motors and other devices here
 // motors
-motor tlMotor12 = motor(PORT12, ratio6_1, true);
+motor tlMotor12 = motor(PORT12, ratio6_1, false);
 motor mlMotor10 = motor(PORT10, ratio18_1, true);
 motor blMotor9 = motor(PORT9, ratio6_1, true);
-motor trMotor11 = motor(PORT11, ratio6_1, false);
-motor mrMotor7 = motor(PORT7, ratio18_1, true);
+motor trMotor11 = motor(PORT11, ratio6_1, true);
+motor mrMotor7 = motor(PORT7, ratio18_1, false);
 motor brMotor8 = motor(PORT8, ratio6_1, false);
 motor catapaultMotor4 = motor(PORT4, ratio18_1, true);
 motor intakeMotor13 = motor(PORT13, ratio18_1, true);
