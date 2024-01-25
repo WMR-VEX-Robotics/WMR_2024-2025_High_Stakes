@@ -18,10 +18,10 @@ brain Brain;
 
 // define your global instances of motors and other devices here
 // motors
-motor tlMotor18 = motor(PORT18, ratio6_1, false);
+motor tlMotor18 = motor(PORT18, ratio6_1, true);
 motor mlMotor19 = motor(PORT19, ratio18_1, true);
 motor blMotor20 = motor(PORT20, ratio6_1, true);
-motor trMotor13 = motor(PORT13, ratio6_1, true);
+motor trMotor13 = motor(PORT13, ratio6_1, false);
 motor mrMotor12 = motor(PORT12, ratio18_1, false);
 motor brMotor11 = motor(PORT11, ratio6_1, false);
 motor catapaultMotor1 = motor(PORT1, ratio18_1, true);
@@ -526,8 +526,8 @@ void competitionAutonR(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  catapaultMotor1.spin(reverse);
-  wait(200, msec);
+  catapaultMotor1.spin(forward, 12.7, volt);
+  wait(1, sec);
   catapaultMotor1.stop(coast);
 
   intakeMotor2.spin(reverse, 12.7, volt);
@@ -753,7 +753,7 @@ void tankDrive_user(){
   mainController.ButtonX.pressed(motorReverse);
 
   // for intake
-  if (mainController.ButtonR2.pressing() == true) {
+  if (mainController.ButtonR2.pressing() == true ) {
     intakeMotor2.spin(forward, 12.5, volt);
   } else if (mainController.ButtonR1.pressing() == true) {
     intakeMotor2.spin(reverse, 12.5, volt);
@@ -782,6 +782,6 @@ int main() {
   Competition.drivercontrol(usercontrol);
 
   // Run the pre-autonomous function.
-  pre_auton();
-  
+  //pre_auton();
+  autonType(2);  
 }
