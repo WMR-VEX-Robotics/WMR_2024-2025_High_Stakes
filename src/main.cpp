@@ -26,7 +26,7 @@ motor mrMotor12 = motor(PORT12, ratio18_1, false);
 motor brMotor11 = motor(PORT11, ratio6_1, false);
 motor catapaultMotor1 = motor(PORT1, ratio18_1, true);
 motor intakeMotor2 = motor(PORT2, ratio18_1, true);
-motor armElevator = motor(PORT3, ratio18_1, true);
+motor armElevator3 = motor(PORT3, ratio18_1, true);
 // not motors
 controller mainController = controller(primary);
 inertial inertialSensor19 = inertial(PORT19);
@@ -759,6 +759,14 @@ void tankDrive_user(){
     intakeMotor2.spin(reverse, 12.5, volt);
   } else {
     intakeMotor2.stop(coast);
+  }
+
+  if (mainController.ButtonUp.pressing() != false) {
+    armElevator3.spin(forward, percentasVolt(75.0), volt);
+  } else if (mainController.ButtonDown.pressing() != false) {
+    armElevator3.spin(reverse, percentasVolt(75.0), volt);
+  } else {
+    armElevator3.stop(hold);
   }
 
 
