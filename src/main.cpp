@@ -451,7 +451,9 @@ void pre_auton(void) {
   Brain.Screen.clearScreen();
 
   autonSelect_buttons();
-  color_select();
+  if (type != 0) {
+    color_select();
+  }
 
 }
 
