@@ -18,22 +18,22 @@ brain Brain;
 
 // define your global instances of motors and other devices here
 // motors
-motor tlMotor12 = motor(PORT12, ratio6_1, false);
-motor mlMotor10 = motor(PORT10, ratio18_1, true);
-motor blMotor9 = motor(PORT9, ratio6_1, true);
-motor trMotor11 = motor(PORT11, ratio6_1, true);
-motor mrMotor7 = motor(PORT7, ratio18_1, false);
-motor brMotor8 = motor(PORT8, ratio6_1, false);
-motor catapaultMotor4 = motor(PORT4, ratio18_1, true);
-motor intakeMotor13 = motor(PORT13, ratio18_1, true);
-
+motor tlMotor18 = motor(PORT18, ratio6_1, false);
+motor mlMotor19 = motor(PORT19, ratio18_1, true);
+motor blMotor20 = motor(PORT20, ratio6_1, true);
+motor trMotor13 = motor(PORT13, ratio6_1, true);
+motor mrMotor12 = motor(PORT12, ratio18_1, false);
+motor brMotor11 = motor(PORT11, ratio6_1, false);
+motor catapaultMotor1 = motor(PORT1, ratio18_1, true);
+motor intakeMotor2 = motor(PORT2, ratio18_1, true);
+motor armElevator = motor(PORT3, ratio18_1, true);
 // not motors
 controller mainController = controller(primary);
-inertial inertialSensor = inertial(PORT19);
+inertial inertialSensor19 = inertial(PORT19);
 //encoder enc1 = encoder(Brain.ThreeWirePort.A);
 //rotation rot1 = rotation(PORT8, true);
-pneumatics solonoid1 = pneumatics(Brain.ThreeWirePort.H);
-pneumatics solonoid2 = pneumatics(Brain.ThreeWirePort.G);
+pneumatics solonoidH = pneumatics(Brain.ThreeWirePort.H);
+pneumatics solonoidG = pneumatics(Brain.ThreeWirePort.G);
 
 int type = -1;
 int team = -1;
@@ -261,10 +261,10 @@ ZERO_TRACKER_ODOM,
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
 
 //Left Motors:
-motor_group(tlMotor12, mlMotor10, blMotor9),
+motor_group(tlMotor18, mlMotor19, blMotor20),
 
 //Right Motors:
-motor_group(trMotor11, mrMotor7, brMotor8),
+motor_group(trMotor13, mrMotor12, brMotor11),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
 PORT19,
@@ -334,18 +334,18 @@ void allowforskillsCata() {
 
     vex::task::sleep(15);
   }
-  catapaultMotor4.stop(coast);
-  intakeMotor13.stop(coast);
+  catapaultMotor1.stop(coast);
+  intakeMotor2.stop(coast);
   chassis.set_coordinates(0,0,0);
   halter = false;
 }
 
 void motorsHalt(){
   // stop the motor with implicit type brake
-  tlMotor12.stop(brake);
-  blMotor9.stop(brake);
-  trMotor11.stop(brake);
-  brMotor8.stop(brake);
+  tlMotor18.stop(brake);
+  blMotor20.stop(brake);
+  trMotor13.stop(brake);
+  brMotor11.stop(brake);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -360,15 +360,15 @@ void motorsHalt(){
 
 void setdtBrakemode(brakeType mode){
   // change brake mode
-  tlMotor12.setStopping(mode);
-  blMotor9.setStopping(mode);
-  trMotor11.setStopping(mode);
-  brMotor8.setStopping(mode);
+  tlMotor18.setStopping(mode);
+  blMotor20.setStopping(mode);
+  trMotor13.setStopping(mode);
+  brMotor11.setStopping(mode);
 }
 
 void ensureCalibration(){
   // MAKE SURE THE INERTIAL SENSOR CALIBRATES
-  if (inertialSensor.isCalibrating() != false){
+  if (inertialSensor19.isCalibrating() != false){
     wait(200,msec);
   }
 }
@@ -381,19 +381,19 @@ double percentasVolt(double n) {
 // volt = false percent = true
 void spincataPerc(double P, bool VorP) {
   if (VorP != false) {
-    catapaultMotor4.spin(forward, P, percent);
+    catapaultMotor1.spin(forward, P, percent);
   } else {
-    catapaultMotor4.spin(forward, percentasVolt(P), volt);
+    catapaultMotor1.spin(forward, percentasVolt(P), volt);
   }
 }
 
 bool current_forwards = true;
 
 void motorReverse() {
-  //motor tlMotor12 = motor(PORT12, ratio6_1, false);
-  //motor blMotor9 = motor(PORT11, ratio6_1, false);
+  //motor tlMotor18 = motor(PORT12, ratio6_1, false);
+  //motor blMotor20 = motor(PORT11, ratio6_1, false);
   //motor trMotor2 = motor(PORT2, ratio6_1, true);
-  //motor brMotor8 = motor(PORT4, ratio6_1, true);
+  //motor brMotor11 = motor(PORT4, ratio6_1, true);
   /*if (current_forwards == false) {
     current_forwards = true;
   } else {
@@ -409,7 +409,7 @@ void pre_auton(void) {
   int width = 80;
   int height = 80;
   // purge inertial sensor
-  inertialSensor.calibrate();
+  inertialSensor19.calibrate();
   // ensure the inertial sensor is done calibrating before continuing on
   ensureCalibration();
   Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
@@ -428,24 +428,24 @@ void pre_auton(void) {
   Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
   //mode is reset at the end of autonomous
 
-  tlMotor12.setVelocity(96, percent);
-  blMotor9.setVelocity(96, percent);
-  trMotor11.setVelocity(96, percent);
-  brMotor8.setVelocity(96, percent);
+  tlMotor18.setVelocity(96, percent);
+  blMotor20.setVelocity(96, percent);
+  trMotor13.setVelocity(96, percent);
+  brMotor11.setVelocity(96, percent);
   Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // to prevent catapault motor strain we will set the motors to coast
-  catapaultMotor4.setStopping(coast);
+  catapaultMotor1.setStopping(coast);
   Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 3), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // ensure that the first solonoid is registering as closed visually confirming this fact
-  solonoid1.set(false);
-  solonoid1.close();
+  solonoidH.set(false);
+  solonoidH.close();
   Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 4), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // ensure that the second solonoid is registering as closed visually confirming this fact
-  solonoid2.set(false);
-  solonoid2.close();
+  solonoidG.set(false);
+  solonoidG.close();
   Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 5), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
   wait(25, msec);
   Brain.Screen.clearScreen();
@@ -464,11 +464,11 @@ void competitionAutonL(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  catapaultMotor4.spin(reverse);
+  catapaultMotor1.spin(reverse);
   wait(200, msec);
-  catapaultMotor4.stop(coast);
+  catapaultMotor1.stop(coast);
 
-  intakeMotor13.spin(reverse, 12.7, volt);
+  intakeMotor2.spin(reverse, 12.7, volt);
   
   chassis.drive_distance(8);
 
@@ -480,7 +480,7 @@ void competitionAutonL(){
 
   chassis.drive_distance(4);
 
-  intakeMotor13.spin(forward, 12.7, volt);
+  intakeMotor2.spin(forward, 12.7, volt);
 
   chassis.drive_distance(4);
 
@@ -498,7 +498,7 @@ void competitionAutonL(){
 
   chassis.turn_to_angle(270);
 
-  intakeMotor13.stop(coast);
+  intakeMotor2.stop(coast);
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
@@ -526,11 +526,11 @@ void competitionAutonR(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  catapaultMotor4.spin(reverse);
+  catapaultMotor1.spin(reverse);
   wait(200, msec);
-  catapaultMotor4.stop(coast);
+  catapaultMotor1.stop(coast);
 
-  intakeMotor13.spin(reverse, 12.7, volt);
+  intakeMotor2.spin(reverse, 12.7, volt);
   
   chassis.drive_distance(8);
 
@@ -542,7 +542,7 @@ void competitionAutonR(){
 
   chassis.drive_distance(4);
 
-  intakeMotor13.spin(forward, 12.7, volt);
+  intakeMotor2.spin(forward, 12.7, volt);
 
   chassis.drive_distance(4);
 
@@ -560,7 +560,7 @@ void competitionAutonR(){
 
   chassis.turn_to_angle(270);
 
-  intakeMotor13.stop(coast);
+  intakeMotor2.stop(coast);
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
@@ -570,12 +570,12 @@ void competitionAutonR(){
 
 void wingsDeployRetract() {
   // snippet to deploy pneumatic wings
-  if (solonoid1.value() == true) {
-    solonoid1.close(); 
-    solonoid2.close();
+  if (solonoidH.value() == true) {
+    solonoidH.close(); 
+    solonoidG.close();
   } else {
-    solonoid1.open(); 
-    solonoid2.open();
+    solonoidH.open(); 
+    solonoidG.open();
   }
 }
 
@@ -587,9 +587,9 @@ void skillsAuton() {
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  catapaultMotor4.spin(reverse);
+  catapaultMotor1.spin(reverse);
   wait(200, msec);
-  catapaultMotor4.stop(coast);
+  catapaultMotor1.stop(coast);
 
   // begin the fun program of skills auton
   chassis.drive_distance(8);
@@ -600,7 +600,7 @@ void skillsAuton() {
   chassis.turn_to_angle(55);
 
   spincataPerc(92.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
-  intakeMotor13.spin(reverse, 12.7, volt);
+  intakeMotor2.spin(reverse, 12.7, volt);
 
 
   thread task1(allowforskillsCata); // creates timer thread for catapult in skills
@@ -613,7 +613,7 @@ void skillsAuton() {
 
   //wait(2, sec);
 
-  intakeMotor13.spin(forward, 12.7, volt);
+  intakeMotor2.spin(forward, 12.7, volt);
 
   chassis.drive_distance(1);
   //chassis.turn_to_angle(113);
@@ -654,7 +654,7 @@ void skillsAuton() {
   /*chassis.turn_to_angle(155);
   chassis.drive_distance(38);
   chassis.turn_to_angle(180);
-  intakeMotor13.spinFor(360, degrees, false);
+  intakeMotor2.spinFor(360, degrees, false);
   chassis.drive_distance(18);
   chassis.turn_to_angle(90);
   chassis.drive_distance(40);*/
@@ -714,24 +714,24 @@ void autonomous(void) {
 
 void tankDrive_user(){
   // tank drive user control left side on left right side on right
-  /*tlMotor12.spin(forward, mainController.Axis3.position(), percent);
+  /*tlMotor18.spin(forward, mainController.Axis3.position(), percent);
   trMotor2.spin(forward, mainController.Axis2.position(), percent);
-  blMotor9.spin(forward, mainController.Axis3.position(), percent);
-  brMotor8.spin(forward, mainController.Axis2.position(), percent);*/
+  blMotor20.spin(forward, mainController.Axis3.position(), percent);
+  brMotor11.spin(forward, mainController.Axis2.position(), percent);*/
   if (current_forwards == true) {
-    tlMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    mlMotor10.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    blMotor9.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    trMotor11.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    mrMotor7.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    brMotor8.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    tlMotor18.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    blMotor20.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    trMotor13.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    brMotor11.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
   } else {
-    tlMotor12.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    mlMotor10.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    blMotor9.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    trMotor11.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    mrMotor7.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    brMotor8.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    tlMotor18.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    blMotor20.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    trMotor13.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    brMotor11.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
   }
 
   // brake 
@@ -743,7 +743,7 @@ void tankDrive_user(){
   if (mainController.ButtonL1.pressing() == true){
     spincataPerc(95.0, false);
   } else {
-    catapaultMotor4.stop(coast);
+    catapaultMotor1.stop(coast);
   }
 
   //deploy wings
@@ -754,11 +754,11 @@ void tankDrive_user(){
 
   // for intake
   if (mainController.ButtonR2.pressing() == true) {
-    intakeMotor13.spin(forward, 12.5, volt);
+    intakeMotor2.spin(forward, 12.5, volt);
   } else if (mainController.ButtonR1.pressing() == true) {
-    intakeMotor13.spin(reverse, 12.5, volt);
+    intakeMotor2.spin(reverse, 12.5, volt);
   } else {
-    intakeMotor13.stop(coast);
+    intakeMotor2.stop(coast);
   }
 
 
