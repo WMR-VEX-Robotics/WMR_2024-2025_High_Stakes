@@ -18,18 +18,24 @@ brain Brain;
 
 // define your global instances of motors and other devices here
 // motors
-motor tlMotor18 = motor(PORT18, ratio6_1, true);
-motor mlMotor19 = motor(PORT19, ratio18_1, true);
+/*motor tlMotor18 = motor(PORT18, ratio6_1, true);
+motor mlMotor19 = motor(PORT19, ratio6_1, true);
 motor blMotor20 = motor(PORT20, ratio6_1, true);
 motor trMotor13 = motor(PORT13, ratio6_1, false);
+motor mrMotor12 = motor(PORT12, ratio6_1, false);
+motor brMotor11 = motor(PORT11, ratio6_1, false);*/
+motor tlMotor18 = motor(PORT18, ratio18_1, true);
+motor mlMotor19 = motor(PORT19, ratio18_1, true);
+motor blMotor20 = motor(PORT20, ratio18_1, true);
+motor trMotor13 = motor(PORT13, ratio18_1, false);
 motor mrMotor12 = motor(PORT12, ratio18_1, false);
-motor brMotor11 = motor(PORT11, ratio6_1, false);
+motor brMotor11 = motor(PORT11, ratio18_1, false);
 motor catapaultMotor1 = motor(PORT1, ratio18_1, true);
 motor intakeMotor2 = motor(PORT2, ratio18_1, true);
 motor armElevator3 = motor(PORT3, ratio18_1, true);
 // not motors
 controller mainController = controller(primary);
-inertial inertialSensor19 = inertial(PORT19);
+inertial inertialSensor8 = inertial(PORT8);
 //encoder enc1 = encoder(Brain.ThreeWirePort.A);
 //rotation rot1 = rotation(PORT8, true);
 pneumatics solonoidH = pneumatics(Brain.ThreeWirePort.H);
@@ -267,7 +273,7 @@ motor_group(tlMotor18, mlMotor19, blMotor20),
 motor_group(trMotor13, mrMotor12, brMotor11),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT19,
+PORT8,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
@@ -368,7 +374,7 @@ void setdtBrakemode(brakeType mode){
 
 void ensureCalibration(){
   // MAKE SURE THE INERTIAL SENSOR CALIBRATES
-  if (inertialSensor19.isCalibrating() != false){
+  if (inertialSensor8.isCalibrating() != false){
     wait(200,msec);
   }
 }
@@ -409,7 +415,7 @@ void pre_auton(void) {
   int width = 80;
   int height = 80;
   // purge inertial sensor
-  inertialSensor19.calibrate();
+  inertialSensor8.calibrate();
   // ensure the inertial sensor is done calibrating before continuing on
   ensureCalibration();
   Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
@@ -464,7 +470,7 @@ void competitionAutonL(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  catapaultMotor1.spin(reverse);
+  catapaultMotor1.spin(reverse, 12.7, volt);
   wait(200, msec);
   catapaultMotor1.stop(coast);
 
@@ -526,7 +532,7 @@ void competitionAutonR(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  catapaultMotor1.spin(forward, 12.7, volt);
+  catapaultMotor1.spin(reverse, 12.7, volt);
   wait(1, sec);
   catapaultMotor1.stop(coast);
 
@@ -587,19 +593,20 @@ void skillsAuton() {
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  catapaultMotor1.spin(reverse);
-  wait(200, msec);
-  catapaultMotor1.stop(coast);
+  catapaultMotor1.spin(reverse, 12.7, volt);
+  
 
   // begin the fun program of skills auton
   chassis.drive_distance(8);
   chassis.turn_to_angle(-45);
   chassis.drive_distance(7);
+  catapaultMotor1.stop(coast);
   chassis.turn_to_angle(45);
   chassis.drive_distance(-12);
   chassis.turn_to_angle(55);
+  catapaultMotor1.stop(brake);
 
-  spincataPerc(92.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
+  spincataPerc(75.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
   intakeMotor2.spin(reverse, 12.7, volt);
 
 
@@ -790,6 +797,6 @@ int main() {
   Competition.drivercontrol(usercontrol);
 
   // Run the pre-autonomous function.
-  //pre_auton();
-  autonType(2);  
+  pre_auton();
+  autonType(type);  
 }
