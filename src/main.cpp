@@ -30,6 +30,7 @@ motor blMotor20 = motor(PORT20, ratio18_1, true);
 motor trMotor13 = motor(PORT13, ratio18_1, false);
 motor mrMotor12 = motor(PORT12, ratio18_1, false);
 motor brMotor11 = motor(PORT11, ratio18_1, false);
+
 motor catapaultMotor1 = motor(PORT1, ratio18_1, true);
 motor intakeMotor2 = motor(PORT2, ratio18_1, true);
 motor armElevator3 = motor(PORT3, ratio18_1, true);
@@ -721,10 +722,6 @@ void autonomous(void) {
 
 void tankDrive_user(){
   // tank drive user control left side on left right side on right
-  /*tlMotor18.spin(forward, mainController.Axis3.position(), percent);
-  trMotor2.spin(forward, mainController.Axis2.position(), percent);
-  blMotor20.spin(forward, mainController.Axis3.position(), percent);
-  brMotor11.spin(forward, mainController.Axis2.position(), percent);*/
   if (current_forwards == true) {
     tlMotor18.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
@@ -748,7 +745,7 @@ void tankDrive_user(){
 
   // spin catapault
   if (mainController.ButtonL1.pressing() == true){
-    spincataPerc(95.0, false);
+    spincataPerc(75.0, false);
   } else {
     catapaultMotor1.stop(coast);
   }
