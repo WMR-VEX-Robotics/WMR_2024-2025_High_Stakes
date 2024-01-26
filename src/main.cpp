@@ -11,17 +11,18 @@ controller Controller2 = controller(partner);
 pneumatics wall = pneumatics(Brain.ThreeWirePort.H);
 pneumatics hanglock = pneumatics(Brain.ThreeWirePort.G);
 
-bool reversed_controls = false;
+bool reversed_controls = true;
 
 //Motor Devices
-motor LeftFront = motor(PORT19, ratio6_1, true);
-motor LeftRear = motor(PORT20, ratio6_1, true);
+motor LeftFront = motor(PORT18, ratio6_1, true);
+motor LeftRear = motor(PORT19, ratio6_1, true);
+motor LeftAux = motor(PORT20, ratio6_1, true);
 motor RightFront = motor(PORT9, ratio6_1, false);
-motor RightRear = motor(PORT10, ratio6_1, false);
-motor Cata = motor(PORT14, ratio18_1, false);
-motor IntakeVacuum = motor(PORT15, ratio18_1, true);
-motor lift1 = motor(PORT8,ratio36_1, true);
-motor lift2 = motor(PORT16,ratio36_1, false);
+motor RightRear = motor(PORT8, ratio6_1, false);
+motor RightAux = motor(PORT6, ratio6_1, false);
+
+motor Cata = motor(PORT17, ratio18_1, false);
+motor IntakeVacuum = motor(PORT5, ratio18_1, true);
 
 
 
@@ -54,13 +55,13 @@ ZERO_TRACKER_ODOM,
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
 
 //Left Motors:
-motor_group(LeftFront,LeftRear),
+motor_group(LeftFront,LeftRear, LeftAux),
 
 //Right Motors:
-motor_group(RightFront,RightRear),
+motor_group(RightFront,RightRear, RightAux),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT17,
+PORT7,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
@@ -115,7 +116,7 @@ PORT2,
 
 );
 
-int current_auton_selection = 2;
+int current_auton_selection = 3;
 bool auto_started = true;
 bool driver_skills = true;
 
@@ -123,8 +124,6 @@ void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!  
   vexcodeInit();
   default_constants();
-  lift1.setBrake(hold);
-  lift2.setBrake(hold);
   IntakeVacuum.setVelocity(100, percent);
   chassis.set_coordinates(0, 0, 0);
 
@@ -220,20 +219,40 @@ void autonomous(void) {
         break;
       case 3:
         Brain.Screen.print("Dummy plug system engaged: Running: Skills Auton, Shooting Left");
-        //HangingArm.spinFor(1315,degrees,false);
-        chassis.drive_distance(5);
+        chassis.drive_distance(20);
+        chassis.turn_to_angle(70);
+        chassis.drive_distance(-15);
+        Cata.setVelocity(60,pct);
+        Cata.spinFor(37,seconds);
+        chassis.set_coordinates(-14, 14.9, 70);
+        chassis.turn_to_angle(110);
+        chassis.drive_distance(24);
+        chassis.turn_to_angle(90);
+        chassis.drive_distance(70);
+        chassis.turn_to_angle(0);
+        chassis.drive_distance(20);
         chassis.turn_to_angle(-45);
-        chassis.drive_distance(7);
-        chassis.turn_to_angle(35);
-        chassis.drive_distance(-10);
-        chassis.turn_to_angle(35);
+        chassis.drive_distance(23);
+        chassis.turn_to_angle(0);
+        chassis.drive_distance(20);
+        chassis.turn_to_angle(90);
+        chassis.drive_distance(33);
+        chassis.drive_distance(-33);
+        chassis.turn_to_angle(0);
+        chassis.drive_distance(10);
+        chassis.turn_to_angle(90);
+        chassis.drive_distance(33);
+        chassis.drive_distance(-33);
+        chassis.turn_to_angle(0);
+        chassis.drive_distance(10);
+        chassis.turn_to_angle(90);
+        chassis.drive_distance(33);
+        chassis.drive_distance(-33);
         //LeftCata.setVelocity(55, percent);
         //ightCata.setVelocity(55, percent);
         //LeftCata.spinFor(25100,degrees,false);
         //RightCata.spinFor(25100,degrees,false);
-        wait(35,sec);
         Brain.Screen.print("Dummy plug system disengaged.");
-        //HangingArm.spinFor(1315,degrees,false);
         break;
     }
 
@@ -349,23 +368,9 @@ void standardControl_1(){
     reverse_drive();
     wait(200,msec);
   }
-
-  if (Controller1.ButtonUp.pressing() == true){
-    lift1.spinTo(770,degrees,false);
-    lift2.spinTo(770,degrees,false);
-  } else if (Controller1.ButtonDown.pressing() == true){
-    lift1.spinTo(0,degrees,false);
-    lift2.spinTo(0,degrees,false);
-  } else {
-    lift1.stop(hold);
-    lift2.stop(hold);
-  }
-  //End Controller1 Scheme
-
 }
 
 void usercontrol(void) {
-  //Competition.autonomous(autonomous);
   while(1){standardControl_1();}
 }
 
