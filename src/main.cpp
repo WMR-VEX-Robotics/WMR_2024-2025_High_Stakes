@@ -18,18 +18,18 @@ brain Brain;
 
 // define your global instances of motors and other devices here
 // motors
-/*motor tlMotor18 = motor(PORT18, ratio6_1, true);
+motor tlMotor17 = motor(PORT18, ratio6_1, true);
 motor mlMotor19 = motor(PORT19, ratio6_1, true);
 motor blMotor20 = motor(PORT20, ratio6_1, true);
 motor trMotor13 = motor(PORT13, ratio6_1, false);
 motor mrMotor12 = motor(PORT12, ratio6_1, false);
-motor brMotor11 = motor(PORT11, ratio6_1, false);*/
-motor tlMotor18 = motor(PORT18, ratio18_1, true);
+motor brMotor11 = motor(PORT11, ratio6_1, false);
+/*motor tlMotor17 = motor(PORT17, ratio18_1, true);
 motor mlMotor19 = motor(PORT19, ratio18_1, true);
 motor blMotor20 = motor(PORT20, ratio18_1, true);
 motor trMotor13 = motor(PORT13, ratio18_1, false);
 motor mrMotor12 = motor(PORT12, ratio18_1, false);
-motor brMotor11 = motor(PORT11, ratio18_1, false);
+motor brMotor11 = motor(PORT11, ratio18_1, false);*/
 
 motor catapaultMotor1 = motor(PORT1, ratio18_1, true);
 motor intakeMotor2 = motor(PORT2, ratio18_1, true);
@@ -257,20 +257,6 @@ void autonSelect_buttons() {
                 printf("YPress %d\n", Y);
             }
         }
-        else if (Brain.Screen.pressing()){
-
-            X = Brain.Screen.xPosition();//X pos of press
-            Y = Brain.Screen.yPosition();// Y pos of press
-
-            //Checks if press is within boundaries of rectangle
-            if ((X >= det_Positionon_screen('X', width, originX, 0) && X <= det_Positionon_screen('X', width, originX, 0)+width) && (Y >= det_Positionon_screen('Y', height, originY, 0) && Y <= det_Positionon_screen('Y', height, originY, 0))){
-                Brain.Screen.clearScreen();
-                type = 4;
-                unselected = false;
-                printf("XPress %d\n", X);
-                printf("YPress %d\n", Y);
-            }
-        }
     }
 }
 
@@ -303,7 +289,7 @@ ZERO_TRACKER_ODOM,
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
 
 //Left Motors:
-motor_group(tlMotor18, mlMotor19, blMotor20),
+motor_group(tlMotor17, mlMotor19, blMotor20),
 
 //Right Motors:
 motor_group(trMotor13, mrMotor12, brMotor11),
@@ -384,7 +370,7 @@ void allowforskillsCata() {
 
 void motorsHalt(){
   // stop the motor with implicit type brake
-  tlMotor18.stop(brake);
+  tlMotor17.stop(brake);
   blMotor20.stop(brake);
   trMotor13.stop(brake);
   brMotor11.stop(brake);
@@ -402,7 +388,7 @@ void motorsHalt(){
 
 void setdtBrakemode(brakeType mode){
   // change brake mode
-  tlMotor18.setStopping(mode);
+  tlMotor17.setStopping(mode);
   blMotor20.setStopping(mode);
   trMotor13.setStopping(mode);
   brMotor11.setStopping(mode);
@@ -432,7 +418,7 @@ void spincataPerc(double P, bool VorP) {
 bool current_forwards = true;
 
 void motorReverse() {
-  //motor tlMotor18 = motor(PORT12, ratio6_1, false);
+  //motor tlMotor17 = motor(PORT12, ratio6_1, false);
   //motor blMotor20 = motor(PORT11, ratio6_1, false);
   //motor trMotor2 = motor(PORT2, ratio6_1, true);
   //motor brMotor11 = motor(PORT4, ratio6_1, true);
@@ -470,7 +456,7 @@ void pre_auton(void) {
   Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
   //mode is reset at the end of autonomous
 
-  tlMotor18.setVelocity(96, percent);
+  tlMotor17.setVelocity(96, percent);
   blMotor20.setVelocity(96, percent);
   trMotor13.setVelocity(96, percent);
   brMotor11.setVelocity(96, percent);
@@ -759,14 +745,14 @@ void autonomous(void) {
 void drive_User(){
   // tank drive user control left side on left right side on right
   if (current_forwards == true) {
-    tlMotor18.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    tlMotor17.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     blMotor20.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     trMotor13.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     brMotor11.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
   } else {
-    tlMotor18.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    tlMotor17.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     blMotor20.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     trMotor13.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
@@ -849,14 +835,14 @@ void reporter() {
 void diagdrive_User(){
   // tank drive user control left side on left right side on right
   if (current_forwards == true) {
-    tlMotor18.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    tlMotor17.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     blMotor20.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     trMotor13.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     brMotor11.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
   } else {
-    tlMotor18.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    tlMotor17.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     blMotor20.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     trMotor13.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
@@ -925,8 +911,7 @@ int main() {
   pre_auton();
   while (type == 0) {
     diagdrive_User();
-  } 
-  if (type == 4) {
-
   }
+  autonType(type);
+
 }
