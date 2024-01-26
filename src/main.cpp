@@ -165,6 +165,8 @@ void autonSelect_buttons() {
     Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, purple);
     Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
     Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('Y', 0, originY, 0), width, height, yellow);
+    Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', height, originY, 0), width, height, cyan);
+    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 0), det_Positionon_screen('Y', height, originY, 0), width, height, cyan);   
     Brain.Screen.setPenColor(black);
     Brain.Screen.setCursor(4,5);
     Brain.Screen.setFillColor(white);
@@ -181,6 +183,11 @@ void autonSelect_buttons() {
     Brain.Screen.setCursor(6, 1);
     Brain.Screen.setPenColor(white);
     Brain.Screen.setFillColor(black);
+      /*Brain.Screen.print("Entering Auton Diagnostic Mode");
+      for (int i = 0; i <= 10; i++) {
+        wait(200, msec);
+        Brain.Screen.print(".");
+      }*/
     
     while(unselected == true){
         if (Brain.Screen.pressing()){
@@ -231,6 +238,34 @@ void autonSelect_buttons() {
             if ((X >= det_Positionon_screen('X', width, originX, 2) && X <= det_Positionon_screen('X', width, originX, 2)+width) && (Y >= originY && Y <= det_Positionon_screen('Y', height, originY, 0))){
                 Brain.Screen.clearScreen();
                 type = 3;
+                unselected = false;
+                printf("XPress %d\n", X);
+                printf("YPress %d\n", Y);
+            }
+        }
+        else if (Brain.Screen.pressing()){
+
+            X = Brain.Screen.xPosition();//X pos of press
+            Y = Brain.Screen.yPosition();// Y pos of press
+
+            //Checks if press is within boundaries of rectangle
+            if ((X >= det_Positionon_screen('X', 0, originX, 0) && X <= det_Positionon_screen('X', 0, originX, 0)+width) && (Y >= det_Positionon_screen('Y', height, originY, 0) && Y <= det_Positionon_screen('Y', height, originY, 0))){
+                Brain.Screen.clearScreen();
+                type = 3;
+                unselected = false;
+                printf("XPress %d\n", X);
+                printf("YPress %d\n", Y);
+            }
+        }
+        else if (Brain.Screen.pressing()){
+
+            X = Brain.Screen.xPosition();//X pos of press
+            Y = Brain.Screen.yPosition();// Y pos of press
+
+            //Checks if press is within boundaries of rectangle
+            if ((X >= det_Positionon_screen('X', width, originX, 0) && X <= det_Positionon_screen('X', width, originX, 0)+width) && (Y >= det_Positionon_screen('Y', height, originY, 0) && Y <= det_Positionon_screen('Y', height, originY, 0))){
+                Brain.Screen.clearScreen();
+                type = 4;
                 unselected = false;
                 printf("XPress %d\n", X);
                 printf("YPress %d\n", Y);
@@ -458,7 +493,7 @@ void pre_auton(void) {
   Brain.Screen.clearScreen();
 
   autonSelect_buttons();
-  if (type != 0) {
+  if (type != 0 && type != 4) {
     color_select();
   }
 
@@ -694,6 +729,7 @@ void autonType(int autonSelect) {
       Brain.Screen.print("Competition Auton Loaded. L");
       competitionAutonL();
       break;
+
   }
 }
 
@@ -720,7 +756,7 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void tankDrive_user(){
+void drive_User(){
   // tank drive user control left side on left right side on right
   if (current_forwards == true) {
     tlMotor18.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
@@ -745,7 +781,7 @@ void tankDrive_user(){
 
   // spin catapault
   if (mainController.ButtonL1.pressing() == true){
-    spincataPerc(75.0, false);
+    spincataPerc(73.0, false);
   } else {
     catapaultMotor1.stop(coast);
   }
@@ -766,9 +802,9 @@ void tankDrive_user(){
   }
 
   if (mainController.ButtonUp.pressing() != false) {
-    armElevator3.spin(forward, percentasVolt(75.0), volt);
+    armElevator3.spin(reverse, 60, pct);
   } else if (mainController.ButtonDown.pressing() != false) {
-    armElevator3.spin(reverse, percentasVolt(75.0), volt);
+    armElevator3.spin(forward, 60, pct);
   } else {
     armElevator3.stop(hold);
   }
@@ -776,17 +812,109 @@ void tankDrive_user(){
 
 }
 
+void reporter() {
+  //while (true) {
+    int X = mainController.Axis1.value();
+    int Y = mainController.Axis3.value();
+    printf("Turning @ %d\n", X);
+    printf("Driving @ %d\n", Y);
+    if (mainController.ButtonB.pressing() == true) {
+      printf("B Pressed \n");
+    }
+    if (mainController.ButtonX.pressing() == true) {
+      printf("X Pressed \n");
+    }
+    if (mainController.ButtonR1.pressing() == true) {
+      printf("R1 Pressed \n");
+    }
+    if (mainController.ButtonR2.pressing() == true) {
+      printf("R2 Pressed \n");
+    }
+    if (mainController.ButtonL1.pressing() == true) {
+      printf("L1 Pressed \n");
+    }
+    if (mainController.ButtonL2.pressing() == true) {
+      printf("L2 Pressed \n");
+    }    
+    if (mainController.ButtonUp.pressing() == true) {
+      printf("Up Pressed \n");
+    }    
+    if (mainController.ButtonDown.pressing() == true) {
+      printf("Down Pressed \n");
+    }
+    vex::task::sleep(250);
+  //}
+}
+
+void diagdrive_User(){
+  // tank drive user control left side on left right side on right
+  if (current_forwards == true) {
+    tlMotor18.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    blMotor20.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    trMotor13.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    brMotor11.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+  } else {
+    tlMotor18.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    blMotor20.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    trMotor13.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    brMotor11.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+  }
+
+  // brake 
+  if (mainController.ButtonB.pressing() == true) {
+    motorsHalt();
+  }
+
+  // spin catapault
+  if (mainController.ButtonL1.pressing() == true){
+    spincataPerc(73.0, false);
+  } else {
+    catapaultMotor1.stop(coast);
+  }
+
+  //deploy wings
+  mainController.ButtonL2.pressed(wingsDeployRetract);
+
+
+  mainController.ButtonX.pressed(motorReverse);
+
+  // for intake
+  if (mainController.ButtonR2.pressing() == true ) {
+    intakeMotor2.spin(forward, 12.5, volt);
+  } else if (mainController.ButtonR1.pressing() == true) {
+    intakeMotor2.spin(reverse, 12.5, volt);
+  } else {
+    intakeMotor2.stop(coast);
+  }
+
+  if (mainController.ButtonUp.pressing() != false) {
+    armElevator3.spin(reverse, 60, pct);
+  } else if (mainController.ButtonDown.pressing() != false) {
+    armElevator3.spin(forward, 60, pct);
+  } else {
+    armElevator3.stop(hold);
+  }
+
+  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  task1.detach(); // "allows" for execution from handle
+}
+
 void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
   while (1) {
-   tankDrive_user();
+   drive_User();
   }
 }
 
 //
 // Main will set up the competition functions and callbacks.
 //
+
 int main() {
   //wingsDeployRetract();
   // Set up callbacks for autonomous and driver control periods.
@@ -795,5 +923,10 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
-  autonType(type);  
+  while (type == 0) {
+    diagdrive_User();
+  } 
+  if (type == 4) {
+
+  }
 }
