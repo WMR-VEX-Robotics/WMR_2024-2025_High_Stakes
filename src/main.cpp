@@ -18,7 +18,7 @@ brain Brain;
 
 // define your global instances of motors and other devices here
 // motors
-motor tlMotor17 = motor(PORT18, ratio6_1, true);
+motor tlMotor17 = motor(PORT17, ratio6_1, true);
 motor mlMotor19 = motor(PORT19, ratio6_1, true);
 motor blMotor20 = motor(PORT20, ratio6_1, true);
 motor trMotor13 = motor(PORT16, ratio6_1, false);
