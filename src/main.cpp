@@ -21,9 +21,9 @@ brain Brain;
 motor tlMotor17 = motor(PORT18, ratio6_1, true);
 motor mlMotor19 = motor(PORT19, ratio6_1, true);
 motor blMotor20 = motor(PORT20, ratio6_1, true);
-motor trMotor13 = motor(PORT13, ratio6_1, false);
-motor mrMotor12 = motor(PORT12, ratio6_1, false);
-motor brMotor11 = motor(PORT11, ratio6_1, false);
+motor trMotor13 = motor(PORT16, ratio6_1, false);
+motor mrMotor12 = motor(PORT5, ratio6_1, false);
+motor brMotor11 = motor(PORT14, ratio6_1, false);
 /*motor tlMotor17 = motor(PORT17, ratio18_1, true);
 motor mlMotor19 = motor(PORT19, ratio18_1, true);
 motor blMotor20 = motor(PORT20, ratio18_1, true);
@@ -508,15 +508,19 @@ void competitionAutonL(){
 
   chassis.turn_to_angle(-56);
   
-  chassis.drive_distance(33);
+  chassis.drive_distance(30);
 
   chassis.turn_to_angle(0);
 
-  chassis.drive_distance(6);
-
   intakeMotor2.spin(reverse, 12.7, volt);
 
-  chassis.drive_distance(-6);
+  chassis.drive_distance(-2);
+
+  chassis.turn_to_angle(180);
+
+  chassis.drive_distance(-8);
+
+  chassis.drive_distance(6);
 
   chassis.drive_distance(4);
 
