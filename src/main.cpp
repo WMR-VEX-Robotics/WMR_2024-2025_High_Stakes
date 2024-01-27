@@ -39,6 +39,7 @@ controller mainController = controller(primary);
 inertial inertialSensor8 = inertial(PORT8);
 //encoder enc1 = encoder(Brain.ThreeWirePort.A);
 //rotation rot1 = rotation(PORT8, true);
+pneumatics solonoidF = pneumatics(Brain.ThreeWirePort.F);
 pneumatics solonoidH = pneumatics(Brain.ThreeWirePort.H);
 pneumatics solonoidG = pneumatics(Brain.ThreeWirePort.G);
 
@@ -188,7 +189,7 @@ void autonSelect_buttons() {
         wait(200, msec);
         Brain.Screen.print(".");
       }*/
-    
+    armElevator3.stop(coast);
     while(unselected == true){
         if (Brain.Screen.pressing()){
 
@@ -422,12 +423,12 @@ void motorReverse() {
   //motor blMotor20 = motor(PORT11, ratio6_1, false);
   //motor trMotor2 = motor(PORT2, ratio6_1, true);
   //motor brMotor11 = motor(PORT4, ratio6_1, true);
-  /*if (current_forwards == false) {
+  if (current_forwards == false) {
     current_forwards = true;
   } else {
     current_forwards = false;
-  }*/
-  current_forwards = !current_forwards;
+  }
+  //current_forwards = !current_forwards;
 }
 
 void pre_auton(void) {
@@ -455,11 +456,6 @@ void pre_auton(void) {
   setdtBrakemode(brake);
   Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
   //mode is reset at the end of autonomous
-
-  tlMotor17.setVelocity(96, percent);
-  blMotor20.setVelocity(96, percent);
-  trMotor13.setVelocity(96, percent);
-  brMotor11.setVelocity(96, percent);
   Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // to prevent catapault motor strain we will set the motors to coast
@@ -469,6 +465,7 @@ void pre_auton(void) {
   // ensure that the first solonoid is registering as closed visually confirming this fact
   solonoidH.set(false);
   solonoidH.close();
+  solonoidF.close();
   Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 4), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // ensure that the second solonoid is registering as closed visually confirming this fact
@@ -604,6 +601,14 @@ void wingsDeployRetract() {
   } else {
     solonoidH.open(); 
     solonoidG.open();
+  }
+}
+
+void endgame() {
+  if (solonoidF.value() == true) {
+    solonoidF.close();
+  } else {
+    solonoidF.open();
   }
 }
 
@@ -778,6 +783,8 @@ void drive_User(){
 
   mainController.ButtonX.pressed(motorReverse);
 
+  mainController.ButtonA.pressed(endgame);
+
   // for intake
   if (mainController.ButtonR2.pressing() == true ) {
     intakeMotor2.spin(forward, 12.5, volt);
@@ -794,8 +801,6 @@ void drive_User(){
   } else {
     armElevator3.stop(hold);
   }
-
-
 }
 
 void reporter() {
@@ -868,6 +873,9 @@ void diagdrive_User(){
 
   mainController.ButtonX.pressed(motorReverse);
 
+  mainController.ButtonA.pressed(endgame);
+
+
   // for intake
   if (mainController.ButtonR2.pressing() == true ) {
     intakeMotor2.spin(forward, 12.5, volt);
@@ -900,6 +908,13 @@ void usercontrol(void) {
 //
 // Main will set up the competition functions and callbacks.
 //
+void assess() {
+    while (type == 0) {
+    diagdrive_User();
+  }
+  wait(2, sec);
+  autonType(type);
+}
 
 int main() {
   //wingsDeployRetract();
@@ -909,9 +924,6 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
-  while (type == 0) {
-    diagdrive_User();
-  }
-  autonType(type);
+  assess();
 
 }
