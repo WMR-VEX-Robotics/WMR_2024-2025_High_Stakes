@@ -116,7 +116,7 @@ PORT2,
 
 );
 
-int current_auton_selection = 1;
+int current_auton_selection = 0;
 bool auto_started = true;
 bool driver_skills = true;
 
@@ -173,9 +173,29 @@ void autonomous(void) {
       case 0:
         default_constants();
         Brain.Screen.print("Auton Running: Qual Match, Left Side");
+        default_constants();
+        LeftFront.setVelocity(100, percent);
+        LeftRear.setVelocity(100, percent);
+        RightFront.setVelocity(100, percent);
+        RightRear.setVelocity(100, percent);
+        Brain.Screen.print("Auton Running: Qual Match, Right Side");
+        chassis.right_swing_to_angle(32);
+        chassis.drive_distance(-40);
+        chassis.left_swing_to_angle(32);
+        chassis.drive_distance(15);
+        chassis.turn_to_angle(-167);
+        chassis.drive_distance(-15);
         wall.open();
-        wait(2,seconds);
+        wait(1,seconds);
+        chassis.turn_to_angle(-90);
         wall.close();
+        chassis.turn_to_angle(-120);
+        chassis.drive_distance(-20);
+        chassis.turn_to_angle(-90);
+        chassis.drive_distance(-23.5);
+        wall.open();
+        wait(0.5,seconds);
+        chassis.left_swing_to_angle(-130);
         break;
       case 1:
         default_constants();
