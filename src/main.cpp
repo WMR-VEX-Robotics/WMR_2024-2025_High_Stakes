@@ -498,33 +498,37 @@ void competitionAutonL(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  armElevator3.spin(reverse, 12.7, volt);
-  wait(1, sec);
+  armElevator3.spin(forward, 12.7, volt);
+  wait(500, msec);
   armElevator3.stop(coast);
 
-  intakeMotor2.spin(reverse, 12.7, volt);
+  intakeMotor2.spin(forward, 12.7, volt);
   
-  chassis.drive_distance(8);
+  chassis.drive_distance(4);
 
-  chassis.turn_to_angle(-45);
+  chassis.turn_to_angle(-56);
   
-  chassis.drive_distance(28);
+  chassis.drive_distance(33);
 
   chassis.turn_to_angle(0);
 
-  chassis.drive_distance(4);
+  chassis.drive_distance(6);
 
-  intakeMotor2.spin(forward, 12.7, volt);
-
-  chassis.drive_distance(4);
+  intakeMotor2.spin(reverse, 12.7, volt);
 
   chassis.drive_distance(-6);
 
-  chassis.turn_to_angle(180);
+  chassis.drive_distance(4);
+
+  chassis.drive_distance(-4);
+
+  chassis.turn_to_angle(270);
 
   chassis.drive_distance(-10);
 
-  chassis.drive_distance(3);
+  chassis.turn_to_angle(225);
+
+  chassis.drive_distance(18);
 
   chassis.drive_distance(-6);
 
@@ -562,28 +566,30 @@ void competitionAutonR(){
   chassis.set_coordinates(0,0,0);
 
   armElevator3.spin(reverse, 12.7, volt);
-  wait(1, sec);
+  wait(500, msec);
   armElevator3.stop(coast);
 
-  intakeMotor2.spin(reverse, 12.7, volt);
+  intakeMotor2.spin(forward, 12.7, volt);
   
   chassis.drive_distance(8);
 
-  chassis.turn_to_angle(45);
+  chassis.turn_to_angle(56);
   
-  chassis.drive_distance(28);
+  chassis.drive_distance(33);
 
   chassis.turn_to_angle(0);
 
-  chassis.drive_distance(4);
+  chassis.drive_distance(6);
 
-  intakeMotor2.spin(forward, 12.7, volt);
-
-  chassis.drive_distance(4);
+  intakeMotor2.spin(reverse, 12.7, volt);
 
   chassis.drive_distance(-6);
 
-  chassis.turn_to_angle(180);
+  chassis.drive_distance(4);
+
+  chassis.drive_distance(-4);
+
+  chassis.turn_to_angle(90);
 
   chassis.drive_distance(-10);
 
@@ -958,6 +964,6 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
-  //assess();
-  autonType(type);
+  assess();
+  //autonType(type);
 }
