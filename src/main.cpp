@@ -116,7 +116,7 @@ PORT2,
 
 );
 
-int current_auton_selection = 3;
+int current_auton_selection = 1;
 bool auto_started = true;
 bool driver_skills = true;
 
@@ -184,19 +184,32 @@ void autonomous(void) {
         RightFront.setVelocity(100, percent);
         RightRear.setVelocity(100, percent);
         Brain.Screen.print("Auton Running: Qual Match, Right Side");
+        chassis.left_swing_to_angle(-32);
+        chassis.drive_distance(-40);
+        chassis.right_swing_to_angle(-32);
+        chassis.drive_distance(15);
+        chassis.turn_to_angle(167);
+        chassis.drive_distance(-15);
         wall.open();
-        chassis.drive_distance(13);
-        chassis.turn_to_angle(40);
+        wait(1,seconds);
+        chassis.turn_to_angle(90);
         wall.close();
-        IntakeVacuum.spinFor(600,degrees);
-        wait(250,msec);
-        chassis.turn_to_angle(200);
-        chassis.drive_distance(-50);
-        chassis.drive_distance(6);
-        chassis.drive_distance(-50);
+        chassis.turn_to_angle(120);
+        chassis.drive_distance(-20);
+        chassis.turn_to_angle(90);
+        chassis.drive_distance(-23.5);
+        wall.open();
+        wait(0.5,seconds);
+        chassis.right_swing_to_angle(130);
+        //chassis.drive_distance(-12);
+        //chassis.drive_distance(8);
+        //chassis.left_swing_to_angle(-90);
+        //chassis.drive_distance(30);
+        //wall.close();
+        //chassis.drive_distance(30);
         break;
       case 2:
-        Brain.Screen.print("Auton Running: Qual Match, Right Side ");
+        Brain.Screen.print("Auton Running: Qual Match, Right Side Alternate");
         default_constants();
         LeftFront.setVelocity(100, percent);
         LeftRear.setVelocity(100, percent);
@@ -396,7 +409,7 @@ void standardControl_1(){
 
 void usercontrol(void) {
   //current_auton_selection=4;
-  autonomous();
+  //autonomous();
   reversed_controls = false;
   while(1){standardControl_1();}
 }
