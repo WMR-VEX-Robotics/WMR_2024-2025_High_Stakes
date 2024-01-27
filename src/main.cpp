@@ -31,7 +31,7 @@ motor trMotor13 = motor(PORT13, ratio18_1, false);
 motor mrMotor12 = motor(PORT12, ratio18_1, false);
 motor brMotor11 = motor(PORT11, ratio18_1, false);*/
 
-motor catapaultMotor1 = motor(PORT1, ratio18_1, true);
+motor catapaultMotor4 = motor(PORT4, ratio18_1, true);
 motor intakeMotor2 = motor(PORT2, ratio18_1, true);
 motor armElevator3 = motor(PORT3, ratio18_1, true);
 // not motors
@@ -363,7 +363,7 @@ void allowforskillsCata() {
 
     vex::task::sleep(15);
   }
-  catapaultMotor1.stop(coast);
+  catapaultMotor4.stop(coast);
   intakeMotor2.stop(coast);
   chassis.set_coordinates(0,0,0);
   halter = false;
@@ -410,17 +410,17 @@ double percentasVolt(double n) {
 // volt = false percent = true
 void spincataPerc(double P, bool inPercent) {
   if (inPercent) {
-    catapaultMotor1.spin(forward, P, percent);
+    catapaultMotor4.spin(forward, P, percent);
   } else {
-    catapaultMotor1.spin(forward, percentasVolt(P), volt);
+    catapaultMotor4.spin(forward, percentasVolt(P), volt);
   }
 }
 
 void spincataPercrev(double P, bool inPercent) {
   if (inPercent) {
-    catapaultMotor1.spin(reverse, P, percent);
+    catapaultMotor4.spin(reverse, P, percent);
   } else {
-    catapaultMotor1.spin(reverse, percentasVolt(P), volt);
+    catapaultMotor4.spin(reverse, percentasVolt(P), volt);
   }
 }
 
@@ -467,7 +467,7 @@ void pre_auton(void) {
   Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // to prevent catapault motor strain we will set the motors to coast
-  catapaultMotor1.setStopping(coast);
+  catapaultMotor4.setStopping(coast);
   Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 3), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // ensure that the first solonoid is registering as closed visually confirming this fact
@@ -636,18 +636,18 @@ void skillsAuton() {
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  catapaultMotor1.spin(reverse, 12.7, volt);
+  catapaultMotor4.spin(reverse, 12.7, volt);
   
 
   // begin the fun program of skills auton
   chassis.drive_distance(8);
   chassis.turn_to_angle(-45);
   chassis.drive_distance(7);
-  catapaultMotor1.stop(coast);
+  catapaultMotor4.stop(coast);
   chassis.turn_to_angle(45);
   chassis.drive_distance(-12);
   chassis.turn_to_angle(55);
-  catapaultMotor1.stop(brake);
+  catapaultMotor4.stop(brake);
 
   spincataPerc(75.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
   intakeMotor2.spin(reverse, 12.7, volt);
@@ -805,15 +805,15 @@ void drive_User(){
       spincataPerc(100.0, false);
     }
   } else {
-    catapaultMotor1.stop(coast);
+    catapaultMotor4.stop(coast);
   }
 
   /*if (mainController.ButtonRight.pressing() == true && percent25 == true) {
     //spincataPercrev(25.0, false);
-    catapaultMotor1.spin(reverse, 25, percent);
+    catapaultMotor4.spin(reverse, 25, percent);
   } else if (mainController.ButtonRight.pressing() == true && percent25 == false) {
     //spincataPercrev(73.0, false);
-    catapaultMotor1.spin(reverse, 75, percent);
+    catapaultMotor4.spin(reverse, 75, percent);
   }*/
 
   //deploy wings
@@ -904,7 +904,7 @@ void diagdrive_User(){
   if (mainController.ButtonL1.pressing() == true){
     spincataPerc(73.0, false);
   } else {
-    catapaultMotor1.stop(coast);
+    catapaultMotor4.stop(coast);
   }
 
   //deploy wings
