@@ -408,11 +408,19 @@ double percentasVolt(double n) {
 }
 
 // volt = false percent = true
-void spincataPerc(double P, bool VorP) {
-  if (VorP != false) {
+void spincataPerc(double P, bool inPercent) {
+  if (inPercent) {
     catapaultMotor1.spin(forward, P, percent);
   } else {
     catapaultMotor1.spin(forward, percentasVolt(P), volt);
+  }
+}
+
+void spincataPercrev(double P, bool inPercent) {
+  if (inPercent) {
+    catapaultMotor1.spin(reverse, P, percent);
+  } else {
+    catapaultMotor1.spin(reverse, percentasVolt(P), volt);
   }
 }
 
@@ -484,14 +492,15 @@ void pre_auton(void) {
 
 // for competition
 void competitionAutonL(){
+  armElevator3.stop(hold);
 // set operating constant to their default values
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  catapaultMotor1.spin(reverse, 12.7, volt);
-  wait(200, msec);
-  catapaultMotor1.stop(coast);
+  armElevator3.spin(reverse, 12.7, volt);
+  wait(1, sec);
+  armElevator3.stop(coast);
 
   intakeMotor2.spin(reverse, 12.7, volt);
   
@@ -547,13 +556,14 @@ void goofy_auton() {
 // for competition
 void competitionAutonR(){
   // set operating constant to their default values
+  armElevator3.stop(hold);
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  catapaultMotor1.spin(reverse, 12.7, volt);
+  armElevator3.spin(reverse, 12.7, volt);
   wait(1, sec);
-  catapaultMotor1.stop(coast);
+  armElevator3.stop(coast);
 
   intakeMotor2.spin(reverse, 12.7, volt);
   
@@ -746,6 +756,17 @@ void autonomous(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
+bool percent25 = true;
+
+void swapPerc() {
+  if (percent25 != true) {
+    percent25 = true;
+    wait(150, msec);
+  } else {
+    percent25 = false;
+    wait(150, msec); 
+  }
+}
 
 void drive_User(){
   // tank drive user control left side on left right side on right
@@ -772,14 +793,27 @@ void drive_User(){
 
   // spin catapault
   if (mainController.ButtonL1.pressing() == true){
-    spincataPerc(73.0, false);
+    if (percent25 == true){
+    spincataPerc(100.0, false);
+    } else {
+      spincataPerc(100.0, false);
+    }
   } else {
     catapaultMotor1.stop(coast);
   }
 
+  /*if (mainController.ButtonRight.pressing() == true && percent25 == true) {
+    //spincataPercrev(25.0, false);
+    catapaultMotor1.spin(reverse, 25, percent);
+  } else if (mainController.ButtonRight.pressing() == true && percent25 == false) {
+    //spincataPercrev(73.0, false);
+    catapaultMotor1.spin(reverse, 75, percent);
+  }*/
+
   //deploy wings
   mainController.ButtonL2.pressed(wingsDeployRetract);
 
+  mainController.ButtonY.pressed(swapPerc);
 
   mainController.ButtonX.pressed(motorReverse);
 
@@ -924,6 +958,6 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
-  assess();
-
+  //assess();
+  autonType(type);
 }
