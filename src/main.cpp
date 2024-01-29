@@ -31,18 +31,19 @@ motor trMotor13 = motor(PORT13, ratio18_1, false);
 motor mrMotor12 = motor(PORT12, ratio18_1, false);
 motor brMotor11 = motor(PORT11, ratio18_1, false);*/
 
-motor catapaultMotor4 = motor(PORT4, ratio18_1, true);
+motor catapaultMotor4 = motor(PORT1, ratio18_1, true);
 motor intakeMotor2 = motor(PORT2, ratio18_1, true);
-motor armElevator3 = motor(PORT3, ratio18_1, true);
+motor armElevator3 = motor(PORT5, ratio18_1, true);
 // not motors
 controller mainController = controller(primary);
-inertial inertialSensor8 = inertial(PORT8);
+inertial inertialSensor8 = inertial(PORT9);
 //encoder enc1 = encoder(Brain.ThreeWirePort.A);
 //rotation rot1 = rotation(PORT8, true);
 pneumatics solonoidF = pneumatics(Brain.ThreeWirePort.F);
 pneumatics solonoidH = pneumatics(Brain.ThreeWirePort.H);
 pneumatics solonoidG = pneumatics(Brain.ThreeWirePort.G);
 
+// select color brain goes to on auton completion, and autonomous program to be runned if any
 int type = -1;
 int team = -1;
 
@@ -296,7 +297,7 @@ motor_group(tlMotor17, mlMotor19, blMotor20),
 motor_group(trMotor13, mrMotor12, brMotor11),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT8,
+PORT9,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
@@ -521,16 +522,20 @@ void competitionAutonL(){
   chassis.drive_distance(-2);
 
   chassis.turn_to_angle(180);
+  
+  intakeMotor2.stop(hold);
 
   chassis.drive_distance(-8);
 
   chassis.drive_distance(6);
 
-  chassis.drive_distance(4);
+  chassis.drive_distance(-6);
 
-  chassis.drive_distance(-4);
+  chassis.drive_distance(6);
 
   chassis.turn_to_angle(270);
+
+  wait(5, seconds);
 
   chassis.drive_distance(-10);
  
@@ -587,17 +592,25 @@ void competitionAutonR(){
 
   chassis.turn_to_angle(0);
 
-  chassis.drive_distance(6);
-
   intakeMotor2.spin(reverse, 12.7, volt);
+
+  chassis.drive_distance(-2);
+
+  chassis.turn_to_angle(180);
+
+  intakeMotor2.stop(hold);
+
+  chassis.drive_distance(-8);
+
+  chassis.drive_distance(6);
 
   chassis.drive_distance(-6);
 
-  chassis.drive_distance(4);
-
-  chassis.drive_distance(-4);
+  chassis.drive_distance(6);
 
   chassis.turn_to_angle(90);
+
+  wait(5, seconds);
 
   chassis.drive_distance(-10);
 
@@ -644,11 +657,13 @@ void skillsAuton() {
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  catapaultMotor4.spin(reverse, 12.7, volt);
-  
+  armElevator3.spin(forward, 12.7, volt);
+  wait(500, msec);
+  armElevator3.stop(coast);
+
 
   // begin the fun program of skills auton
-  chassis.drive_distance(8);
+  chassis.drive_distance(6);
   chassis.turn_to_angle(-45);
   chassis.drive_distance(7);
   catapaultMotor4.stop(coast);
@@ -972,6 +987,6 @@ int main() {
 
   // Run the pre-autonomous function.
   pre_auton();
-  //assess();
+  assess();
   //autonType(type);
 }
