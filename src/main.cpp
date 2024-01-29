@@ -372,8 +372,10 @@ void allowforskillsCata() {
 void motorsHalt(){
   // stop the motor with implicit type brake
   tlMotor17.stop(brake);
+  mlMotor19.stop(brake);
   blMotor20.stop(brake);
   trMotor13.stop(brake);
+  mrMotor12.stop(brake);
   brMotor11.stop(brake);
 }
 
@@ -390,8 +392,10 @@ void motorsHalt(){
 void setdtBrakemode(brakeType mode){
   // change brake mode
   tlMotor17.setStopping(mode);
+  mlMotor19.setStopping(mode);
   blMotor20.setStopping(mode);
   trMotor13.setStopping(mode);
+  mrMotor12.setStopping(mode);
   brMotor11.setStopping(mode);
 }
 
@@ -653,7 +657,7 @@ void skillsAuton() {
   chassis.turn_to_angle(55);
   catapaultMotor4.stop(brake);
 
-  spincataPerc(75.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
+  spincataPerc(75.0, true); // spins catapult at a given percent (swapping bool allows for different precisions)
   intakeMotor2.spin(reverse, 12.7, volt);
 
 
@@ -804,7 +808,7 @@ void drive_User(){
   // spin catapault
   if (mainController.ButtonL1.pressing() == true){
     if (percent25 == true){
-    spincataPerc(100.0, false);
+      spincataPerc(100.0, true);
     } else {
       spincataPerc(100.0, false);
     }
