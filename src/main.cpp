@@ -498,7 +498,7 @@ void pre_auton(void) {
 // for competition
 void competitionAutonL(){
   armElevator3.stop(hold);
-// set operating constant to their default values
+  // set operating constant to their default values
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
@@ -556,20 +556,6 @@ void competitionAutonL(){
   set_screen_color(team);
 }
 
-//blegh
-void goofy_auton() {
-  default_constants();
-  // initialize position as (0,0,0)
-    chassis.set_coordinates(0,0,0);
-
-  while (true) {
-    for (int i = 0; i <= 3; i++) {
-      chassis.turn_to_angle(90*i);
-      chassis.drive_distance(100);
-    }
-  }
-}
-
 // for competition
 void competitionAutonR(){
   // set operating constant to their default values
@@ -578,7 +564,7 @@ void competitionAutonR(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  armElevator3.spin(reverse, 12.7, volt);
+  armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
   armElevator3.stop(coast);
 
@@ -658,8 +644,13 @@ void skillsAuton() {
   chassis.set_coordinates(0,0,0);
 
   armElevator3.spin(forward, 12.7, volt);
-  wait(500, msec);
+  wait(250, msec);
   armElevator3.stop(coast);
+
+  armElevator3.setBrake(hold);
+
+  armElevator3.spinFor(reverse, 90, degrees, false);
+  armElevator3.stop(hold);
 
 
   // begin the fun program of skills auton
