@@ -32,8 +32,8 @@ motor mrMotor12 = motor(PORT12, ratio18_1, false);
 motor brMotor11 = motor(PORT11, ratio18_1, false);*/
 
 motor catapaultMotor4 = motor(PORT1, ratio18_1, true);
-motor intakeMotor2 = motor(PORT2, ratio18_1, true);
-motor armElevator3 = motor(PORT5, ratio18_1, true);
+motor intakeMotor2 = motor(PORT4, ratio18_1, true);
+motor armElevator3 = motor(PORT2, ratio18_1, true);
 // not motors
 controller mainController = controller(primary);
 inertial inertialSensor8 = inertial(PORT9);
