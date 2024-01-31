@@ -33,7 +33,7 @@ motor brMotor11 = motor(PORT11, ratio18_1, false);*/
 
 motor catapaultMotor1 = motor(PORT1, ratio18_1, true);
 motor intakeMotor4 = motor(PORT4, ratio18_1, true);
-motor armElevator13 = motor(PORT13, ratio18_1, true);
+motor armElevator13 = motor(PORT2, ratio18_1, false);
 // not motors
 controller mainController = controller(primary);
 inertial inertialSensor8 = inertial(PORT9);
@@ -45,7 +45,7 @@ pneumatics solonoidG = pneumatics(Brain.ThreeWirePort.G);
 
 // select color brain goes to on auton completion, and autonomous program to be runned if any
 int type = -1;
-int team = -1;
+int team = 1;
 
 // generate a position for the position pair grid with error checks use length 0 for calculated origin position
 int det_Positionon_screen(char dimension, int length, int origin, int position_in_Series) {
@@ -488,10 +488,10 @@ void pre_auton(void) {
   wait(25, msec);
   Brain.Screen.clearScreen();
 
-  //autonSelect_buttons();
-  //if (type != 0 && type != 4) {
-    //color_select();
-  //}
+  /*autonSelect_buttons();
+  if (type != 0 && type != 4) {
+    color_select();
+  }*/
 
 }
 
@@ -764,7 +764,7 @@ void autonType(int autonSelect) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType(1);
+  autonType(0);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -975,15 +975,19 @@ void assess() {
 
 int main() {
   //wingsDeployRetract();
+  pre_auton();
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
 
-  // Run the pre-autonomous function.
-  pre_auton();
+  //assess();
+  /*if (type == 0) {
+    usercontrol();
+  } else {
+    autonomous();
+  }*/
   /*while(type == -1) {
     wait(1, msec);
   }*/
-  //assess();
   //autonType(type);
 }
