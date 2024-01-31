@@ -15,15 +15,16 @@ bool reversed_controls = true;
 
 //Motor Devices
 motor LeftFront = motor(PORT18, ratio6_1, true);
-motor LeftRear = motor(PORT19, ratio6_1, true);
-motor LeftAux = motor(PORT20, ratio6_1, true);
-motor RightFront = motor(PORT9, ratio6_1, false);
-motor RightRear = motor(PORT8, ratio6_1, false);
-motor RightAux = motor(PORT6, ratio6_1, false);
+motor LeftRear = motor(PORT20, ratio6_1, true);
+motor LeftAux = motor(PORT19, ratio6_1, true);
+motor RightFront = motor(PORT15, ratio6_1, false);
+motor RightRear = motor(PORT11, ratio6_1, false);
+motor RightAux = motor(PORT12, ratio6_1, false);
 
-motor Cata = motor(PORT17, ratio18_1, false);
-motor IntakeVacuum = motor(PORT5, ratio18_1, true);
+motor Cata = motor(PORT1, ratio6_1, true);
+motor IntakeVacuum = motor(PORT4, ratio18_1, true);
 
+motor twobar = motor(PORT2, ratio18_1, true);
 
 
 /*---------------------------------------------------------------------------*/
@@ -61,7 +62,7 @@ motor_group(LeftFront,LeftRear, LeftAux),
 motor_group(RightFront,RightRear, RightAux),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT7,
+PORT3,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
@@ -116,9 +117,8 @@ PORT2,
 
 );
 
-int current_auton_selection = 0;
+int current_auton_selection = 1;
 bool auto_started = true;
-bool driver_skills = true;
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!  
@@ -126,44 +126,6 @@ void pre_auton(void) {
   default_constants();
   IntakeVacuum.setVelocity(100, percent);
   chassis.set_coordinates(0, 0, 0);
-
-
-  while(auto_started == false){            //Changing the names below will only change their names on the
-    Brain.Screen.clearScreen();            //brain screen for auton selection.
-    switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
-      case 0:
-        Brain.Screen.printAt(50, 50, "Auton Selected: Qual Match, Left Side");
-        break;
-      case 1:
-        Brain.Screen.printAt(50, 50, "Auton Selected: Qual Match, Right Side");
-        break;
-      case 2:
-        Brain.Screen.printAt(50, 50, "Auton Selected: Skills Auton, Shooting Left");
-        break;
-      case 3:
-        Brain.Screen.printAt(50, 50, "Auton Selected: Skills Auton, Shooting Right");
-        break;
-      case 4:
-        Brain.Screen.printAt(50, 50, "Full Test");
-        break;
-      case 5:
-        Brain.Screen.printAt(50, 50, "Odom Test");
-        break;
-      case 6:
-        Brain.Screen.printAt(50, 50, "Tank Odom Test");
-        break;
-      case 7:
-        Brain.Screen.printAt(50, 50, "Holonomic Odom Test");
-        break;
-    }
-    if(Brain.Screen.pressing()){
-      while(Brain.Screen.pressing()) {}
-      current_auton_selection ++;
-    } else if (current_auton_selection == 8){
-      current_auton_selection = 0;
-    }
-    task::sleep(10);
-  }
 }
 
 void autonomous(void) {
@@ -392,6 +354,7 @@ void reverse_drive() {
 
 
 void standardControl_1(){
+  twobar.setBrake(hold);
   //Start Controller1 Scheme
   //Two Stick Arcade Mode
   
@@ -411,6 +374,14 @@ void standardControl_1(){
     Cata.spin(forward, 60, percent);
   } else {
     Cata.stop(hold);
+  }
+
+    if (Controller1.ButtonUp.pressing() == true){
+    twobar.spin(reverse, 50, percent);
+  } else if (Controller1.ButtonDown.pressing() == true) {
+    twobar.spin(forward, 50, percent);
+  } else {
+    twobar.stop(hold);
   }
 
   /*if (Controller1.ButtonL2.pressing() == true){
