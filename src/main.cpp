@@ -22,7 +22,7 @@ motor RightRear = motor(PORT8, ratio6_1, false);
 motor RightAux = motor(PORT6, ratio6_1, false);
 
 motor Cata = motor(PORT17, ratio18_1, false);
-motor IntakeVacuum = motor(PORT5, ratio18_1, true);
+motor IntakeVacuum = motor(PORT12, ratio18_1, false);
 
 
 
@@ -116,7 +116,7 @@ PORT2,
 
 );
 
-int current_auton_selection = 0;
+int current_auton_selection = 5;
 bool auto_started = true;
 bool driver_skills = true;
 
@@ -198,6 +198,7 @@ void autonomous(void) {
         chassis.left_swing_to_angle(-130);
         break;
       case 1:
+        wait(2,seconds);
         default_constants();
         LeftFront.setVelocity(100, percent);
         LeftRear.setVelocity(100, percent);
@@ -291,10 +292,6 @@ void autonomous(void) {
         chassis.drive_distance(33);
         wall.close();
         chassis.drive_distance(-33);
-        //LeftCata.setVelocity(55, percent);
-        //ightCata.setVelocity(55, percent);
-        //LeftCata.spinFor(25100,degrees,false);
-        //RightCata.spinFor(25100,degrees,false);
         Brain.Screen.print("Dummy plug system disengaged.");
         break;
       case 4:
@@ -311,6 +308,49 @@ void autonomous(void) {
         //Cata.setVelocity(60,pct);
         //Cata.spinFor(35,seconds);
         //Brain.Screen.print("Dummy plug system disengaged.");
+        break;
+      case 5:
+        Brain.Screen.print("Dummy plug system engaged: Running: Skills Auton, Shooting Left - Dev");
+        IntakeVacuum.spinFor(1200,degrees,false);
+        chassis.turn_to_angle(-30);
+        chassis.drive_distance(43);
+        chassis.drive_distance(-30);
+        chassis.turn_to_angle(70);
+        chassis.drive_distance(-6.5);
+        chassis.turn_to_angle(70);
+        Cata.setVelocity(60,pct);
+        Cata.spinFor(1,seconds);
+        chassis.set_coordinates(-14, 14.9, 70);
+        chassis.turn_to_angle(110);
+        chassis.drive_distance(13);
+        chassis.turn_to_angle(90);
+        chassis.drive_distance(67);
+        chassis.turn_to_angle(0);
+        chassis.drive_distance(10);
+        chassis.turn_to_angle(-60);
+        chassis.drive_distance(23);
+        //chassis.turn_to_angle(0);
+        //chassis.drive_distance(20);
+        //chassis.turn_to_angle(90);
+        //wall.open();
+        //chassis.drive_distance(33);
+        //wall.close();
+        //chassis.drive_distance(-33);
+        //chassis.turn_to_angle(0);
+        //chassis.drive_distance(10);
+        //chassis.turn_to_angle(90);
+        //wall.open();
+        //chassis.drive_distance(33);
+        //wall.close();
+        //chassis.drive_distance(-33);
+        //chassis.turn_to_angle(0);
+        //chassis.drive_distance(10);
+        //chassis.turn_to_angle(90);
+        //wall.open();
+        //chassis.drive_distance(33);
+        //wall.close();
+        //chassis.drive_distance(-33);
+        Brain.Screen.print("Dummy plug system disengaged.");
         break;
     }
 }
@@ -428,7 +468,7 @@ void standardControl_1(){
 }
 
 void usercontrol(void) {
-  //current_auton_selection=4;
+  //current_auton_selection=1;
   //autonomous();
   reversed_controls = false;
   while(1){standardControl_1();}
