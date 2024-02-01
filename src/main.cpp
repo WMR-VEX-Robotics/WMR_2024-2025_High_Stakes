@@ -33,10 +33,10 @@ motor brMotor11 = motor(PORT11, ratio18_1, false);*/
 
 motor catapaultMotor1 = motor(PORT1, ratio18_1, true);
 motor intakeMotor4 = motor(PORT4, ratio18_1, true);
-motor armElevator13 = motor(PORT2, ratio18_1, false);
+motor armElevator2 = motor(PORT2, ratio18_1, false);
 // not motors
 controller mainController = controller(primary);
-inertial inertialSensor8 = inertial(PORT9);
+inertial inertialSensor9 = inertial(PORT9);
 //encoder enc1 = encoder(Brain.ThreeWirePort.A);
 //rotation rot1 = rotation(PORT8, true);
 pneumatics solonoidF = pneumatics(Brain.ThreeWirePort.F);
@@ -45,7 +45,7 @@ pneumatics solonoidG = pneumatics(Brain.ThreeWirePort.G);
 
 // select color brain goes to on auton completion, and autonomous program to be runned if any
 int type = -1;
-int team = 1;
+int team = -1;
 
 // generate a position for the position pair grid with error checks use length 0 for calculated origin position
 int det_Positionon_screen(char dimension, int length, int origin, int position_in_Series) {
@@ -190,7 +190,7 @@ void autonSelect_buttons() {
         wait(200, msec);
         Brain.Screen.print(".");
       }*/
-    armElevator13.stop(coast);
+    armElevator2.stop(coast);
     while(unselected == true){
         if (Brain.Screen.pressing()){
 
@@ -402,7 +402,7 @@ void setdtBrakemode(brakeType mode){
 
 void ensureCalibration(){
   // MAKE SURE THE INERTIAL SENSOR CALIBRATES
-  if (inertialSensor8.isCalibrating() != false){
+  if (inertialSensor9.isCalibrating() != false){
     wait(200,msec);
   }
 }
@@ -446,15 +446,15 @@ void motorReverse() {
 
 void pre_auton(void) {
 
-  int originX = 10;
-  int originY = 20;
-  int width = 80;
-  int height = 80;
+  //int originX = 10;
+  //int originY = 20;
+  //int width = 80;
+  //int height = 80;
   // purge inertial sensor
-  inertialSensor8.calibrate();
+  inertialSensor9.calibrate();
   // ensure the inertial sensor is done calibrating before continuing on
   ensureCalibration();
-  Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
+  //Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // purge encoder(s) rotation value
   //enc1.resetRotation();
@@ -467,24 +467,24 @@ void pre_auton(void) {
 
   // set brakes to the defined mode in the case of autonomous function it should be brake
   setdtBrakemode(brake);
-  Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
+  //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
   //mode is reset at the end of autonomous
-  Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
+  //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // to prevent catapault motor strain we will set the motors to coast
   catapaultMotor1.setStopping(coast);
-  Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 3), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
+  //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 3), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // ensure that the first solonoid is registering as closed visually confirming this fact
   solonoidH.set(false);
   solonoidH.close();
   solonoidF.close();
-  Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 4), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
+  //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 4), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // ensure that the second solonoid is registering as closed visually confirming this fact
   solonoidG.set(false);
   solonoidG.close();
-  Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 5), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
+  //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 5), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
   wait(25, msec);
   Brain.Screen.clearScreen();
 
@@ -497,15 +497,15 @@ void pre_auton(void) {
 
 // for competition
 void competitionAutonL(){
-  armElevator13.stop(hold);
+  armElevator2.stop(hold);
   // set operating constant to their default values
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  armElevator13.spin(forward, 12.7, volt);
+  armElevator2.spin(forward, 12.7, volt);
   wait(500, msec);
-  armElevator13.stop(coast);
+  armElevator2.stop(coast);
 
   intakeMotor4.spin(forward, 12.7, volt);
   
@@ -559,14 +559,14 @@ void competitionAutonL(){
 // for competition
 void competitionAutonR(){
   // set operating constant to their default values
-  armElevator13.stop(hold);
+  armElevator2.stop(hold);
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  armElevator13.spin(forward, 12.7, volt);
+  armElevator2.spin(forward, 12.7, volt);
   wait(500, msec);
-  armElevator13.stop(coast);
+  armElevator2.stop(coast);
 
   intakeMotor4.spin(forward, 12.7, volt);
   
@@ -643,14 +643,14 @@ void skillsAuton() {
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  armElevator13.spin(reverse, 12.7, volt);
-  wait(250, msec);
-  armElevator13.stop(coast);
+  armElevator2.spin(forward, 12.7, volt);
+  wait(500, msec);
+  armElevator2.stop(coast);
 
-  armElevator13.setBrake(hold);
+  armElevator2.setBrake(hold);
 
-  armElevator13.spinFor(reverse, 90, degrees, false);
-  armElevator13.stop(hold);
+  armElevator2.spinFor(reverse, 90, degrees, false);
+  armElevator2.stop(hold);
 
 
   // begin the fun program of skills auton
@@ -764,7 +764,7 @@ void autonType(int autonSelect) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType(0);
+  autonType(type);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -849,11 +849,11 @@ void drive_User(){
   }
 
   if (mainController.ButtonUp.pressing() != false) {
-    armElevator13.spin(reverse, 60, pct);
+    armElevator2.spin(reverse, 60, pct);
   } else if (mainController.ButtonDown.pressing() != false) {
-    armElevator13.spin(forward, 60, pct);
+    armElevator2.spin(forward, 60, pct);
   } else {
-    armElevator13.stop(hold);
+    armElevator2.stop(hold);
   }
 }
 
@@ -940,11 +940,11 @@ void diagdrive_User(){
   }
 
   if (mainController.ButtonUp.pressing() != false) {
-    armElevator13.spin(reverse, 60, pct);
+    armElevator2.spin(reverse, 60, pct);
   } else if (mainController.ButtonDown.pressing() != false) {
-    armElevator13.spin(forward, 60, pct);
+    armElevator2.spin(forward, 60, pct);
   } else {
-    armElevator13.stop(hold);
+    armElevator2.stop(hold);
   }
 
   thread task1(allowforskillsCata); // creates timer thread for catapult in skills
