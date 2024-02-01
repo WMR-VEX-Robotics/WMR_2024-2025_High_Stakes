@@ -21,22 +21,22 @@ brain Brain;
 motor tlMotor18 = motor(PORT18, ratio6_1, true);
 motor mlMotor19 = motor(PORT19, ratio6_1, true);
 motor blMotor20 = motor(PORT20, ratio6_1, true);
-motor trMotor15 = motor(PORT15, ratio6_1, false);
+motor trMotor13 = motor(PORT13, ratio6_1, false);
 motor mrMotor12 = motor(PORT12, ratio6_1, false);
 motor brMotor11 = motor(PORT11, ratio6_1, false);
 /*motor tlMotor18 = motor(PORT17, ratio18_1, true);
 motor mlMotor19 = motor(PORT19, ratio18_1, true);
 motor blMotor20 = motor(PORT20, ratio18_1, true);
-motor trMotor15 = motor(PORT13, ratio18_1, false);
+motor trMotor13 = motor(PORT13, ratio18_1, false);
 motor mrMotor12 = motor(PORT12, ratio18_1, false);
 motor brMotor11 = motor(PORT11, ratio18_1, false);*/
 
 motor catapaultMotor1 = motor(PORT1, ratio18_1, true);
-motor intakeMotor4 = motor(PORT4, ratio18_1, true);
-motor armElevator2 = motor(PORT2, ratio18_1, false);
+motor intakeMotor2 = motor(PORT2, ratio18_1, true);
+motor armElevator3 = motor(PORT3, ratio18_1, false);
 // not motors
 controller mainController = controller(primary);
-inertial inertialSensor9 = inertial(PORT5);
+inertial inertialSensor5 = inertial(PORT5);
 //encoder enc1 = encoder(Brain.ThreeWirePort.A);
 //rotation rot1 = rotation(PORT8, true);
 pneumatics solonoidF = pneumatics(Brain.ThreeWirePort.F);
@@ -190,7 +190,7 @@ void autonSelect_buttons() {
         wait(200, msec);
         Brain.Screen.print(".");
       }*/
-    armElevator2.stop(coast);
+    armElevator3.stop(coast);
     while(unselected == true){
         if (Brain.Screen.pressing()){
 
@@ -294,7 +294,7 @@ ZERO_TRACKER_ODOM,
 motor_group(tlMotor18, mlMotor19, blMotor20),
 
 //Right Motors:
-motor_group(trMotor15, mrMotor12, brMotor11),
+motor_group(trMotor13, mrMotor12, brMotor11),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
 PORT5,
@@ -365,7 +365,7 @@ void allowforskillsCata() {
     vex::task::sleep(15);
   }
   catapaultMotor1.stop(coast);
-  intakeMotor4.stop(coast);
+  intakeMotor2.stop(coast);
   chassis.set_coordinates(0,0,0);
   halter = false;
 }
@@ -375,7 +375,7 @@ void motorsHalt(){
   tlMotor18.stop(brake);
   mlMotor19.stop(brake);
   blMotor20.stop(brake);
-  trMotor15.stop(brake);
+  trMotor13.stop(brake);
   mrMotor12.stop(brake);
   brMotor11.stop(brake);
 }
@@ -395,14 +395,14 @@ void setdtBrakemode(brakeType mode){
   tlMotor18.setStopping(mode);
   mlMotor19.setStopping(mode);
   blMotor20.setStopping(mode);
-  trMotor15.setStopping(mode);
+  trMotor13.setStopping(mode);
   mrMotor12.setStopping(mode);
   brMotor11.setStopping(mode);
 }
 
 void ensureCalibration(){
   // MAKE SURE THE INERTIAL SENSOR CALIBRATES
-  if (inertialSensor9.isCalibrating() != false){
+  if (inertialSensor5.isCalibrating() != false){
     wait(200,msec);
   }
 }
@@ -451,7 +451,7 @@ void pre_auton(void) {
   //int width = 80;
   //int height = 80;
   // purge inertial sensor
-  inertialSensor9.calibrate();
+  inertialSensor5.calibrate();
   // ensure the inertial sensor is done calibrating before continuing on
   ensureCalibration();
   //Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
@@ -488,26 +488,26 @@ void pre_auton(void) {
   wait(25, msec);
   Brain.Screen.clearScreen();
 
-  /*autonSelect_buttons();
+  autonSelect_buttons();
   if (type != 0 && type != 4) {
     color_select();
-  }*/
+  }
 
 }
 
 // for competition
 void competitionAutonL(){
-  armElevator2.stop(hold);
+  armElevator3.stop(hold);
   // set operating constant to their default values
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  armElevator2.spin(forward, 12.7, volt);
+  armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
-  armElevator2.stop(coast);
+  armElevator3.stop(coast);
 
-  intakeMotor4.spin(forward, 12.7, volt);
+  intakeMotor2.spin(forward, 12.7, volt);
   
   chassis.drive_distance(4);
 
@@ -517,13 +517,13 @@ void competitionAutonL(){
 
   chassis.turn_to_angle(0);
 
-  intakeMotor4.spin(reverse, 12.7, volt);
+  intakeMotor2.spin(reverse, 12.7, volt);
 
   chassis.drive_distance(-2);
 
   chassis.turn_to_angle(180);
   
-  intakeMotor4.stop(hold);
+  intakeMotor2.stop(hold);
 
   chassis.drive_distance(-8);
 
@@ -549,7 +549,7 @@ void competitionAutonL(){
 
   chassis.turn_to_angle(270);
 
-  intakeMotor4.stop(coast);
+  intakeMotor2.stop(coast);
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
@@ -559,16 +559,16 @@ void competitionAutonL(){
 // for competition
 void competitionAutonR(){
   // set operating constant to their default values
-  armElevator2.stop(hold);
+  armElevator3.stop(hold);
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  armElevator2.spin(forward, 12.7, volt);
+  armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
-  armElevator2.stop(coast);
+  armElevator3.stop(coast);
 
-  intakeMotor4.spin(forward, 12.7, volt);
+  intakeMotor2.spin(forward, 12.7, volt);
   
   chassis.drive_distance(8);
 
@@ -578,13 +578,13 @@ void competitionAutonR(){
 
   chassis.turn_to_angle(0);
 
-  intakeMotor4.spin(reverse, 12.7, volt);
+  intakeMotor2.spin(reverse, 12.7, volt);
 
   chassis.drive_distance(-2);
 
   chassis.turn_to_angle(180);
 
-  intakeMotor4.stop(hold);
+  intakeMotor2.stop(hold);
 
   chassis.drive_distance(-8);
 
@@ -608,7 +608,7 @@ void competitionAutonR(){
 
   chassis.turn_to_angle(270);
 
-  intakeMotor4.stop(coast);
+  intakeMotor2.stop(coast);
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
@@ -635,6 +635,26 @@ void endgame() {
   }
 }
 
+void skillsautoPos() {
+  default_constants();
+  // initialize position as (0,0,0)
+  chassis.set_coordinates(0,0,0);
+
+  armElevator3.spin(forward, 12.7, volt);
+  wait(500, msec);
+  armElevator3.stop(coast);
+
+  armElevator3.setBrake(hold);
+
+  armElevator3.spinFor(reverse, 90, degrees, false);
+  armElevator3.stop(hold);
+  
+  chassis.drive_distance(20);
+  chassis.turn_to_angle(70);
+  chassis.drive_distance(-21);
+  chassis.turn_to_angle(70);
+}
+
 // for skills
 void skillsAuton() {
   //wingsDeployRetract();
@@ -643,28 +663,28 @@ void skillsAuton() {
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  /*armElevator2.spin(forward, 12.7, volt);
+  armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
-  armElevator2.stop(coast);
+  armElevator3.stop(coast);
 
-  armElevator2.setBrake(hold);
+  armElevator3.setBrake(hold);
 
-  armElevator2.spinFor(reverse, 90, degrees, false);
-  armElevator2.stop(hold);*/
+  armElevator3.spinFor(reverse, 90, degrees, false);
+  armElevator3.stop(hold);
 
 
   // begin the fun program of skills auton
   chassis.drive_distance(20);
-  //chassis.turn_to_angle(70);
-  //chassis.drive_distance(-19);
-  //chassis.turn_to_angle(70);
+  chassis.turn_to_angle(70);
+  chassis.drive_distance(-21);
+  chassis.turn_to_angle(70);
 //
-  //spincataPerc(65.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
-  //intakeMotor4.spin(reverse, 12.7, volt);
+  spincataPerc(65.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
+  //intakeMotor2.spin(reverse, 12.7, volt);
 //
 //
-  //thread task1(allowforskillsCata); // creates timer thread for catapult in skills
-  //task1.detach(); // "allows" for execution from handle
+  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  task1.detach(); // "allows" for execution from handle
 //
   //// gross programming but if the bot moves the bot moves. It shouldn't.
   //while (halter != false) {
@@ -673,7 +693,7 @@ void skillsAuton() {
 //
   ////wait(2, sec);
 //
-  //intakeMotor4.spin(forward, 12.7, volt);
+  //intakeMotor2.spin(forward, 12.7, volt);
 //
   //chassis.drive_distance(1);
   ////chassis.turn_to_angle(113);
@@ -714,7 +734,7 @@ void skillsAuton() {
   ///*chassis.turn_to_angle(155);
   //chassis.drive_distance(38);
   //chassis.turn_to_angle(180);
-  //intakeMotor4.spinFor(360, degrees, false);
+  //intakeMotor2.spinFor(360, degrees, false);
   //chassis.drive_distance(18);
   //chassis.turn_to_angle(90);
   //chassis.drive_distance(40);*/
@@ -760,13 +780,13 @@ void autonType(int autonSelect) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType(1);
+  autonType(type);
   /*turn_test();
-  armElevator2.spin(forward, 12.7, volt);
+  armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
-  armElevator2.stop(coast);
+  armElevator3.stop(coast);
   wait(500,msec);
-  armElevator2.spinFor(reverse, 90, degrees);
+  armElevator3.spinFor(reverse, 90, degrees);
   catapaultMotor1.spin(forward, 100, percent);*/
 }
 
@@ -797,14 +817,14 @@ void drive_User(){
     tlMotor18.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     blMotor20.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    trMotor15.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    trMotor13.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     brMotor11.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
   } else {
     tlMotor18.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     blMotor20.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    trMotor15.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    trMotor13.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     brMotor11.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
   }
@@ -844,114 +864,20 @@ void drive_User(){
 
   // for intake
   if (mainController.ButtonR2.pressing() == true ) {
-    intakeMotor4.spin(forward, 12.5, volt);
+    intakeMotor2.spin(forward, 12.5, volt);
   } else if (mainController.ButtonR1.pressing() == true) {
-    intakeMotor4.spin(reverse, 12.5, volt);
+    intakeMotor2.spin(reverse, 12.5, volt);
   } else {
-    intakeMotor4.stop(coast);
+    intakeMotor2.stop(coast);
   }
 
   if (mainController.ButtonUp.pressing() != false) {
-    armElevator2.spin(reverse, 60, pct);
+    armElevator3.spin(reverse, 60, pct);
   } else if (mainController.ButtonDown.pressing() != false) {
-    armElevator2.spin(forward, 60, pct);
+    armElevator3.spin(forward, 60, pct);
   } else {
-    armElevator2.stop(hold);
+    armElevator3.stop(hold);
   }
-}
-
-void reporter() {
-  //while (true) {
-    int X = mainController.Axis1.value();
-    int Y = mainController.Axis3.value();
-    printf("Turning @ %d\n", X);
-    printf("Driving @ %d\n", Y);
-    if (mainController.ButtonB.pressing() == true) {
-      printf("B Pressed \n");
-    }
-    if (mainController.ButtonX.pressing() == true) {
-      printf("X Pressed \n");
-    }
-    if (mainController.ButtonR1.pressing() == true) {
-      printf("R1 Pressed \n");
-    }
-    if (mainController.ButtonR2.pressing() == true) {
-      printf("R2 Pressed \n");
-    }
-    if (mainController.ButtonL1.pressing() == true) {
-      printf("L1 Pressed \n");
-    }
-    if (mainController.ButtonL2.pressing() == true) {
-      printf("L2 Pressed \n");
-    }    
-    if (mainController.ButtonUp.pressing() == true) {
-      printf("Up Pressed \n");
-    }    
-    if (mainController.ButtonDown.pressing() == true) {
-      printf("Down Pressed \n");
-    }
-    vex::task::sleep(250);
-  //}
-}
-
-void diagdrive_User(){
-  // tank drive user control left side on left right side on right
-  if (current_forwards == true) {
-    tlMotor18.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    blMotor20.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    trMotor15.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    brMotor11.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-  } else {
-    tlMotor18.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    blMotor20.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    trMotor15.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    brMotor11.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-  }
-
-  // brake 
-  if (mainController.ButtonB.pressing() == true) {
-    motorsHalt();
-  }
-
-  // spin catapault
-  if (mainController.ButtonL1.pressing() == true){
-    spincataPerc(73.0, false);
-  } else {
-    catapaultMotor1.stop(coast);
-  }
-
-  //deploy wings
-  mainController.ButtonL2.pressed(wingsDeployRetract);
-
-
-  mainController.ButtonX.pressed(motorReverse);
-
-  mainController.ButtonA.pressed(endgame);
-
-
-  // for intake
-  if (mainController.ButtonR2.pressing() == true ) {
-    intakeMotor4.spin(forward, 12.5, volt);
-  } else if (mainController.ButtonR1.pressing() == true) {
-    intakeMotor4.spin(reverse, 12.5, volt);
-  } else {
-    intakeMotor4.stop(coast);
-  }
-
-  if (mainController.ButtonUp.pressing() != false) {
-    armElevator2.spin(reverse, 60, pct);
-  } else if (mainController.ButtonDown.pressing() != false) {
-    armElevator2.spin(forward, 60, pct);
-  } else {
-    armElevator2.stop(hold);
-  }
-
-  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
-  task1.detach(); // "allows" for execution from handle
 }
 
 void usercontrol(void) {
@@ -966,9 +892,12 @@ void usercontrol(void) {
 // Main will set up the competition functions and callbacks.
 //
 void assess() {
+  wait(2, sec);
   if (type == 0) {
-      while(true){
-        diagdrive_User();
+      skillsautoPos();
+
+      while(true) {
+        usercontrol();
       }
   } else {
     wait(2, sec);
@@ -983,7 +912,7 @@ int main() {
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
 
-  //assess();
+  assess();
   /*if (type == 0) {
     usercontrol();
   } else {
