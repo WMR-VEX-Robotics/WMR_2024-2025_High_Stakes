@@ -36,7 +36,7 @@ motor intakeMotor4 = motor(PORT4, ratio18_1, true);
 motor armElevator2 = motor(PORT2, ratio18_1, false);
 // not motors
 controller mainController = controller(primary);
-inertial inertialSensor9 = inertial(PORT9);
+inertial inertialSensor9 = inertial(PORT5);
 //encoder enc1 = encoder(Brain.ThreeWirePort.A);
 //rotation rot1 = rotation(PORT8, true);
 pneumatics solonoidF = pneumatics(Brain.ThreeWirePort.F);
@@ -305,7 +305,7 @@ PORT9,
 //External ratio, must be in decimal, in the format of input teeth/output teeth.
 //If your motor has an 84-tooth gear and your wheel has a 60-tooth gear, this value will be 1.4.
 //If the motor drives the wheel directly, this value is 1:
-0.5,
+1.6,
 
 //Gyro scale, this is what your gyro reads when you spin the robot 360 degrees.
 //For most cases 360 will do fine here, but this scale factor can be very helpful when precision is necessary.
@@ -643,90 +643,91 @@ void skillsAuton() {
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  armElevator2.spin(forward, 12.7, volt);
+  /*armElevator2.spin(forward, 12.7, volt);
   wait(500, msec);
   armElevator2.stop(coast);
 
   armElevator2.setBrake(hold);
 
   armElevator2.spinFor(reverse, 90, degrees, false);
-  armElevator2.stop(hold);
+  armElevator2.stop(hold);*/
 
 
   // begin the fun program of skills auton
-  chassis.drive_distance(6);
-  chassis.turn_to_angle(-45);
-  chassis.drive_distance(7);
-  catapaultMotor1.stop(coast);
-  chassis.turn_to_angle(45);
-  chassis.drive_distance(-12);
-  chassis.turn_to_angle(55);
-  catapaultMotor1.stop(brake);
-
-  spincataPerc(75.0, true); // spins catapult at a given percent (swapping bool allows for different precisions)
-  intakeMotor4.spin(reverse, 12.7, volt);
-
-
-  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
-  task1.detach(); // "allows" for execution from handle
-
-  // gross programming but if the bot moves the bot moves. It shouldn't.
-  while (halter != false) {
-    wait(2, msec); // sit there and wait while catapult is spinning
-  }
-
-  //wait(2, sec);
-
-  intakeMotor4.spin(forward, 12.7, volt);
-
-  chassis.drive_distance(1);
-  //chassis.turn_to_angle(113);
-  //chassis.drive_distance(12);
-  chassis.turn_to_angle(35);
-  chassis.drive_distance(80);
-  chassis.set_coordinates(0, 0, 0);
-  wait(10, msec);
-  chassis.turn_to_angle(90);
-  chassis.drive_distance(-18);
-
-  chassis.turn_to_angle(45);
-  //-45
-  chassis.drive_distance(-34);
-
-  chassis.turn_to_angle(90);
-  //360
-
-  chassis.drive_distance(-12);
-
-  chassis.turn_to_angle(180);
-  //90
-
-  wingsDeployRetract();
-  chassis.drive_distance(-36);
-  wingsDeployRetract();
-  chassis.drive_distance(34);
-  chassis.turn_to_angle(90);
-  //360 
-
-  chassis.drive_distance(-20);
-
-  chassis.turn_to_angle(185);
-
-  wingsDeployRetract();
-  chassis.drive_distance(-36);
-  wingsDeployRetract();
-  /*chassis.turn_to_angle(155);
-  chassis.drive_distance(38);
-  chassis.turn_to_angle(180);
-  intakeMotor4.spinFor(360, degrees, false);
   chassis.drive_distance(18);
-  chassis.turn_to_angle(90);
-  chassis.drive_distance(40);*/
-
-  // set the mode of braking to coast for user post execution
-  setdtBrakemode(coast);
-
-  set_screen_color(team);
+  chassis.turn_to_angle(-45);
+  Brain.Screen.print(inertialSensor9.heading());
+  //chassis.drive_distance(7);
+  //catapaultMotor1.stop(coast);
+  //chassis.turn_to_angle(45);
+  //chassis.drive_distance(-12);
+  //chassis.turn_to_angle(55);
+  //catapaultMotor1.stop(brake);
+//
+  //spincataPerc(75.0, true); // spins catapult at a given percent (swapping bool allows for different precisions)
+  //intakeMotor4.spin(reverse, 12.7, volt);
+//
+//
+  //thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  //task1.detach(); // "allows" for execution from handle
+//
+  //// gross programming but if the bot moves the bot moves. It shouldn't.
+  //while (halter != false) {
+  //  wait(2, msec); // sit there and wait while catapult is spinning
+  //}
+//
+  ////wait(2, sec);
+//
+  //intakeMotor4.spin(forward, 12.7, volt);
+//
+  //chassis.drive_distance(1);
+  ////chassis.turn_to_angle(113);
+  ////chassis.drive_distance(12);
+  //chassis.turn_to_angle(35);
+  //chassis.drive_distance(80);
+  //chassis.set_coordinates(0, 0, 0);
+  //wait(10, msec);
+  //chassis.turn_to_angle(90);
+  //chassis.drive_distance(-18);
+//
+  //chassis.turn_to_angle(45);
+  ////-45
+  //chassis.drive_distance(-34);
+//
+  //chassis.turn_to_angle(90);
+  ////360
+//
+  //chassis.drive_distance(-12);
+//
+  //chassis.turn_to_angle(180);
+  ////90
+//
+  //wingsDeployRetract();
+  //chassis.drive_distance(-36);
+  //wingsDeployRetract();
+  //chassis.drive_distance(34);
+  //chassis.turn_to_angle(90);
+  ////360 
+//
+  //chassis.drive_distance(-20);
+//
+  //chassis.turn_to_angle(185);
+//
+  //wingsDeployRetract();
+  //chassis.drive_distance(-36);
+  //wingsDeployRetract();
+  ///*chassis.turn_to_angle(155);
+  //chassis.drive_distance(38);
+  //chassis.turn_to_angle(180);
+  //intakeMotor4.spinFor(360, degrees, false);
+  //chassis.drive_distance(18);
+  //chassis.turn_to_angle(90);
+  //chassis.drive_distance(40);*/
+//
+  //// set the mode of braking to coast for user post execution
+  //setdtBrakemode(coast);
+//
+  //set_screen_color(team);
 }
 
 // 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
@@ -764,7 +765,14 @@ void autonType(int autonSelect) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType(type);
+  autonType(1);
+  /*turn_test();
+  armElevator2.spin(forward, 12.7, volt);
+  wait(500, msec);
+  armElevator2.stop(coast);
+  wait(500,msec);
+  armElevator2.spinFor(reverse, 90, degrees);
+  catapaultMotor1.spin(forward, 100, percent);*/
 }
 
 /*---------------------------------------------------------------------------*/
