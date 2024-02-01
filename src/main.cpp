@@ -62,7 +62,7 @@ motor_group(LeftFront,LeftRear, LeftAux),
 motor_group(RightFront,RightRear, RightAux),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT3,
+PORT5,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
