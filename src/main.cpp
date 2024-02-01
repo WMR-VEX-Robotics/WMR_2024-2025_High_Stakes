@@ -297,7 +297,7 @@ motor_group(tlMotor18, mlMotor19, blMotor20),
 motor_group(trMotor15, mrMotor12, brMotor11),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT9,
+PORT5,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
@@ -305,7 +305,7 @@ PORT9,
 //External ratio, must be in decimal, in the format of input teeth/output teeth.
 //If your motor has an 84-tooth gear and your wheel has a 60-tooth gear, this value will be 1.4.
 //If the motor drives the wheel directly, this value is 1:
-1.6,
+0.6,
 
 //Gyro scale, this is what your gyro reads when you spin the robot 360 degrees.
 //For most cases 360 will do fine here, but this scale factor can be very helpful when precision is necessary.
@@ -654,17 +654,12 @@ void skillsAuton() {
 
 
   // begin the fun program of skills auton
-  chassis.drive_distance(18);
-  chassis.turn_to_angle(-45);
-  Brain.Screen.print(inertialSensor9.heading());
-  //chassis.drive_distance(7);
-  //catapaultMotor1.stop(coast);
-  //chassis.turn_to_angle(45);
-  //chassis.drive_distance(-12);
-  //chassis.turn_to_angle(55);
-  //catapaultMotor1.stop(brake);
+  chassis.drive_distance(20);
+  //chassis.turn_to_angle(70);
+  //chassis.drive_distance(-19);
+  //chassis.turn_to_angle(70);
 //
-  //spincataPerc(75.0, true); // spins catapult at a given percent (swapping bool allows for different precisions)
+  //spincataPerc(65.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
   //intakeMotor4.spin(reverse, 12.7, volt);
 //
 //
