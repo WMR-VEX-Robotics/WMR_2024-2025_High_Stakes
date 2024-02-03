@@ -488,10 +488,10 @@ void pre_auton(void) {
   wait(25, msec);
   Brain.Screen.clearScreen();
 
-  autonSelect_buttons();
+  /*autonSelect_buttons();
   if (type != 0 && type != 4) {
     color_select();
-  }
+  }*/
 
 }
 
@@ -511,9 +511,9 @@ void competitionAutonL(){
   
   chassis.drive_distance(4);
 
-  chassis.turn_to_angle(-56);
+  chassis.turn_to_angle(-45);
   
-  chassis.drive_distance(30);
+  chassis.drive_distance(32);
 
   chassis.turn_to_angle(0);
 
@@ -533,9 +533,9 @@ void competitionAutonL(){
 
   chassis.drive_distance(6);
 
-  chassis.turn_to_angle(270);
+  chassis.turn_to_angle(90);
 
-  wait(5, seconds);
+  /*wait(5, seconds);
 
   chassis.drive_distance(-10);
  
@@ -547,7 +547,7 @@ void competitionAutonL(){
 
   chassis.drive_distance(3);
 
-  chassis.turn_to_angle(270);
+  chassis.turn_to_angle(270);*/
 
   intakeMotor2.stop(coast);
 
@@ -574,11 +574,12 @@ void competitionAutonR(){
 
   chassis.turn_to_angle(56);
   
-  chassis.drive_distance(33);
+  chassis.drive_distance(31);
 
   chassis.turn_to_angle(0);
 
   intakeMotor2.spin(reverse, 12.7, volt);
+  wait(250, msec);
 
   chassis.drive_distance(-2);
 
@@ -586,17 +587,17 @@ void competitionAutonR(){
 
   intakeMotor2.stop(hold);
 
-  chassis.drive_distance(-8);
+  chassis.drive_distance(-20);
 
-  chassis.drive_distance(6);
+  chassis.drive_distance(8);
 
-  chassis.drive_distance(-6);
+  chassis.drive_distance(-20);
 
-  chassis.drive_distance(6);
+  chassis.drive_distance(8);
 
-  chassis.turn_to_angle(90);
+  chassis.turn_to_angle(270);
 
-  wait(5, seconds);
+  /*wait(5, seconds);
 
   chassis.drive_distance(-10);
 
@@ -606,7 +607,7 @@ void competitionAutonR(){
 
   chassis.drive_distance(3);
 
-  chassis.turn_to_angle(270);
+  chassis.turn_to_angle(270);*/
 
   intakeMotor2.stop(coast);
 
@@ -636,23 +637,33 @@ void endgame() {
 }
 
 void skillsautoPos() {
-  default_constants();
+  // Each constant set is in the form of (maxVoltage, kP, kI, kD, startI).
+  chassis.set_drive_constants(8.5, 1.5, 0, 10, 0);
+  chassis.set_heading_constants(8, .4, 0, 1, 0);
+  chassis.set_turn_constants(4, .4, .03, 3, 15);
+  chassis.set_swing_constants(10, .3, .001, 2, 15);
+
+  // Each exit condition set is in the form (settle_error, settle_time, timeout).
+  chassis.set_drive_exit_conditions(1.5, 200, 1750);
+  chassis.set_turn_exit_conditions(1, 200, 1750);
+  chassis.set_swing_exit_conditions(1, 200, 1000);
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
   armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
   armElevator3.stop(coast);
+  wait(250, msec);
 
-  armElevator3.setBrake(hold);
-
-  armElevator3.spinFor(reverse, 90, degrees, false);
-  armElevator3.stop(hold);
-  
-  chassis.drive_distance(20);
+  chassis.turn_to_angle(-30);
+  chassis.drive_distance(30);
+  intakeMotor2.spin(reverse);
+  chassis.drive_distance(13);
+  chassis.drive_distance(-30);
   chassis.turn_to_angle(70);
-  chassis.drive_distance(-21);
-  chassis.turn_to_angle(70);
+  chassis.drive_distance(-6.5);
+  chassis.turn_to_angle(65);
+  spincataPerc(65.0, false); 
 }
 
 // for skills
@@ -663,33 +674,71 @@ void skillsAuton() {
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
+  //chassis.drive_distance(80);
+
   armElevator3.spin(forward, 12.7, volt);
+  wingsDeployRetract();
   wait(500, msec);
   armElevator3.stop(coast);
-
-  armElevator3.setBrake(hold);
-
-  armElevator3.spinFor(reverse, 90, degrees, false);
-  armElevator3.stop(hold);
+  wingsDeployRetract();
 
 
   // begin the fun program of skills auton
-  chassis.drive_distance(20);
+  chassis.drive_distance(18);
   chassis.turn_to_angle(70);
-  chassis.drive_distance(-21);
-  chassis.turn_to_angle(70);
-//
-  spincataPerc(65.0, false); // spins catapult at a given percent (swapping bool allows for different precisions)
+  spincataPerc(65.0, true); 
+  chassis.drive_distance(-20);
+  armElevator3.spin(reverse);
+  chassis.turn_to_angle(65);
+  armElevator3.stop(hold);
+// spins catapult at a given percent (swapping bool allows for different precisions)
   //intakeMotor2.spin(reverse, 12.7, volt);
 //
 //
   thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
+
+  while (halter != false) {
+    wait(2, msec); // sit there and wait while catapult is spinning
+    armElevator3.stop(hold);
+  }
+
+  wait(2, sec);
+
+  armElevator3.setBrake(coast);
+
+  intakeMotor2.spin(reverse);
+
+
+  chassis.set_coordinates(-14, 14.9, 70);
+  chassis.turn_to_angle(110);
+  chassis.drive_distance(24);
+  chassis.set_drive_constants(6, 1.5, 0, 10, 0);
+  chassis.set_drive_exit_conditions(1.5, 200, 3000);
+  chassis.turn_to_angle(89);
+  chassis.drive_distance(74);
+
+  chassis.turn_to_angle(-30);
+  chassis.drive_distance(60);
+  
+  //@whereitends
+
+  chassis.turn_to_angle(90);
+  wingsDeployRetract();
+  chassis.drive_distance(33);
+  wingsDeployRetract();
+  chassis.drive_distance(-33);
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(10);
+  chassis.turn_to_angle(90);
+  wingsDeployRetract();
+  chassis.drive_distance(33);
+  wingsDeployRetract();
+  chassis.drive_distance(-33);
+
 //
   //// gross programming but if the bot moves the bot moves. It shouldn't.
-  //while (halter != false) {
-  //  wait(2, msec); // sit there and wait while catapult is spinning
-  //}
+
 //
   ////wait(2, sec);
 //
@@ -740,9 +789,9 @@ void skillsAuton() {
   //chassis.drive_distance(40);*/
 //
   //// set the mode of braking to coast for user post execution
-  //setdtBrakemode(coast);
+  setdtBrakemode(coast);
 //
-  //set_screen_color(team);
+  set_screen_color(team);
 }
 
 // 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
@@ -766,7 +815,11 @@ void autonType(int autonSelect) {
       Brain.Screen.print("Competition Auton Loaded. L");
       competitionAutonL();
       break;
-
+    case 4:
+      default_constants();
+      // initialize position as (0,0,0)
+      chassis.set_coordinates(0,0,0);
+      drive_test();
   }
 }
 
@@ -780,9 +833,10 @@ void autonType(int autonSelect) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
-  autonType(type);
-  /*turn_test();
-  armElevator3.spin(forward, 12.7, volt);
+
+  autonType(2);
+  //chassis.turn_to_angle(180);
+  /*armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
   armElevator3.stop(coast);
   wait(500,msec);
@@ -837,7 +891,7 @@ void drive_User(){
   // spin catapault
   if (mainController.ButtonL1.pressing() == true){
     if (percent25 == true){
-      spincataPerc(100.0, true);
+      spincataPerc(65.0, true);
     } else {
       spincataPerc(100.0, false);
     }
@@ -883,6 +937,7 @@ void drive_User(){
 void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
+  skillsautoPos();
   while (1) {
    drive_User();
   }
@@ -895,7 +950,7 @@ void assess() {
   wait(2, sec);
   if (type == 0) {
       skillsautoPos();
-
+      setdtBrakemode(coast);
       while(true) {
         usercontrol();
       }
@@ -912,7 +967,7 @@ int main() {
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
 
-  assess();
+  //assess();
   /*if (type == 0) {
     usercontrol();
   } else {
