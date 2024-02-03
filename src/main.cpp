@@ -488,10 +488,10 @@ void pre_auton(void) {
   wait(25, msec);
   Brain.Screen.clearScreen();
 
-  /*autonSelect_buttons();
+  autonSelect_buttons();
   if (type != 0 && type != 4) {
     color_select();
-  }*/
+  }
 
 }
 
@@ -519,19 +519,21 @@ void competitionAutonL(){
 
   intakeMotor2.spin(reverse, 12.7, volt);
 
+  wait(250, msec);
+
   chassis.drive_distance(-2);
 
   chassis.turn_to_angle(180);
   
   intakeMotor2.stop(hold);
 
-  chassis.drive_distance(-8);
+  chassis.drive_distance(-30);
 
-  chassis.drive_distance(6);
+  chassis.drive_distance(8);
 
-  chassis.drive_distance(-6);
+  chassis.drive_distance(-30);
 
-  chassis.drive_distance(6);
+  chassis.drive_distance(8);
 
   chassis.turn_to_angle(90);
 
@@ -738,7 +740,7 @@ void skillsAuton() {
 
 //
   //// gross programming but if the bot moves the bot moves. It shouldn't.
-
+  // what if it doesnt - Jay
 //
   ////wait(2, sec);
 //
@@ -834,7 +836,7 @@ void autonType(int autonSelect) {
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
 
-  autonType(2);
+  autonType(type);
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
@@ -937,7 +939,7 @@ void drive_User(){
 void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
-  skillsautoPos();
+  //skillsautoPos();
   while (1) {
    drive_User();
   }
