@@ -527,11 +527,11 @@ void competitionAutonL(){
   
   intakeMotor2.stop(hold);
 
-  chassis.drive_distance(-30);
+  chassis.drive_distance(-14);
 
   chassis.drive_distance(8);
 
-  chassis.drive_distance(-30);
+  chassis.drive_distance(-14);
 
   chassis.drive_distance(8);
 
@@ -589,11 +589,11 @@ void competitionAutonR(){
 
   intakeMotor2.stop(hold);
 
-  chassis.drive_distance(-20);
+  chassis.drive_distance(-14);
 
   chassis.drive_distance(8);
 
-  chassis.drive_distance(-20);
+  chassis.drive_distance(-14);
 
   chassis.drive_distance(8);
 
@@ -664,8 +664,7 @@ void skillsautoPos() {
   chassis.drive_distance(-30);
   chassis.turn_to_angle(70);
   chassis.drive_distance(-6.5);
-  chassis.turn_to_angle(65);
-  spincataPerc(65.0, false); 
+  chassis.turn_to_angle(65); 
 }
 
 // for skills

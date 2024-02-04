@@ -94,7 +94,7 @@ Discarded input sections
  .ARM.exidx.text._Z15spincataPercrevdb
                 0x00000000        0x8 build/src/main.o
  .text._Z13skillsautoPosv
-                0x00000000      0x260 build/src/main.o
+                0x00000000      0x238 build/src/main.o
  .ARM.exidx.text._Z13skillsautoPosv
                 0x00000000        0x8 build/src/main.o
  .text._Z6assessv
