@@ -488,10 +488,10 @@ void pre_auton(void) {
   wait(25, msec);
   Brain.Screen.clearScreen();
 
-  autonSelect_buttons();
+  /*autonSelect_buttons();
   if (type != 0 && type != 4) {
     color_select();
-  }
+  }*/
 
 }
 
@@ -667,6 +667,75 @@ void skillsautoPos() {
   chassis.turn_to_angle(65); 
 }
 
+void leftAutondev(){
+  default_constants();
+  // initialize position as (0,0,0)
+  chassis.set_coordinates(0,0,0);
+
+  intakeMotor2.spin(forward, 12.7, volt);
+  chassis.drive_distance(2);
+  chassis.drive_distance(-1);
+  chassis.drive_distance(17);
+
+  chassis.turn_to_angle(25);
+
+  chassis.drive_distance(10);
+
+  chassis.turn_to_angle(0);
+
+  chassis.drive_distance(16);
+
+  wait(250, msec);
+
+  intakeMotor2.spin(reverse, 60, percent);
+
+  chassis.drive_distance(-15);
+
+  chassis.turn_to_angle(45);
+
+  intakeMotor2.spin(forward, 12.7, volt);
+
+  chassis.drive_distance(45);
+
+  chassis.turn_to_angle(90);
+
+  chassis.drive_distance(-5);
+
+  chassis.drive_distance(3);
+
+  chassis.turn_to_angle(-90);
+
+  chassis.drive_distance(10);
+
+  intakeMotor2.spin(reverse, 60, percent);
+
+  chassis.drive_distance(-10);
+
+  chassis.turn_to_angle(5);
+  
+  intakeMotor2.spin(forward, 12.7, volt);
+
+  chassis.drive_distance(16);
+
+  wait(75, msec);
+
+  chassis.drive_distance(-16);
+
+  chassis.turn_to_angle(-90);
+
+  wingsDeployRetract();
+
+  intakeMotor2.stop(coast);
+
+  chassis.drive_distance(30);
+
+  chassis.drive_distance(-20);
+
+
+
+
+}
+
 // for skills
 void skillsAuton() {
   //wingsDeployRetract();
@@ -687,7 +756,7 @@ void skillsAuton() {
   // begin the fun program of skills auton
   chassis.drive_distance(18);
   chassis.turn_to_angle(70);
-  spincataPerc(65.0, true); 
+  //spincataPerc(65.0, true); 
   chassis.drive_distance(-20);
   armElevator3.spin(reverse);
   chassis.turn_to_angle(65);
@@ -696,13 +765,13 @@ void skillsAuton() {
   //intakeMotor2.spin(reverse, 12.7, volt);
 //
 //
-  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  /*thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
 
   while (halter != false) {
     wait(2, msec); // sit there and wait while catapult is spinning
     armElevator3.stop(hold);
-  }
+  }*/
 
   wait(2, sec);
 
@@ -714,8 +783,8 @@ void skillsAuton() {
   chassis.set_coordinates(-14, 14.9, 70);
   chassis.turn_to_angle(110);
   chassis.drive_distance(24);
-  chassis.set_drive_constants(6, 1.5, 0, 10, 0);
-  chassis.set_drive_exit_conditions(1.5, 200, 3000);
+  //chassis.set_drive_constants(6, 1.5, 0, 10, 0);
+  //chassis.set_drive_exit_conditions(1.5, 200, 3000);
   chassis.turn_to_angle(89);
   chassis.drive_distance(74);
 
@@ -835,7 +904,8 @@ void autonType(int autonSelect) {
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
 
-  autonType(type);
+  //autonType(1);
+  leftAutondev();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
