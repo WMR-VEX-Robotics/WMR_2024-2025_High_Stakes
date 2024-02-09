@@ -677,7 +677,7 @@ void leftAutondev(){
   chassis.drive_distance(-1);
   chassis.drive_distance(17);
 
-  chassis.turn_to_angle(25);
+  chassis.turn_to_angle(-25);
 
   chassis.drive_distance(10);
 
@@ -691,19 +691,19 @@ void leftAutondev(){
 
   chassis.drive_distance(-15);
 
-  chassis.turn_to_angle(45);
+  chassis.turn_to_angle(-45);
 
   intakeMotor2.spin(forward, 12.7, volt);
 
   chassis.drive_distance(45);
 
-  chassis.turn_to_angle(90);
+  chassis.turn_to_angle(-90);
 
   chassis.drive_distance(-5);
 
   chassis.drive_distance(3);
 
-  chassis.turn_to_angle(-90);
+  chassis.turn_to_angle(90);
 
   chassis.drive_distance(10);
 
@@ -711,7 +711,7 @@ void leftAutondev(){
 
   chassis.drive_distance(-10);
 
-  chassis.turn_to_angle(5);
+  chassis.turn_to_angle(-5);
   
   intakeMotor2.spin(forward, 12.7, volt);
 
@@ -721,7 +721,9 @@ void leftAutondev(){
 
   chassis.drive_distance(-16);
 
-  chassis.turn_to_angle(-90);
+  chassis.turn_to_angle(90);
+
+  // stopped here
 
   wingsDeployRetract();
 
