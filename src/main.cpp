@@ -723,8 +723,6 @@ void leftAutondev(){
 
   chassis.turn_to_angle(90);
 
-  // stopped here
-
   wingsDeployRetract();
 
   intakeMotor2.stop(coast);
@@ -733,8 +731,61 @@ void leftAutondev(){
 
   chassis.drive_distance(-20);
 
+}
 
+void skillsautonDev(){
 
+  default_constants();
+  // initialize position as (0,0,0)
+  chassis.set_coordinates(0,0,0);
+
+  chassis.drive_distance(18);
+  chassis.turn_to_angle(70);
+  //spincataPerc(65.0, true); 
+  chassis.drive_distance(-20);
+  chassis.turn_to_angle(65);
+
+  chassis.set_coordinates(-14, 14.9, 65);
+
+  wait(2, sec);
+
+  chassis.drive_distance(20);
+
+  chassis.turn_to_angle(0);
+
+  chassis.drive_distance(30);
+
+  chassis.turn_to_angle(90);
+
+  chassis.set_drive_exit_conditions(1.5, 200, 3000);
+
+  chassis.drive_distance(30);
+
+  chassis.set_drive_exit_conditions(1.5, 200, 1250);
+
+  chassis.drive_distance(-20);
+
+  chassis.set_coordinates(0, 0, 0);
+
+  wingsDeployRetract();
+
+  chassis.drive_distance(30);
+
+  wingsDeployRetract();
+
+  chassis.drive_distance(-20);
+
+  chassis.turn_to_angle(-90);
+
+  chassis.drive_distance(14);
+
+  chassis.turn_to_angle(0);
+
+  chassis.drive_distance(30);
+
+  wingsDeployRetract();
+
+  chassis.drive_distance(-20);
 
 }
 
@@ -748,10 +799,8 @@ void skillsAuton() {
 
   //chassis.drive_distance(80);
 
-  armElevator3.spin(forward, 12.7, volt);
   wingsDeployRetract();
   wait(500, msec);
-  armElevator3.stop(coast);
   wingsDeployRetract();
 
 
@@ -760,9 +809,7 @@ void skillsAuton() {
   chassis.turn_to_angle(70);
   //spincataPerc(65.0, true); 
   chassis.drive_distance(-20);
-  armElevator3.spin(reverse);
   chassis.turn_to_angle(65);
-  armElevator3.stop(hold);
 // spins catapult at a given percent (swapping bool allows for different precisions)
   //intakeMotor2.spin(reverse, 12.7, volt);
 //
@@ -782,7 +829,7 @@ void skillsAuton() {
   intakeMotor2.spin(reverse);
 
 
-  chassis.set_coordinates(-14, 14.9, 70);
+  chassis.set_coordinates(-14, 14.9, 65);
   chassis.turn_to_angle(110);
   chassis.drive_distance(24);
   //chassis.set_drive_constants(6, 1.5, 0, 10, 0);
@@ -792,8 +839,7 @@ void skillsAuton() {
 
   chassis.turn_to_angle(-30);
   chassis.drive_distance(60);
-  
-  //@whereitends
+
 
   chassis.turn_to_angle(90);
   wingsDeployRetract();
@@ -801,7 +847,7 @@ void skillsAuton() {
   wingsDeployRetract();
   chassis.drive_distance(-33);
   chassis.turn_to_angle(0);
-  chassis.drive_distance(10);
+  chassis.drive_distance(14);
   chassis.turn_to_angle(90);
   wingsDeployRetract();
   chassis.drive_distance(33);
