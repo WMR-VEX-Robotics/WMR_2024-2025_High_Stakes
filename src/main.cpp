@@ -759,7 +759,7 @@ void skillsautonDev(){
 
   chassis.set_drive_exit_conditions(1.5, 200, 3000);
 
-  chassis.drive_distance(30);
+  chassis.drive_distance(65);
 
   chassis.set_drive_exit_conditions(1.5, 200, 1250);
 
@@ -953,7 +953,8 @@ void autonType(int autonSelect) {
 void autonomous(void) {
 
   //autonType(1);
-  leftAutondev();
+  //leftAutondev();
+  skillsautonDev();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
