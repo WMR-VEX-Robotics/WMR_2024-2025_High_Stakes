@@ -743,23 +743,44 @@ void skillsautonDev(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
+  wingsDeployRetract();
+  wait(500, msec);
+  wingsDeployRetract();
+
   chassis.drive_distance(18);
   chassis.turn_to_angle(70);
   chassis.drive_distance(-20);
   chassis.turn_to_angle(65);
 
-  chassis.set_coordinates(-14, 14.9, 65);
   spincataPerc(65.0, true);
-  wait(5, sec);
+
+  /*thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  task1.detach(); // "allows" for execution from handle
+
+  while (halter != false) {
+    wait(2, msec); // sit there and wait while catapult is spinning
+  }*/
+
+  int counter = 0;
+
+  while (counter < 30){
+    wait(1, sec);
+    counter += 1;
+  }
+
+  catapaultMotor1.stop(coast);
+  catapaultMotor4.stop(coast);
+  chassis.set_coordinates(-14, 14.9, 65);
+
+  intakeMotor2.spin(reverse, 90, percent);
 
   chassis.drive_distance(20);
 
   chassis.turn_to_angle(0);
-  intakeMotor2.spin(reverse, 90, percent);
 
   chassis.drive_distance(40);
 
-  chassis.turn_to_angle(80);
+  chassis.turn_to_angle(90);
   wingsDeployRetract();
 
   chassis.set_drive_exit_conditions(1.5, 200, 3000);
@@ -784,17 +805,41 @@ void skillsautonDev(){
   chassis.drive_distance(-30);
   intakeMotor2.stop(coast);
   chassis.turn_to_angle(90);
-  chassis.drive_distance(20);
-  chassis.turn_to_angle(0);
+  chassis.drive_distance(30);
+  chassis.turn_to_angle(-10);
+
   wingsDeployRetract();
+
   intakeMotor2.spin(reverse, 80, percent);
   chassis.drive_distance(30);
   wingsDeployRetract();
   chassis.drive_distance(-30);
-  intakeMotor2.stop(coast); 
-  /*wingsDeployRetract();
+  intakeMotor2.stop(coast);
+
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(-40);
+  chassis.turn_to_angle(0);
+  intakeMotor2.spin(reverse, 80, percent);
+  wingsDeployRetract();
+
+
 
   chassis.drive_distance(30);
+  wingsDeployRetract();
+  chassis.drive_distance(-30);
+  intakeMotor2.stop(coast);
+
+
+
+
+
+  //@here
+
+  
+
+
+
+  /*chassis.drive_distance(30);
 
   wingsDeployRetract();
 
@@ -840,14 +885,14 @@ void skillsAuton() {
   //intakeMotor2.spin(reverse, 12.7, volt);
 //
 //
-  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  /*thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
 
   while (halter != false) {
     wait(2, msec); // sit there and wait while catapult is spinning
     armElevator3.stop(hold);
   }
-
+*/
   wait(2, sec);
 
   armElevator3.setBrake(coast);
@@ -858,11 +903,11 @@ void skillsAuton() {
   chassis.set_coordinates(-14, 14.9, 65);
   chassis.turn_to_angle(110);
   chassis.drive_distance(32); // modified from 24
+  //chassis.turn_to_angle(89);
+  //chassis.drive_distance(50);
+  chassis.set_drive_constants(6, 1.5, 0, 10, 0);
+  chassis.set_drive_exit_conditions(1.5, 200, 3000);
   chassis.turn_to_angle(89);
-  chassis.drive_distance(40);
-  //chassis.set_drive_constants(6, 1.5, 0, 10, 0);
-  //chassis.set_drive_exit_conditions(1.5, 200, 3000);
-  /*chassis.turn_to_angle(89);
   chassis.drive_distance(74); // modified from 74
 
   chassis.turn_to_angle(-30);
@@ -880,7 +925,7 @@ void skillsAuton() {
   wingsDeployRetract();
   chassis.drive_distance(33);
   wingsDeployRetract();
-  chassis.drive_distance(-33);*/
+  chassis.drive_distance(-33);
 
 //
   //// gross programming but if the bot moves the bot moves. It shouldn't.
@@ -982,8 +1027,8 @@ void autonomous(void) {
 
   //autonType(1);
   //leftAutondev();
-  //skillsautonDev();
   skillsAuton();
+  //skillsAuton();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
