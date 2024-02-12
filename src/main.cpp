@@ -741,33 +741,52 @@ void skillsautonDev(){
 
   chassis.drive_distance(18);
   chassis.turn_to_angle(70);
-  //spincataPerc(65.0, true); 
   chassis.drive_distance(-20);
   chassis.turn_to_angle(65);
 
   chassis.set_coordinates(-14, 14.9, 65);
-
-  wait(2, sec);
+  spincataPerc(65.0, true);
+  wait(5, sec);
 
   chassis.drive_distance(20);
 
   chassis.turn_to_angle(0);
+  intakeMotor2.spin(reverse, 90, percent);
 
-  chassis.drive_distance(30);
+  chassis.drive_distance(40);
 
-  chassis.turn_to_angle(90);
+  chassis.turn_to_angle(80);
+  wingsDeployRetract();
 
   chassis.set_drive_exit_conditions(1.5, 200, 3000);
 
   chassis.drive_distance(65);
-
-  chassis.set_drive_exit_conditions(1.5, 200, 1250);
-
-  chassis.drive_distance(-20);
+  
+  //chassis.turn_to_angle(25);
+  //chassis.turn_to_angle(-25);
+  //chassis.turn_to_angle(0);
+  //chassis.drive_distance(20);
+  //chassis.set_drive_exit_conditions(1.5, 200, 1250); // going over the middle
+  //chassis.drive_distance(-20);
 
   chassis.set_coordinates(0, 0, 0);
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(30);
 
   wingsDeployRetract();
+  
+  chassis.drive_distance(-30);
+  intakeMotor2.stop(coast);
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(20);
+  chassis.turn_to_angle(0);
+  wingsDeployRetract();
+  intakeMotor2.spin(reverse, 80, percent);
+  chassis.drive_distance(30);
+  wingsDeployRetract();
+  chassis.drive_distance(-30);
+  intakeMotor2.stop(coast); 
+  /*wingsDeployRetract();
 
   chassis.drive_distance(30);
 
@@ -785,7 +804,7 @@ void skillsautonDev(){
 
   wingsDeployRetract();
 
-  chassis.drive_distance(-20);
+  chassis.drive_distance(-20);*/
 
 }
 
@@ -831,11 +850,13 @@ void skillsAuton() {
 
   chassis.set_coordinates(-14, 14.9, 65);
   chassis.turn_to_angle(110);
-  chassis.drive_distance(24);
+  chassis.drive_distance(32); // modified from 24
+  chassis.turn_to_angle(89);
+  chassis.drive_distance(40);
   //chassis.set_drive_constants(6, 1.5, 0, 10, 0);
   //chassis.set_drive_exit_conditions(1.5, 200, 3000);
-  chassis.turn_to_angle(89);
-  chassis.drive_distance(74);
+  /*chassis.turn_to_angle(89);
+  chassis.drive_distance(74); // modified from 74
 
   chassis.turn_to_angle(-30);
   chassis.drive_distance(60);
@@ -852,7 +873,7 @@ void skillsAuton() {
   wingsDeployRetract();
   chassis.drive_distance(33);
   wingsDeployRetract();
-  chassis.drive_distance(-33);
+  chassis.drive_distance(-33);*/
 
 //
   //// gross programming but if the bot moves the bot moves. It shouldn't.
