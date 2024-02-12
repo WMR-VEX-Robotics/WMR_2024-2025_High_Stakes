@@ -1,7 +1,7 @@
 {
 	"project": {
 		"name": "2023-2024_Legacy",
-		"slot": 4,
+		"slot": 3,
 		"description": "The 42747 Legacy team bot code for 2023-2024 Over Under using JAR-Template for odometry. This code is defined for configuration Occiptor the current and only configuration of bot",
 		"platform": "V5",
 		"creationDate": "Tue, 03 Oct 2023 19:31:14 GMT",

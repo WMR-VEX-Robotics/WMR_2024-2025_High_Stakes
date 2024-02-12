@@ -31,9 +31,10 @@ motor trMotor13 = motor(PORT13, ratio18_1, false);
 motor mrMotor12 = motor(PORT12, ratio18_1, false);
 motor brMotor11 = motor(PORT11, ratio18_1, false);*/
 
-motor catapaultMotor1 = motor(PORT1, ratio18_1, true);
+motor catapaultMotor1 = motor(PORT14, ratio18_1, false);
 motor intakeMotor2 = motor(PORT2, ratio18_1, true);
 motor armElevator3 = motor(PORT3, ratio18_1, false);
+motor catapaultMotor4 = motor(PORT4, ratio18_1, true);
 // not motors
 controller mainController = controller(primary);
 inertial inertialSensor5 = inertial(PORT5);
@@ -365,6 +366,7 @@ void allowforskillsCata() {
     vex::task::sleep(15);
   }
   catapaultMotor1.stop(coast);
+  catapaultMotor4.stop(coast);
   intakeMotor2.stop(coast);
   chassis.set_coordinates(0,0,0);
   halter = false;
@@ -416,8 +418,10 @@ double percentasVolt(double n) {
 void spincataPerc(double P, bool inPercent) {
   if (inPercent) {
     catapaultMotor1.spin(forward, P, percent);
+    catapaultMotor4.spin(forward, P, percent);
   } else {
     catapaultMotor1.spin(forward, percentasVolt(P), volt);
+    catapaultMotor4.spin(forward, percentasVolt(P), volt);
   }
 }
 
@@ -760,6 +764,8 @@ void skillsautonDev(){
 
   chassis.set_drive_exit_conditions(1.5, 200, 3000);
 
+  wingsDeployRetract();
+
   chassis.drive_distance(65);
   
   //chassis.turn_to_angle(25);
@@ -829,17 +835,18 @@ void skillsAuton() {
   //spincataPerc(65.0, true); 
   chassis.drive_distance(-20);
   chassis.turn_to_angle(65);
+  spincataPerc(65.0, true); 
 // spins catapult at a given percent (swapping bool allows for different precisions)
   //intakeMotor2.spin(reverse, 12.7, volt);
 //
 //
-  /*thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
 
   while (halter != false) {
     wait(2, msec); // sit there and wait while catapult is spinning
     armElevator3.stop(hold);
-  }*/
+  }
 
   wait(2, sec);
 
@@ -975,7 +982,8 @@ void autonomous(void) {
 
   //autonType(1);
   //leftAutondev();
-  skillsautonDev();
+  //skillsautonDev();
+  skillsAuton();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
