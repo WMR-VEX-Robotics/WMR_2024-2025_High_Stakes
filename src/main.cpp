@@ -8,6 +8,7 @@ brain Brain;
 //Other Devices
 controller Controller1 = controller(primary);
 controller Controller2 = controller(partner);
+pneumatics frontwings = pneumatics(Brain.ThreeWirePort.E);
 pneumatics wallleft = pneumatics(Brain.ThreeWirePort.H);
 pneumatics wallright = pneumatics(Brain.ThreeWirePort.F);
 pneumatics hanglock = pneumatics(Brain.ThreeWirePort.G);
@@ -117,98 +118,50 @@ PORT2,
 
 );
 
-int current_auton_selection = 5;
+int current_auton_selection;
 bool auto_started = true;
-bool driver_skills = true;
+bool driver_skills = false;
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!  
+  driver_skills = false;
+  current_auton_selection = 8;
   vexcodeInit();
   default_constants();
   IntakeVacuum.setVelocity(100, percent);
   chassis.set_coordinates(0, 0, 0);
-
-
-  while(auto_started == false){            //Changing the names below will only change their names on the
-    Brain.Screen.clearScreen();            //brain screen for auton selection.
-    switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
-      case 0:
-        Brain.Screen.printAt(50, 50, "Auton Selected: Qual Match, Left Side");
-        break;
-      case 1:
-        Brain.Screen.printAt(50, 50, "Auton Selected: Qual Match, Right Side");
-        break;
-      case 2:
-        Brain.Screen.printAt(50, 50, "Auton Selected: Skills Auton, Shooting Left");
-        break;
-      case 3:
-        Brain.Screen.printAt(50, 50, "Auton Selected: Skills Auton, Shooting Right");
-        break;
-      case 4:
-        Brain.Screen.printAt(50, 50, "Full Test");
-        break;
-      case 5:
-        Brain.Screen.printAt(50, 50, "Odom Test");
-        break;
-      case 6:
-        Brain.Screen.printAt(50, 50, "Tank Odom Test");
-        break;
-      case 7:
-        Brain.Screen.printAt(50, 50, "Holonomic Odom Test");
-        break;
-    }
-    if(Brain.Screen.pressing()){
-      while(Brain.Screen.pressing()) {}
-      current_auton_selection ++;
-    } else if (current_auton_selection == 8){
-      current_auton_selection = 0;
-    }
-    task::sleep(10);
-  }
+  LeftFront.setVelocity(100, percent);
+  LeftRear.setVelocity(100, percent);
+  LeftAux.setVelocity(100, percent);
+  RightFront.setVelocity(100, percent);
+  RightRear.setVelocity(100, percent);
+  RightAux.setVelocity(100, percent);
+  LeftFront.setBrake(coast);
+  LeftRear.setBrake(coast);
+  LeftAux.setBrake(coast);
+  RightFront.setBrake(coast);
+  RightRear.setBrake(coast);
+  RightAux.setBrake(coast);
 }
 
 void autonomous(void) {
   default_constants();
   Brain.Screen.clearScreen();            //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
-      case 0:
-        default_constants();
-        Brain.Screen.print("Auton Running: Qual Match, Left Side");
-        default_constants();
-        LeftFront.setVelocity(100, percent);
-        LeftRear.setVelocity(100, percent);
-        RightFront.setVelocity(100, percent);
-        RightRear.setVelocity(100, percent);
-        Brain.Screen.print("Auton Running: Qual Match, Right Side");
-        chassis.right_swing_to_angle(32);
-        chassis.drive_distance(-40);
-        chassis.left_swing_to_angle(32);
-        chassis.drive_distance(15);
-        chassis.turn_to_angle(-167);
-        chassis.drive_distance(-15);
-        wallleft.open();
-        wallright.open();
-        wait(1,seconds);
-        chassis.turn_to_angle(-90);
-        wallleft.close();
-        wallright.close();
-        chassis.turn_to_angle(-120);
-        chassis.drive_distance(-20);
-        chassis.turn_to_angle(-90);
-        chassis.drive_distance(-23.5);
-        wallleft.open();
-        wallright.open();
-        wait(0.5,seconds);
-        chassis.left_swing_to_angle(-130);
+      case 10:
+        //default_constants();
+        //Brain.Screen.print("Auton Running: Elims, Offensive Side 2");
+        chassis.drive_distance(22);
+        //drive_test();
+        //IntakeVacuum.setVelocity(100,percent);
+        //wallright.open();
+        //wait(250,msec);  
+        chassis.right_swing_to_angle(10);
         break;
       case 1:
         //wait(2,seconds);
         default_constants();
-        LeftFront.setVelocity(100, percent);
-        LeftRear.setVelocity(100, percent);
-        RightFront.setVelocity(100, percent);
-        RightRear.setVelocity(100, percent);
-        Brain.Screen.print("Auton Running: Qual Match, Right Side");
+        Brain.Screen.print("Auton Running: Qual Match, Defensive Side");
         chassis.left_swing_to_angle(-32);
         chassis.drive_distance(-40);
         chassis.right_swing_to_angle(-32);
@@ -239,10 +192,6 @@ void autonomous(void) {
       case 2:
         Brain.Screen.print("Auton Running: Qual Match, Right Side Alternate");
         default_constants();
-        LeftFront.setVelocity(100, percent);
-        LeftRear.setVelocity(100, percent);
-        RightFront.setVelocity(100, percent);
-        RightRear.setVelocity(100, percent);
         chassis.drive_distance(-50);
         wait(1,seconds);
         chassis.drive_distance(20);
@@ -311,12 +260,12 @@ void autonomous(void) {
         break;
       case 4:
         Brain.Screen.print("Dummy plug system engaged: Running: Skills Auton, Shooting Left");
-        IntakeVacuum.spinFor(1200,degrees,false);
+        //IntakeVacuum.spinFor(1200,degrees,false);
         chassis.turn_to_angle(-30);
         chassis.drive_distance(43);
         chassis.drive_distance(-30);
         chassis.turn_to_angle(70);
-        chassis.drive_distance(-6.5);
+        chassis.drive_distance(-7.5);
         chassis.left_swing_to_angle(61);
         Cata.setVelocity(65,pct);
         Cata.spinFor(32,seconds);
@@ -328,12 +277,13 @@ void autonomous(void) {
         break;
       case 5:
         Brain.Screen.print("Dummy plug system engaged: Running: Skills Auton, Shooting Left - Dev");
-        IntakeVacuum.spinFor(1200,degrees,false);
         chassis.turn_to_angle(-30);
+        IntakeVacuum.setVelocity(100,pct);
+        //IntakeVacuum.spinFor(2400,degrees,false);
         chassis.drive_distance(43);
         chassis.drive_distance(-30);
         chassis.turn_to_angle(70);
-        chassis.drive_distance(-6.5);
+        chassis.drive_distance(-7.5);
         chassis.left_swing_to_angle(61);
         Cata.setVelocity(65,pct);
         Cata.spinFor(1,seconds);
@@ -343,7 +293,7 @@ void autonomous(void) {
         chassis.drive_distance(2);
         IntakeVacuum.spinFor(-12000,degrees,false);
         chassis.right_swing_to_angle(90);
-        chassis.drive_distance(82.5);
+        chassis.drive_distance(88);
         //chassis.turn_to_angle(0);
         //chassis.drive_distance(10);
         //chassis.turn_to_angle(-60);
@@ -352,12 +302,12 @@ void autonomous(void) {
         chassis.drive_distance(3);
         chassis.drive_distance(-3);
         chassis.turn_to_angle(125);
-        chassis.drive_distance(-38);
+        chassis.drive_distance(-34);
         chassis.right_swing_to_angle(-110);
         wallleft.open();
         wallright.open();
         wait(500,msec);
-        chassis.drive_distance(-38);
+        chassis.drive_distance(-45);
         chassis.right_swing_to_angle(-90);
         //chassis.drive_distance(18);
         //chassis.drive_distance(-20);
@@ -400,6 +350,75 @@ void autonomous(void) {
         //chassis.drive_distance(-33);
         Brain.Screen.print("Dummy plug system disengaged.");
         break;
+      case 6:
+        Brain.Screen.print("Dummy plug system engaged: Running: Skills Auton, Shooting Left - Front Wings, Dev");
+        chassis.turn_to_angle(-30);
+        IntakeVacuum.setVelocity(100,pct);
+        //IntakeVacuum.spinFor(2400,degrees,false);
+        chassis.drive_distance(43);
+        chassis.drive_distance(-30);
+        chassis.turn_to_angle(70);
+        chassis.drive_distance(-7.5);
+        chassis.left_swing_to_angle(61);
+        Cata.setVelocity(65,pct);
+        Cata.spinFor(32,seconds);
+        //32 was our best time
+        chassis.set_coordinates(-14, 14.9, 70);
+        chassis.turn_to_angle(150);
+        chassis.drive_distance(2);
+        IntakeVacuum.spinFor(-12000,degrees,false);
+        chassis.right_swing_to_angle(90);
+        chassis.drive_distance(91);
+        //chassis.turn_to_angle(0);
+        //chassis.drive_distance(10);
+        //chassis.turn_to_angle(-60);
+        //chassis.drive_distance(24);
+        chassis.right_swing_to_angle(-52);
+        //chassis.drive_distance(3);
+        //chassis.drive_distance(-3);
+        chassis.drive_distance(34);
+        chassis.left_swing_to_angle(70);
+        frontwings.open();
+        //wallleft.open();
+        //wallright.open();
+        wait(500,msec);
+        chassis.drive_distance(45);
+        chassis.left_swing_to_angle(90);
+        //chassis.drive_distance(18);
+        //chassis.drive_distance(-20);
+        chassis.drive_distance(-6);
+        frontwings.close();
+        chassis.drive_distance(-18);
+        chassis.left_swing_to_angle(0);
+        chassis.drive_distance(25);
+        chassis.turn_to_angle(110);
+        frontwings.open();
+        wait(500,msec);
+        chassis.drive_distance(38);
+        chassis.right_swing_to_angle(90);
+        chassis.drive_distance(-6);
+        frontwings.close();
+        chassis.drive_distance(-18);
+        break;
+      case 7:
+        default_constants();
+        Brain.Screen.print("Auton Running: Elims, Offensive Side 2");
+        chassis.drive_distance(22);
+        IntakeVacuum.setVelocity(100,pct);
+        wallright.open();
+        chassis.left_swing_to_angle(-75);
+        wait(250,msec);
+        break;
+        //chassis.left_swing_to_angle(-70);
+        //chassis.turn_to_angle(-57);
+        //IntakeVacuum.spinFor(6000,degrees,false);
+        //chassis.drive_distance(37);
+        //chassis.right_swing_to_angle(-90);
+      case 8:
+        wait(2,seconds);
+        chassis.drive_distance(10);
+        chassis.left_swing_to_angle(10);
+        break;
     }
 }
 
@@ -425,13 +444,32 @@ void closeWall() {
   Brain.Screen.printAt(0,50, "closed");
 }
 
-void pneumaticsSwitch() {
+void switchfrontwings() {
+  if (frontwings.value() == true) {
+    frontwings.close();
+  } else {
+    frontwings.open();
+  }
+}
+
+void switchwalls(){
   if (wallleft.value() == true) {
     wallleft.close();
     wallright.close();
   } else {
-  wallleft.open();
-  wallright.open();
+    wallleft.open();
+    wallright.open();
+  }
+}
+
+void pneumaticsSwitch() {
+  if(driver_skills == true)
+  {
+    switchfrontwings();
+  }
+  else
+  {
+    switchwalls();
   }
 }
 
@@ -458,10 +496,6 @@ void reverse_drive() {
   //Brain.Screen.clearScreen();  
   reversed_controls = !reversed_controls;
   Brain.Screen.print(reversed_controls);
-  //LeftFront.setReversed(!reversed_controls);
-  //LeftRear.setReversed(!reversed_controls);
-  //RightFront.setReversed(reversed_controls);
-  //RightRear.setReversed(reversed_controls);
   task::sleep(200);
 }
 
@@ -505,11 +539,6 @@ void standardControl_1(){
     Cata.stop(hold);
   }
 
-  /*if (Controller1.ButtonL2.pressing() == true){
-    travelMode();
-  }*/
-  //@TODO: Create Travel Mode Toggle
-
   Controller1.ButtonB.pressed(pneumaticsSwitch);
   Controller1.ButtonY.pressed(lock_hang);
   
@@ -520,8 +549,8 @@ void standardControl_1(){
 }
 
 void usercontrol(void) {
-  current_auton_selection=4;
-  autonomous();
+  //current_auton_selection=4;
+  //autonomous();
   reversed_controls = false;
   while(1){standardControl_1();}
 }
@@ -532,8 +561,6 @@ void usercontrol(void) {
 int main() {
   wallleft.close();
   wallright.close();
-  //hanglock.open();
-  // Set up callbacks for autonomous and driver control periods.
   pre_auton();
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
