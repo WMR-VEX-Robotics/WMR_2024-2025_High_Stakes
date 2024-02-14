@@ -671,15 +671,80 @@ void skillsautoPos() {
   chassis.turn_to_angle(65); 
 }
 
+void rightautonDev() {
+  default_constants();
+  // initialize position as (0,0,0)
+  chassis.set_coordinates(0,0,0);
+
+  wingsDeployRetract();
+  endgame();
+  intakeMotor2.spin(forward, 12.7, volt);
+  wait(150, msec);
+  wingsDeployRetract();
+  endgame();
+  
+  chassis.turn_to_angle(-90);
+  chassis.drive_distance(32);
+  intakeMotor2.stop(hold);
+
+  chassis.turn_to_angle(-45);
+
+  //wingsDeployRetract();
+
+  chassis.drive_distance(20);
+
+  chassis.left_swing_to_angle(0);
+
+  intakeMotor2.spin(reverse, 60, percent);
+
+  wait(350, msec);
+
+  chassis.drive_distance(-6);
+  //wingsDeployRetract();
+
+  chassis.turn_to_angle(180);
+
+  chassis.drive_distance(-19);
+
+  //wingsDeployRetract();
+
+  chassis.drive_distance(23);
+
+  chassis.turn_to_angle(-45);
+
+  wingsDeployRetract();
+
+  chassis.drive_distance(-10);
+
+  chassis.turn_to_angle(-90);
+
+  chassis.drive_distance(-16);
+  wingsDeployRetract();
+
+  chassis.turn_to_angle(180);
+  wingsDeployRetract();
+  wait(250,msec);
+  wingsDeployRetract();
+
+
+
+}
+
 void leftAutondev(){
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
+  solonoidF.open();
+  wait(100, msec);
+  solonoidF.close();
+
   intakeMotor2.spin(forward, 12.7, volt);
-  chassis.drive_distance(2);
-  chassis.drive_distance(-1);
-  chassis.drive_distance(17);
+  chassis.drive_distance(4);
+  chassis.turn_to_angle(5);
+  chassis.drive_distance(5);
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(16);
 
   chassis.turn_to_angle(-25);
 
@@ -687,31 +752,41 @@ void leftAutondev(){
 
   chassis.turn_to_angle(0);
 
-  chassis.drive_distance(16);
-
-  wait(250, msec);
-
-  intakeMotor2.spin(reverse, 60, percent);
-
-  chassis.drive_distance(-15);
-
-  chassis.turn_to_angle(-45);
-
-  intakeMotor2.spin(forward, 12.7, volt);
-
-  chassis.drive_distance(45);
-
-  chassis.turn_to_angle(-90);
-
-  chassis.drive_distance(-5);
-
-  chassis.drive_distance(3);
+  chassis.drive_distance(20);
 
   chassis.turn_to_angle(90);
 
-  chassis.drive_distance(10);
+  intakeMotor2.spin(reverse, 60, percent);
+
+  wait(250, msec);
+
+  chassis.turn_to_angle(0);
+
+  chassis.drive_distance(-8);
+
+  chassis.turn_to_angle(-90);
+
+  intakeMotor2.spin(forward, 12.7, volt);
+
+  chassis.drive_distance(24);
+
+  chassis.turn_to_angle(90);
+
+  chassis.drive_distance(24);
+
+  chassis.turn_to_angle(0);
+
+  chassis.drive_distance(8);
+
+  chassis.turn_to_angle(90);
+
+  /*wingsDeployRetract();
 
   intakeMotor2.spin(reverse, 60, percent);
+
+  chassis.drive_distance(10);
+
+  wingsDeployRetract();
 
   chassis.drive_distance(-10);
 
@@ -733,7 +808,7 @@ void leftAutondev(){
 
   chassis.drive_distance(30);
 
-  chassis.drive_distance(-20);
+  chassis.drive_distance(-20);*/
 
 }
 
@@ -1026,8 +1101,9 @@ void autonType(int autonSelect) {
 void autonomous(void) {
 
   //autonType(1);
+  rightautonDev();
   //leftAutondev();
-  skillsautonDev();
+  //skillsautonDev();
   //skillsAuton();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
