@@ -117,7 +117,7 @@ PORT2,
 
 );
 
-int current_auton_selection = 5;
+int current_auton_selection = 6;
 bool auto_started = true;
 bool driver_skills = true;
 
@@ -400,6 +400,40 @@ void autonomous(void) {
         //chassis.drive_distance(-33);
         Brain.Screen.print("Dummy plug system disengaged.");
         break;
+      case 6:
+        wallleft.open();
+        chassis.drive_distance(22);
+        wallright.open();
+        wait(250,msec);
+        chassis.turn_to_angle(-100);
+        wallright.close();
+        wallleft.close();
+        chassis.turn_to_angle(-25);
+        IntakeVacuum.spinFor(-2000,degrees,false);
+        wait(750,msec);
+        chassis.turn_to_angle(155);
+        wallright.open();
+        chassis.drive_distance(-40);
+        wallright.close();
+        chassis.left_swing_to_angle(-112.5);
+        IntakeVacuum.spinFor(1600,degrees,false);
+        chassis.drive_distance(41);
+        chassis.turn_to_angle(23);
+        IntakeVacuum.spinFor(-2000,degrees,false);
+        wait(800,msec);
+        IntakeVacuum.spinFor(2000,degrees,false);
+        chassis.turn_to_angle(-45);
+        chassis.right_swing_to_angle(215);
+        wallleft.open();
+        wallright.open();
+        chassis.drive_distance(-45);
+        chassis.turn_to_angle(230);
+        //chassis.drive_distance(-40);
+        //chassis.right_swing_to_angle(-135);
+        //IntakeVacuum.spinFor(3000,degrees,false);
+        //chassis.drive_distance(10);
+        //chassis.right_swing_to_angle(-135);
+        break;
     }
 }
 
@@ -520,8 +554,8 @@ void standardControl_1(){
 }
 
 void usercontrol(void) {
-  current_auton_selection=4;
-  autonomous();
+  //current_auton_selection=4;
+  //autonomous();
   reversed_controls = false;
   while(1){standardControl_1();}
 }
