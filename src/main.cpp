@@ -40,11 +40,12 @@ controller mainController = controller(primary);
 inertial inertialSensor5 = inertial(PORT5);
 //encoder enc1 = encoder(Brain.ThreeWirePort.A);
 //rotation rot1 = rotation(PORT8, true);
+pneumatics solonoidE = pneumatics(Brain.ThreeWirePort.E);
 pneumatics solonoidF = pneumatics(Brain.ThreeWirePort.F);
 pneumatics solonoidH = pneumatics(Brain.ThreeWirePort.H);
 pneumatics solonoidG = pneumatics(Brain.ThreeWirePort.G);
 
-// select color brain goes to on auton completion, and autonomous program to be runned if any
+// select color brain goes to on auton completion, and autonomous program to be ran if any
 int type = -1;
 int team = -1;
 
@@ -479,15 +480,12 @@ void pre_auton(void) {
   catapaultMotor1.setStopping(coast);
   //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 3), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
-  // ensure that the first solonoid is registering as closed visually confirming this fact
-  solonoidH.set(false);
+  // ensure that solonoids are registering as closed visually confirming this fact
   solonoidH.close();
   solonoidF.close();
-  //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 4), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
-
-  // ensure that the second solonoid is registering as closed visually confirming this fact
-  solonoidG.set(false);
   solonoidG.close();
+  solonoidE.close();
+  //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 4), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
   //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 5), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
   wait(25, msec);
   Brain.Screen.clearScreen();
@@ -642,6 +640,14 @@ void endgame() {
   }
 }
 
+void vertiwings() {
+  if (solonoidE.value() == true) {
+    solonoidE.close();
+  } else {
+    solonoidE.open();
+  }
+}
+
 void skillsautoPos() {
   // Each constant set is in the form of (maxVoltage, kP, kI, kD, startI).
   chassis.set_drive_constants(8.5, 1.5, 0, 10, 0);
@@ -679,12 +685,12 @@ void rightautonDev() {
   wingsDeployRetract();
   endgame();
   intakeMotor2.spin(forward, 12.7, volt);
-  wait(150, msec);
+  wait(200, msec);
   wingsDeployRetract();
   endgame();
   
   chassis.turn_to_angle(-90);
-  chassis.drive_distance(32);
+  chassis.drive_distance(30);
   intakeMotor2.stop(hold);
 
   chassis.turn_to_angle(-45);
@@ -695,31 +701,47 @@ void rightautonDev() {
 
   chassis.left_swing_to_angle(0);
 
-  intakeMotor2.spin(reverse, 60, percent);
+  chassis.drive_distance(2);
 
-  wait(350, msec);
+  chassis.turn_to_angle(-2);
+
+  intakeMotor2.spin(reverse, 100, percent);
+
+  wait(300, msec);
+
+  chassis.turn_to_angle(0);
 
   chassis.drive_distance(-6);
   //wingsDeployRetract();
 
   chassis.turn_to_angle(180);
 
-  chassis.drive_distance(-19);
+  chassis.drive_distance(-16);
 
   //wingsDeployRetract();
 
-  chassis.drive_distance(23);
+  chassis.drive_distance(22);
 
   chassis.turn_to_angle(-45);
 
-  wingsDeployRetract();
+  chassis.drive_distance(6);
+
+
+
+  vertiwings();
+
+  wait(150, msec);
 
   chassis.drive_distance(-10);
 
-  chassis.turn_to_angle(-90);
+  chassis.left_swing_to_angle(-90);
 
   chassis.drive_distance(-16);
-  wingsDeployRetract();
+  vertiwings();
+
+  chassis.turn_to_angle(-90);
+
+  chassis.drive_distance(-8);
 
   chassis.turn_to_angle(180);
   wingsDeployRetract();
@@ -827,7 +849,7 @@ void skillsautonDev(){
   chassis.drive_distance(-20);
   chassis.turn_to_angle(65);
 
-  spincataPerc(65.0, true);
+  //spincataPerc(65.0, true);
 
   /*thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
@@ -838,10 +860,12 @@ void skillsautonDev(){
 
   int counter = 0;
 
-  while (counter < 30){
+  /*while (counter < 30){
     wait(1, sec);
     counter += 1;
-  }
+  }*/
+
+  wait(2, sec);
 
   catapaultMotor1.stop(coast);
   catapaultMotor4.stop(coast);
@@ -1101,9 +1125,9 @@ void autonType(int autonSelect) {
 void autonomous(void) {
 
   //autonType(1);
-  rightautonDev();
+  //rightautonDev();
   //leftAutondev();
-  //skillsautonDev();
+  skillsautonDev();
   //skillsAuton();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
@@ -1208,6 +1232,8 @@ void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
   //skillsautoPos();
+  setdtBrakemode(coast);
+  //set_screen_color(team);
   while (1) {
    drive_User();
   }
