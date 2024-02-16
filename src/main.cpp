@@ -849,7 +849,7 @@ void skillsautonDev(){
   chassis.drive_distance(-20);
   chassis.turn_to_angle(65);
 
-  //spincataPerc(65.0, true);
+  spincataPerc(65.0, true);
 
   /*thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
@@ -860,12 +860,12 @@ void skillsautonDev(){
 
   int counter = 0;
 
-  /*while (counter < 30){
+  while (counter < 30){
     wait(1, sec);
     counter += 1;
-  }*/
+  }
 
-  wait(2, sec);
+  //wait(2, sec);
 
   catapaultMotor1.stop(coast);
   catapaultMotor4.stop(coast);
@@ -1125,9 +1125,9 @@ void autonType(int autonSelect) {
 void autonomous(void) {
 
   //autonType(1);
-  //rightautonDev();
+  rightautonDev();
   //leftAutondev();
-  skillsautonDev();
+  //skillsautonDev();
   //skillsAuton();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
