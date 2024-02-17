@@ -11,6 +11,7 @@ controller Controller2 = controller(partner);
 pneumatics wallleft = pneumatics(Brain.ThreeWirePort.H);
 pneumatics wallright = pneumatics(Brain.ThreeWirePort.F);
 pneumatics hanglock = pneumatics(Brain.ThreeWirePort.G);
+pneumatics frontwings = pneumatics(Brain.ThreeWirePort.E);
 
 bool reversed_controls = true;
 
@@ -469,6 +470,14 @@ void pneumaticsSwitch() {
   }
 }
 
+void engagewings() {
+  if (frontwings.value() == true) {
+    frontwings.close();
+  } else {
+    frontwings.open();
+  }
+}
+
 
 void disengagelock(){
   hanglock.open();
@@ -545,6 +554,7 @@ void standardControl_1(){
   //@TODO: Create Travel Mode Toggle
 
   Controller1.ButtonB.pressed(pneumaticsSwitch);
+  Controller1.ButtonX.pressed(engagewings);
   Controller1.ButtonY.pressed(lock_hang);
   
   if (Controller1.ButtonA.pressing() == true){
