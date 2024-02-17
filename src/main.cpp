@@ -40,12 +40,12 @@ controller mainController = controller(primary);
 inertial inertialSensor5 = inertial(PORT5);
 //encoder enc1 = encoder(Brain.ThreeWirePort.A);
 //rotation rot1 = rotation(PORT8, true);
-pneumatics solonoidE = pneumatics(Brain.ThreeWirePort.E);
 pneumatics solonoidF = pneumatics(Brain.ThreeWirePort.F);
 pneumatics solonoidH = pneumatics(Brain.ThreeWirePort.H);
 pneumatics solonoidG = pneumatics(Brain.ThreeWirePort.G);
+pneumatics solonoidE = pneumatics(Brain.ThreeWirePort.E);
 
-// select color brain goes to on auton completion, and autonomous program to be ran if any
+// select color brain goes to on auton completion, and autonomous program to be runned if any
 int type = -1;
 int team = -1;
 
@@ -369,7 +369,7 @@ void allowforskillsCata() {
   catapaultMotor1.stop(coast);
   catapaultMotor4.stop(coast);
   intakeMotor2.stop(coast);
-  chassis.set_coordinates(0,0,0);
+  //chassis.set_coordinates(0,0,0);
   halter = false;
 }
 
@@ -480,12 +480,15 @@ void pre_auton(void) {
   catapaultMotor1.setStopping(coast);
   //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 3), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
-  // ensure that solonoids are registering as closed visually confirming this fact
+  // ensure that the first solonoid is registering as closed visually confirming this fact
+  solonoidH.set(false);
   solonoidH.close();
   solonoidF.close();
-  solonoidG.close();
-  solonoidE.close();
   //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 4), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
+
+  // ensure that the second solonoid is registering as closed visually confirming this fact
+  solonoidG.set(false);
+  solonoidG.close();
   //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 5), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
   wait(25, msec);
   Brain.Screen.clearScreen();
@@ -632,19 +635,19 @@ void wingsDeployRetract() {
   }
 }
 
+void deployBackWings()
+{
+  if(solonoidE.value() == true)
+  {
+    solonoidE.close();
+  } else {solonoidE.open();}
+}
+
 void endgame() {
   if (solonoidF.value() == true) {
     solonoidF.close();
   } else {
     solonoidF.open();
-  }
-}
-
-void vertiwings() {
-  if (solonoidE.value() == true) {
-    solonoidE.close();
-  } else {
-    solonoidE.open();
   }
 }
 
@@ -677,96 +680,15 @@ void skillsautoPos() {
   chassis.turn_to_angle(65); 
 }
 
-void rightautonDev() {
-  default_constants();
-  // initialize position as (0,0,0)
-  chassis.set_coordinates(0,0,0);
-
-  wingsDeployRetract();
-  endgame();
-  intakeMotor2.spin(forward, 12.7, volt);
-  wait(200, msec);
-  wingsDeployRetract();
-  endgame();
-  
-  chassis.turn_to_angle(-90);
-  chassis.drive_distance(30);
-  intakeMotor2.stop(hold);
-
-  chassis.turn_to_angle(-45);
-
-  //wingsDeployRetract();
-
-  chassis.drive_distance(20);
-
-  chassis.left_swing_to_angle(0);
-
-  chassis.drive_distance(2);
-
-  chassis.turn_to_angle(-2);
-
-  intakeMotor2.spin(reverse, 100, percent);
-
-  wait(300, msec);
-
-  chassis.turn_to_angle(0);
-
-  chassis.drive_distance(-6);
-  //wingsDeployRetract();
-
-  chassis.turn_to_angle(180);
-
-  chassis.drive_distance(-16);
-
-  //wingsDeployRetract();
-
-  chassis.drive_distance(22);
-
-  chassis.turn_to_angle(-45);
-
-  chassis.drive_distance(6);
-
-
-
-  vertiwings();
-
-  wait(150, msec);
-
-  chassis.drive_distance(-10);
-
-  chassis.left_swing_to_angle(-90);
-
-  chassis.drive_distance(-16);
-  vertiwings();
-
-  chassis.turn_to_angle(-90);
-
-  chassis.drive_distance(-8);
-
-  chassis.turn_to_angle(180);
-  wingsDeployRetract();
-  wait(250,msec);
-  wingsDeployRetract();
-
-
-
-}
-
 void leftAutondev(){
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  solonoidF.open();
-  wait(100, msec);
-  solonoidF.close();
-
   intakeMotor2.spin(forward, 12.7, volt);
-  chassis.drive_distance(4);
-  chassis.turn_to_angle(5);
-  chassis.drive_distance(5);
-  chassis.turn_to_angle(0);
-  chassis.drive_distance(16);
+  chassis.drive_distance(2);
+  chassis.drive_distance(-1);
+  chassis.drive_distance(17);
 
   chassis.turn_to_angle(-25);
 
@@ -774,41 +696,31 @@ void leftAutondev(){
 
   chassis.turn_to_angle(0);
 
-  chassis.drive_distance(20);
-
-  chassis.turn_to_angle(90);
-
-  intakeMotor2.spin(reverse, 60, percent);
+  chassis.drive_distance(16);
 
   wait(250, msec);
 
-  chassis.turn_to_angle(0);
+  intakeMotor2.spin(reverse, 60, percent);
 
-  chassis.drive_distance(-8);
+  chassis.drive_distance(-15);
 
-  chassis.turn_to_angle(-90);
+  chassis.turn_to_angle(-45);
 
   intakeMotor2.spin(forward, 12.7, volt);
 
-  chassis.drive_distance(24);
+  chassis.drive_distance(45);
+
+  chassis.turn_to_angle(-90);
+
+  chassis.drive_distance(-5);
+
+  chassis.drive_distance(3);
 
   chassis.turn_to_angle(90);
-
-  chassis.drive_distance(24);
-
-  chassis.turn_to_angle(0);
-
-  chassis.drive_distance(8);
-
-  chassis.turn_to_angle(90);
-
-  /*wingsDeployRetract();
-
-  intakeMotor2.spin(reverse, 60, percent);
 
   chassis.drive_distance(10);
 
-  wingsDeployRetract();
+  intakeMotor2.spin(reverse, 60, percent);
 
   chassis.drive_distance(-10);
 
@@ -830,7 +742,7 @@ void leftAutondev(){
 
   chassis.drive_distance(30);
 
-  chassis.drive_distance(-20);*/
+  chassis.drive_distance(-20);
 
 }
 
@@ -840,53 +752,29 @@ void skillsautonDev(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  wingsDeployRetract();
-  wait(500, msec);
-  wingsDeployRetract();
-
   chassis.drive_distance(18);
   chassis.turn_to_angle(70);
   chassis.drive_distance(-20);
   chassis.turn_to_angle(65);
 
-  spincataPerc(65.0, true);
-
-  /*thread task1(allowforskillsCata); // creates timer thread for catapult in skills
-  task1.detach(); // "allows" for execution from handle
-
-  while (halter != false) {
-    wait(2, msec); // sit there and wait while catapult is spinning
-  }*/
-
-  int counter = 0;
-
-  while (counter < 30){
-    wait(1, sec);
-    counter += 1;
-  }
-
-  //wait(2, sec);
-
-  catapaultMotor1.stop(coast);
-  catapaultMotor4.stop(coast);
   chassis.set_coordinates(-14, 14.9, 65);
+  //spincataPerc(65.0, true);
+  
 
+  //chassis.drive_distance(20);
+
+  //chassis.turn_to_angle(0);
   intakeMotor2.spin(reverse, 90, percent);
+  //chassis.turn_to_angle(-20);
+  chassis.drive_distance(80);
+  //chassis.turn_to_angle(80);
+  //wingsDeployRetract();
 
-  chassis.drive_distance(20);
+  //chassis.set_drive_exit_conditions(1.5, 200, 3000);
 
-  chassis.turn_to_angle(0);
+  //wingsDeployRetract();
 
-  chassis.drive_distance(40);
-
-  chassis.turn_to_angle(90);
-  wingsDeployRetract();
-
-  chassis.set_drive_exit_conditions(1.5, 200, 3000);
-
-  wingsDeployRetract();
-
-  chassis.drive_distance(65);
+  //chassis.drive_distance(65);
   
   //chassis.turn_to_angle(25);
   //chassis.turn_to_angle(-25);
@@ -895,50 +783,26 @@ void skillsautonDev(){
   //chassis.set_drive_exit_conditions(1.5, 200, 1250); // going over the middle
   //chassis.drive_distance(-20);
 
-  chassis.set_coordinates(0, 0, 0);
-  chassis.turn_to_angle(0);
-  chassis.drive_distance(30);
+ // chassis.set_coordinates(0, 0, 0);
+  //chassis.turn_to_angle(0);
+  //chassis.drive_distance(30);
 
-  wingsDeployRetract();
+ // wingsDeployRetract();
   
-  chassis.drive_distance(-30);
-  intakeMotor2.stop(coast);
-  chassis.turn_to_angle(90);
-  chassis.drive_distance(30);
-  chassis.turn_to_angle(-10);
-
-  wingsDeployRetract();
-
-  intakeMotor2.spin(reverse, 80, percent);
-  chassis.drive_distance(30);
-  wingsDeployRetract();
-  chassis.drive_distance(-30);
-  intakeMotor2.stop(coast);
-
-  chassis.turn_to_angle(90);
-  chassis.drive_distance(-40);
-  chassis.turn_to_angle(0);
-  intakeMotor2.spin(reverse, 80, percent);
-  wingsDeployRetract();
-
-
+ // chassis.drive_distance(-30);
+ // intakeMotor2.stop(coast);
+ // chassis.turn_to_angle(90);
+ // chassis.drive_distance(20);
+ // chassis.turn_to_angle(0);
+ // wingsDeployRetract();
+ // intakeMotor2.spin(reverse, 80, percent);
+ // chassis.drive_distance(30);
+ // wingsDeployRetract();
+ // chassis.drive_distance(-30);
+ // intakeMotor2.stop(coast); 
+  /*wingsDeployRetract();
 
   chassis.drive_distance(30);
-  wingsDeployRetract();
-  chassis.drive_distance(-30);
-  intakeMotor2.stop(coast);
-
-
-
-
-
-  //@here
-
-  
-
-
-
-  /*chassis.drive_distance(30);
 
   wingsDeployRetract();
 
@@ -965,48 +829,91 @@ void skillsAuton() {
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
-
+  
   //chassis.drive_distance(80);
 
-  wingsDeployRetract();
-  wait(500, msec);
-  wingsDeployRetract();
+  //wingsDeployRetract();
+  //wait(500, msec);
+  //wingsDeployRetract();
 
 
   // begin the fun program of skills auton
-  chassis.drive_distance(18);
-  chassis.turn_to_angle(70);
-  //spincataPerc(65.0, true); 
+  //achassis.drive_distance(18);
+ //a chassis.turn_to_angle(70);
+  //spincataPerc(65.0, true);
+  chassis.turn_to_angle(-30);
+  //chassis.drive_with_voltage(chassis.drive_max_voltage, chassis.drive_max_voltage); 
+  chassis.drive_distance(-40);
+  chassis.turn_to_angle(-20);
   chassis.drive_distance(-20);
-  chassis.turn_to_angle(65);
-  spincataPerc(65.0, true); 
-// spins catapult at a given percent (swapping bool allows for different precisions)
-  //intakeMotor2.spin(reverse, 12.7, volt);
-//
-//
-  /*thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  //wait(500, msec);
+  chassis.drive_distance(20);
+  chassis.turn_to_angle(-112);
+  chassis.drive_distance(-4);
+  chassis.left_swing_to_angle(-115);
+  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  task1.detach(); // "allows" for execution from handle
+  spincataPerc(65,true);
+  while (halter != false) {
+    wait(2, msec); // sit there and wait while catapult is spinning
+    armElevator3.stop(hold);
+  }
+  chassis.set_coordinates(0,0,-115);
+  //wait(2, sec);
+  chassis.turn_to_angle(-60);
+  chassis.drive_distance(22);
+  chassis.turn_to_angle(-90);
+  intakeMotor2.spin(reverse);
+  chassis.drive_distance(65);
+  chassis.right_swing_to_angle(-225);
+  chassis.drive_distance(35);
+  chassis.turn_to_angle(60);
+  deployBackWings();
+  wait(100, msec);
+  chassis.drive_distance(-40);
+  chassis.turn_to_angle(110);
+  chassis.drive_distance(25);
+  deployBackWings();
+  chassis.drive_distance(20); 
+  chassis.turn_to_angle(90); 
+  deployBackWings();
+  wait(100, msec);
+  chassis.drive_distance(-40);
+  chassis.drive_distance(10);
+  deployBackWings();
+  chassis.drive_distance(30);
+  chassis.turn_to_angle(180);
+  chassis.drive_distance(25);
+  chassis.turn_to_angle(115);
+  deployBackWings();
+  wait(100, msec);
+  chassis.drive_distance(-35);
+  intakeMotor2.stop(coast);
+  //chassis.drive_distance(60);
+  /*a thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
 
   while (halter != false) {
     wait(2, msec); // sit there and wait while catapult is spinning
     armElevator3.stop(hold);
   }
-*/
+
   wait(2, sec);
 
   armElevator3.setBrake(coast);
 
-  intakeMotor2.spin(reverse);
+  intakeMotor2.spin(reverse);*/
 
 
   chassis.set_coordinates(-14, 14.9, 65);
-  chassis.turn_to_angle(110);
-  chassis.drive_distance(32); // modified from 24
-  //chassis.turn_to_angle(89);
-  //chassis.drive_distance(50);
-  chassis.set_drive_constants(6, 1.5, 0, 10, 0);
-  chassis.set_drive_exit_conditions(1.5, 200, 3000);
-  chassis.turn_to_angle(89);
+  //achassis.turn_to_angle(110);
+ //a chassis.drive_distance(32); // modified from 24
+  //achassis.turn_to_angle(89);
+  //achassis.drive_distance(60);
+
+  //chassis.set_drive_constants(6, 1.5, 0, 10, 0);
+  //chassis.set_drive_exit_conditions(1.5, 200, 3000);
+  /*chassis.turn_to_angle(89);
   chassis.drive_distance(74); // modified from 74
 
   chassis.turn_to_angle(-30);
@@ -1024,7 +931,7 @@ void skillsAuton() {
   wingsDeployRetract();
   chassis.drive_distance(33);
   wingsDeployRetract();
-  chassis.drive_distance(-33);
+  chassis.drive_distance(-33);*/
 
 //
   //// gross programming but if the bot moves the bot moves. It shouldn't.
@@ -1125,10 +1032,9 @@ void autonType(int autonSelect) {
 void autonomous(void) {
 
   //autonType(1);
-  rightautonDev();
   //leftAutondev();
   //skillsautonDev();
-  //skillsAuton();
+  skillsAuton();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
@@ -1232,8 +1138,6 @@ void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
   //skillsautoPos();
-  setdtBrakemode(coast);
-  //set_screen_color(team);
   while (1) {
    drive_User();
   }
