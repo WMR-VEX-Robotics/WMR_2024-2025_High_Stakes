@@ -495,8 +495,8 @@ void pre_auton(void) {
   wait(25, msec);
   Brain.Screen.clearScreen();
 
-  /*autonSelect_buttons();
-  if (type != 0 && type != 4) {
+  autonSelect_buttons();
+  /*if (type != 0 && type != 4) {
     color_select();
   }*/
 
@@ -562,7 +562,7 @@ void competitionAutonL(){
 
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
-  set_screen_color(team);
+  //set_screen_color(team);
 }
 
 // for competition
@@ -623,7 +623,7 @@ void competitionAutonR(){
   // set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
 
-  set_screen_color(team);
+  //set_screen_color(team);
 }
 
 void wingsDeployRetract() {
@@ -990,7 +990,7 @@ void skillsAuton() {
   //// set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
 //
-  set_screen_color(team);
+  //set_screen_color(team);
 }
 
 // 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
@@ -1033,10 +1033,10 @@ void autonType(int autonSelect) {
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
 
-  //autonType(1);
+  autonType(type);
   //leftAutondev();
   //skillsautonDev();
-  skillsAuton();
+  //skillsAuton();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
