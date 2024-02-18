@@ -1076,10 +1076,10 @@ void drive_User(){
     brMotor11.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
   } else {
     tlMotor18.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    mlMotor19.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     blMotor20.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
     trMotor13.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    mrMotor12.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
     brMotor11.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
   }
 
@@ -1089,12 +1089,8 @@ void drive_User(){
   }
 
   // spin catapault
-  if (mainController.ButtonL1.pressing() == true){
-    if (percent25 == true){
-      spincataPerc(65.0, true);
-    } else {
-      spincataPerc(100.0, false);
-    }
+  if (mainController.ButtonY.pressing() == true){
+    spincataPerc(65.0, true);
   } else {
     catapaultMotor1.stop(coast);
   }
@@ -1110,7 +1106,7 @@ void drive_User(){
   //deploy wings
   mainController.ButtonL2.pressed(wingsDeployRetract);
 
-  mainController.ButtonY.pressed(swapPerc);
+  mainController.ButtonY.pressed(deployBackWings);
 
   mainController.ButtonX.pressed(motorReverse);
 
