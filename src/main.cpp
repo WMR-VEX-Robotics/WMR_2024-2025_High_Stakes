@@ -686,6 +686,10 @@ void leftAutondev(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
+  endgame();
+  wait(500, msec);
+  endgame();
+
   intakeMotor2.spin(forward, 12.7, volt);
   chassis.drive_distance(2);
   chassis.drive_distance(-1);
