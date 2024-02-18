@@ -645,7 +645,7 @@ void deployBackWings() {
   }
 }
 
-void endgame() {
+void hangArm() {
   if (solonoidF.value() == true) {
     solonoidF.close();
   } else {
@@ -654,32 +654,33 @@ void endgame() {
 }
 
 void skillsautoPos() {
-  // Each constant set is in the form of (maxVoltage, kP, kI, kD, startI).
-  chassis.set_drive_constants(8.5, 1.5, 0, 10, 0);
-  chassis.set_heading_constants(8, .4, 0, 1, 0);
-  chassis.set_turn_constants(4, .4, .03, 3, 15);
-  chassis.set_swing_constants(10, .3, .001, 2, 15);
-
-  // Each exit condition set is in the form (settle_error, settle_time, timeout).
-  chassis.set_drive_exit_conditions(1.5, 200, 1750);
-  chassis.set_turn_exit_conditions(1, 200, 1750);
-  chassis.set_swing_exit_conditions(1, 200, 1000);
+  //wingsDeployRetract();
+  // set operating constant to their default values
+  default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
+  
+  //chassis.drive_distance(80);
 
-  armElevator3.spin(forward, 12.7, volt);
-  wait(500, msec);
-  armElevator3.stop(coast);
-  wait(250, msec);
+  //wingsDeployRetract();
+  //wait(500, msec);
+  //wingsDeployRetract();
 
+
+  // begin the fun program of skills auton
+  //achassis.drive_distance(18);
+ //a chassis.turn_to_angle(70);
+  //spincataPerc(65.0, true);
   chassis.turn_to_angle(-30);
-  chassis.drive_distance(30);
-  intakeMotor2.spin(reverse);
-  chassis.drive_distance(13);
-  chassis.drive_distance(-30);
-  chassis.turn_to_angle(70);
-  chassis.drive_distance(-6.5);
-  chassis.turn_to_angle(65); 
+  //chassis.drive_with_voltage(chassis.drive_max_voltage, chassis.drive_max_voltage); 
+  chassis.drive_distance(-40);
+  chassis.turn_to_angle(-20);
+  chassis.drive_distance(-20);
+  //wait(500, msec);
+  chassis.drive_distance(20);
+  chassis.turn_to_angle(-112);
+  chassis.drive_distance(-4);
+  chassis.left_swing_to_angle(-115);
 }
 
 void leftAutondev(){
@@ -749,18 +750,16 @@ void leftAutondev(){
 }
 
 void rightautonDev() {
-  Brain.Screen.print("Hey");
-  wingsDeployRetract();
-  /*default_constants();
+  default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
   wingsDeployRetract();
-  endgame();
+  hangArm();
   intakeMotor2.spin(forward, 12.7, volt);
   wait(200, msec);
   wingsDeployRetract();
-  endgame();
+  hangArm();
   
   chassis.turn_to_angle(-90);
   chassis.drive_distance(30);
@@ -819,7 +818,7 @@ void rightautonDev() {
   chassis.turn_to_angle(180);
   wingsDeployRetract();
   wait(250,msec);
-  wingsDeployRetract();*/
+  wingsDeployRetract();
 
 
 
@@ -1190,7 +1189,7 @@ void drive_User(){
 
   mainController.ButtonX.pressed(motorReverse);
 
-  mainController.ButtonA.pressed(endgame);
+  mainController.ButtonA.pressed(hangArm);
 
   // for intake
   if (mainController.ButtonR2.pressing() == true ) {
@@ -1213,7 +1212,7 @@ void drive_User(){
 void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
-  skillsautoPos();
+  //skillsautoPos(); //If in a match, comment this line
   setdtBrakemode(coast);
   while (1) {
    drive_User();
