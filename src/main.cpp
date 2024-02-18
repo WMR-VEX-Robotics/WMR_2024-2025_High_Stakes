@@ -31,7 +31,7 @@ motor trMotor13 = motor(PORT13, ratio18_1, false);
 motor mrMotor12 = motor(PORT12, ratio18_1, false);
 motor brMotor11 = motor(PORT11, ratio18_1, false);*/
 
-motor catapaultMotor1 = motor(PORT14, ratio18_1, false);
+motor catapaultMotor14 = motor(PORT14, ratio18_1, false);
 motor intakeMotor2 = motor(PORT2, ratio18_1, true);
 motor armElevator3 = motor(PORT3, ratio18_1, false);
 motor catapaultMotor4 = motor(PORT4, ratio18_1, true);
@@ -40,10 +40,12 @@ controller mainController = controller(primary);
 inertial inertialSensor5 = inertial(PORT5);
 //encoder enc1 = encoder(Brain.ThreeWirePort.A);
 //rotation rot1 = rotation(PORT8, true);
-pneumatics solonoidF = pneumatics(Brain.ThreeWirePort.F);
-pneumatics solonoidH = pneumatics(Brain.ThreeWirePort.H);
-pneumatics solonoidG = pneumatics(Brain.ThreeWirePort.G);
-pneumatics solonoidE = pneumatics(Brain.ThreeWirePort.E);
+pneumatics solonoidF = pneumatics(Brain.ThreeWirePort.F); //hang
+
+pneumatics solonoidH = pneumatics(Brain.ThreeWirePort.H); //forward wing
+pneumatics solonoidG = pneumatics(Brain.ThreeWirePort.G); //forward wing 2
+
+pneumatics solonoidE = pneumatics(Brain.ThreeWirePort.E); //rear wings
 
 // select color brain goes to on auton completion, and autonomous program to be runned if any
 int type = -1;
@@ -366,7 +368,7 @@ void allowforskillsCata() {
 
     vex::task::sleep(15);
   }
-  catapaultMotor1.stop(coast);
+  catapaultMotor14.stop(coast);
   catapaultMotor4.stop(coast);
   intakeMotor2.stop(coast);
   //chassis.set_coordinates(0,0,0);
@@ -418,19 +420,19 @@ double percentasVolt(double n) {
 // volt = false percent = true
 void spincataPerc(double P, bool inPercent) {
   if (inPercent) {
-    catapaultMotor1.spin(forward, P, percent);
+    catapaultMotor14.spin(forward, P, percent);
     catapaultMotor4.spin(forward, P, percent);
   } else {
-    catapaultMotor1.spin(forward, percentasVolt(P), volt);
+    catapaultMotor14.spin(forward, percentasVolt(P), volt);
     catapaultMotor4.spin(forward, percentasVolt(P), volt);
   }
 }
 
 void spincataPercrev(double P, bool inPercent) {
   if (inPercent) {
-    catapaultMotor1.spin(reverse, P, percent);
+    catapaultMotor14.spin(reverse, P, percent);
   } else {
-    catapaultMotor1.spin(reverse, percentasVolt(P), volt);
+    catapaultMotor14.spin(reverse, percentasVolt(P), volt);
   }
 }
 
@@ -477,7 +479,7 @@ void pre_auton(void) {
   //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // to prevent catapault motor strain we will set the motors to coast
-  catapaultMotor1.setStopping(coast);
+  catapaultMotor14.setStopping(coast);
   //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 3), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
   // ensure that the first solonoid is registering as closed visually confirming this fact
@@ -1041,7 +1043,7 @@ void autonomous(void) {
   armElevator3.stop(coast);
   wait(500,msec);
   armElevator3.spinFor(reverse, 90, degrees);
-  catapaultMotor1.spin(forward, 100, percent);*/
+  catapaultMotor14.spin(forward, 100, percent);*/
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1092,15 +1094,15 @@ void drive_User(){
   if (mainController.ButtonY.pressing() == true){
     spincataPerc(65.0, true);
   } else {
-    catapaultMotor1.stop(coast);
+    catapaultMotor14.stop(coast);
   }
 
   /*if (mainController.ButtonRight.pressing() == true && percent25 == true) {
     //spincataPercrev(25.0, false);
-    catapaultMotor1.spin(reverse, 25, percent);
+    catapaultMotor14.spin(reverse, 25, percent);
   } else if (mainController.ButtonRight.pressing() == true && percent25 == false) {
     //spincataPercrev(73.0, false);
-    catapaultMotor1.spin(reverse, 75, percent);
+    catapaultMotor14.spin(reverse, 75, percent);
   }*/
 
   //deploy wings
@@ -1133,7 +1135,8 @@ void drive_User(){
 void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
-  //skillsautoPos();
+  skillsautoPos();
+  setdtBrakemode(coast);
   while (1) {
    drive_User();
   }
