@@ -510,9 +510,9 @@ void competitionAutonL(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  armElevator3.spin(forward, 12.7, volt);
+  endgame();
   wait(500, msec);
-  armElevator3.stop(coast);
+  endgame();
 
   intakeMotor2.spin(forward, 12.7, volt);
   
@@ -573,9 +573,9 @@ void competitionAutonR(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  armElevator3.spin(forward, 12.7, volt);
+  endgame();
   wait(500, msec);
-  armElevator3.stop(coast);
+  endgame();
 
   intakeMotor2.spin(forward, 12.7, volt);
   
@@ -667,10 +667,9 @@ void skillsautoPos() {
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  armElevator3.spin(forward, 12.7, volt);
+  endgame();
   wait(500, msec);
-  armElevator3.stop(coast);
-  wait(250, msec);
+  endgame();
 
   chassis.turn_to_angle(-30);
   chassis.drive_distance(30);
