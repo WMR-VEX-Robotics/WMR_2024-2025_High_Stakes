@@ -1135,7 +1135,7 @@ void drive_User(){
 void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
-  skillsautoPos();
+  //skillsautoPos();
   setdtBrakemode(coast);
   while (1) {
    drive_User();
