@@ -637,12 +637,12 @@ void wingsDeployRetract() {
   }
 }
 
-void deployBackWings()
-{
-  if(solonoidE.value() == true)
-  {
+void deployBackWings() {
+  if(solonoidE.value() == true) {
     solonoidE.close();
-  } else {solonoidE.open();}
+  } else {
+    solonoidE.open();
+  }
 }
 
 void endgame() {
@@ -1108,7 +1108,7 @@ void drive_User(){
   //deploy wings
   mainController.ButtonL2.pressed(wingsDeployRetract);
 
-  mainController.ButtonY.pressed(deployBackWings);
+  mainController.ButtonL1.pressed(deployBackWings);
 
   mainController.ButtonX.pressed(motorReverse);
 
