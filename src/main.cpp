@@ -748,6 +748,83 @@ void leftAutondev(){
 
 }
 
+void rightautonDev() {
+  Brain.Screen.print("Hey");
+  wingsDeployRetract();
+  /*default_constants();
+  // initialize position as (0,0,0)
+  chassis.set_coordinates(0,0,0);
+
+  wingsDeployRetract();
+  endgame();
+  intakeMotor2.spin(forward, 12.7, volt);
+  wait(200, msec);
+  wingsDeployRetract();
+  endgame();
+  
+  chassis.turn_to_angle(-90);
+  chassis.drive_distance(30);
+  intakeMotor2.stop(hold);
+
+  chassis.turn_to_angle(-45);
+
+  //wingsDeployRetract();
+
+  chassis.drive_distance(20);
+
+  chassis.left_swing_to_angle(0);
+
+  chassis.drive_distance(2);
+
+  chassis.turn_to_angle(-2);
+
+  intakeMotor2.spin(reverse, 100, percent);
+
+  wait(300, msec);
+
+  chassis.turn_to_angle(0);
+
+  chassis.drive_distance(-6);
+  //wingsDeployRetract();
+
+  chassis.turn_to_angle(180);
+
+  chassis.drive_distance(-16);
+
+  //wingsDeployRetract();
+
+  chassis.drive_distance(22);
+
+  chassis.turn_to_angle(-45);
+
+  chassis.drive_distance(6);
+
+
+
+  deployBackWings();
+
+  wait(150, msec);
+
+  chassis.drive_distance(-10);
+
+  chassis.left_swing_to_angle(-90);
+
+  chassis.drive_distance(-16);
+  deployBackWings();
+
+  chassis.turn_to_angle(-90);
+
+  chassis.drive_distance(-8);
+
+  chassis.turn_to_angle(180);
+  wingsDeployRetract();
+  wait(250,msec);
+  wingsDeployRetract();*/
+
+
+
+}
+
 void skillsautonDev(){
 
   default_constants();
@@ -1033,10 +1110,11 @@ void autonType(int autonSelect) {
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
 
-  //autonType(1);
-  //leftAutondev();
-  //skillsautonDev();
-  skillsAuton();
+  rightautonDev(); //match
+  //skillsAuton();   //skills
+
+
+
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
