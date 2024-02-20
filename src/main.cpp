@@ -502,6 +502,35 @@ void pre_auton(void) {
 
 }
 
+void endgame() {
+  if (solonoidF.value() == true) {
+    solonoidF.close();
+  } else {
+    solonoidF.open();
+  }
+}
+
+// for competition
+
+void wingsDeployRetract() {
+  // snippet to deploy pneumatic wings
+  if (solonoidH.value() == true) {
+    solonoidH.close(); 
+    solonoidG.close();
+  } else {
+    solonoidH.open(); 
+    solonoidG.open();
+  }
+}
+
+void deployBackWings() {
+  if(solonoidE.value() == true) {
+    solonoidE.close();
+  } else {
+    solonoidE.open();
+  }
+}
+
 // for competition
 void competitionAutonL(){
   armElevator3.stop(hold);
@@ -565,7 +594,7 @@ void competitionAutonL(){
   //set_screen_color(team);
 }
 
-// for competition
+
 void competitionAutonR(){
   // set operating constant to their default values
   armElevator3.stop(hold);
@@ -624,33 +653,6 @@ void competitionAutonR(){
   setdtBrakemode(coast);
 
   //set_screen_color(team);
-}
-
-void wingsDeployRetract() {
-  // snippet to deploy pneumatic wings
-  if (solonoidH.value() == true) {
-    solonoidH.close(); 
-    solonoidG.close();
-  } else {
-    solonoidH.open(); 
-    solonoidG.open();
-  }
-}
-
-void deployBackWings() {
-  if(solonoidE.value() == true) {
-    solonoidE.close();
-  } else {
-    solonoidE.open();
-  }
-}
-
-void endgame() {
-  if (solonoidF.value() == true) {
-    solonoidF.close();
-  } else {
-    solonoidF.open();
-  }
 }
 
 void skillsautoPos() {
@@ -996,6 +998,79 @@ void skillsAuton() {
   //set_screen_color(team);
 }
 
+void rightautonDev() {
+  default_constants();
+  // initialize position as (0,0,0)
+  chassis.set_coordinates(0,0,0);
+
+  wingsDeployRetract();
+  endgame();
+  intakeMotor2.spin(forward, 12.7, volt);
+  wait(200, msec);
+  wingsDeployRetract();
+  endgame();
+
+  chassis.turn_to_angle(-90);
+  chassis.drive_distance(30);
+  intakeMotor2.stop(hold);
+
+  chassis.turn_to_angle(-45);
+
+  //wingsDeployRetract();
+
+  chassis.drive_distance(20);
+
+  chassis.left_swing_to_angle(0);
+
+  chassis.drive_distance(2);
+
+  chassis.turn_to_angle(-2);
+
+  intakeMotor2.spin(reverse, 100, percent);
+
+  wait(300, msec);
+
+  chassis.turn_to_angle(0);
+
+  chassis.drive_distance(-6);
+  //wingsDeployRetract();
+
+  chassis.turn_to_angle(180);
+
+  chassis.drive_distance(-16);
+
+  //wingsDeployRetract();
+
+  chassis.drive_distance(22);
+
+  chassis.turn_to_angle(-45);
+
+  chassis.drive_distance(6);
+
+
+
+  deployBackWings();
+
+  wait(150, msec);
+
+  chassis.drive_distance(-10);
+
+  chassis.left_swing_to_angle(-90);
+
+
+  chassis.turn_to_angle(-90);
+
+  chassis.drive_distance(-8);
+
+  chassis.turn_to_angle(180);
+  wingsDeployRetract();
+  wait(250,msec);
+  wingsDeployRetract();
+
+
+
+}
+
 // 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
 void autonType(int autonSelect) {
   // select different types of auton
@@ -1036,7 +1111,7 @@ void autonType(int autonSelect) {
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
 
-  autonType(type);
+  //autonType(type);
   //leftAutondev();
   //skillsautonDev();
   //skillsAuton();
@@ -1047,6 +1122,8 @@ void autonomous(void) {
   wait(500,msec);
   armElevator3.spinFor(reverse, 90, degrees);
   catapaultMotor14.spin(forward, 100, percent);*/
+
+  rightautonDev();
 }
 
 /*---------------------------------------------------------------------------*/
