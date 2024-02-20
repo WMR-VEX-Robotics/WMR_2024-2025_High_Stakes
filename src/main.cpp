@@ -495,7 +495,7 @@ void pre_auton(void) {
   wait(25, msec);
   Brain.Screen.clearScreen();
 
-  autonSelect_buttons();
+  //autonSelect_buttons();
   /*if (type != 0 && type != 4) {
     color_select();
   }*/
@@ -688,69 +688,55 @@ void leftAutondev(){
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
-  endgame();
-  wait(500, msec);
-  endgame();
+  deployBackWings();
 
-  intakeMotor2.spin(forward, 12.7, volt);
-  chassis.drive_distance(2);
-  chassis.drive_distance(-1);
-  chassis.drive_distance(17);
+  chassis.drive_distance(-18);
 
-  chassis.turn_to_angle(-25);
+  chassis.right_swing_to_angle(-45);
+
+  chassis.drive_distance(-24);
+
+  chassis.set_coordinates(0,0,0);
 
   chassis.drive_distance(10);
 
-  chassis.turn_to_angle(0);
+  deployBackWings();
 
-  chassis.drive_distance(16);
+  endgame();
+  wait(100, msec);
+  endgame();
 
-  wait(250, msec);
+  chassis.turn_to_angle(90);
 
-  intakeMotor2.spin(reverse, 60, percent);
+  chassis.set_coordinates(0,0,0);
 
-  chassis.drive_distance(-15);
+  chassis.turn_to_angle(25);
 
-  chassis.turn_to_angle(-45);
-
-  intakeMotor2.spin(forward, 12.7, volt);
+  intakeMotor2.spin(reverse, 12.7, volt);
 
   chassis.drive_distance(45);
 
-  chassis.turn_to_angle(-90);
+  chassis.turn_to_angle(185);
 
-  chassis.drive_distance(-5);
+  chassis.drive_distance(28);
 
-  chassis.drive_distance(3);
-
-  chassis.turn_to_angle(90);
-
-  chassis.drive_distance(10);
-
-  intakeMotor2.spin(reverse, 60, percent);
-
-  chassis.drive_distance(-10);
-
-  chassis.turn_to_angle(-5);
-  
   intakeMotor2.spin(forward, 12.7, volt);
 
-  chassis.drive_distance(16);
+  wait(200, msec);
 
-  wait(75, msec);
+  chassis.turn_to_angle(0);
 
-  chassis.drive_distance(-16);
+  chassis.drive_distance(40);
 
-  chassis.turn_to_angle(90);
+  deployBackWings();
 
-  wingsDeployRetract();
+  chassis.drive_distance(-50);
+
+  chassis.drive_distance(20);
+
+  deployBackWings();
 
   intakeMotor2.stop(coast);
-
-  chassis.drive_distance(30);
-
-  chassis.drive_distance(-20);
-
 }
 
 void skillsautonDev(){
@@ -1111,8 +1097,9 @@ void autonType(int autonSelect) {
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
 
+
   //autonType(type);
-  //leftAutondev();
+  leftAutondev();
   //skillsautonDev();
   //skillsAuton();
   //chassis.turn_to_angle(180);
@@ -1123,7 +1110,7 @@ void autonomous(void) {
   armElevator3.spinFor(reverse, 90, degrees);
   catapaultMotor14.spin(forward, 100, percent);*/
 
-  rightautonDev();
+  //rightautonDev();
 }
 
 /*---------------------------------------------------------------------------*/
