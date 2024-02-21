@@ -696,9 +696,9 @@ void leftAutondev(){
 
   chassis.drive_distance(-24);
 
-  chassis.set_coordinates(0,0,0);
-
   chassis.drive_distance(10);
+
+  chassis.set_coordinates(0,0,0);
 
   deployBackWings();
 
@@ -708,33 +708,43 @@ void leftAutondev(){
 
   chassis.turn_to_angle(90);
 
-  chassis.set_coordinates(0,0,0);
-
-  chassis.turn_to_angle(25);
-
-  intakeMotor2.spin(reverse, 12.7, volt);
-
-  chassis.drive_distance(45);
-
-  chassis.turn_to_angle(185);
-
-  chassis.drive_distance(28);
+  chassis.turn_to_angle(115);
 
   intakeMotor2.spin(forward, 12.7, volt);
 
-  wait(200, msec);
+  chassis.drive_distance(46);
 
-  chassis.turn_to_angle(0);
+  chassis.left_swing_to_angle(90);
 
-  chassis.drive_distance(40);
+  chassis.turn_to_angle(265);
+
+  chassis.drive_distance(22);
+
+  chassis.turn_to_angle(180);
+
+  chassis.drive_distance(10);
+
+  intakeMotor2.spin(reverse, 100, percent);
+
+  wait(150, msec);
+
+  chassis.drive_distance(-4);
+
+  chassis.turn_to_angle(110);
+
+  intakeMotor2.spin(forward, 100, percent);
+
+  chassis.drive_distance(26);
+
+  chassis.right_swing_to_angle(80);
 
   deployBackWings();
 
-  chassis.drive_distance(-50);
+  /*chassis.drive_distance(-30);
 
   chassis.drive_distance(20);
 
-  deployBackWings();
+  deployBackWings();*/
 
   intakeMotor2.stop(coast);
 }
