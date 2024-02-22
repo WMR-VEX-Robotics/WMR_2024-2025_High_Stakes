@@ -531,6 +531,17 @@ void deployBackWings() {
   }
 }
 
+int intakeControl() {
+  while(1){
+    if(intakeMotor2.power() >= 4.6) {
+      intakeMotor2.stop(hold);
+    }
+    vex::task::sleep(250);
+  } 
+
+  return 1;
+}
+
 // for competition
 void competitionAutonL(){
   armElevator3.stop(hold);
@@ -684,6 +695,7 @@ void skillsautoPos() {
 }
 
 void leftAutondev(){
+  vex::task iC( intakeControl );
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
@@ -694,7 +706,9 @@ void leftAutondev(){
 
   chassis.right_swing_to_angle(-45);
 
-  chassis.drive_distance(-24);
+  chassis.drive_distance(-26);
+
+  chassis.turn_to_angle(-45);
 
   chassis.drive_distance(10);
 
@@ -714,7 +728,7 @@ void leftAutondev(){
 
   chassis.drive_distance(46);
 
-  chassis.left_swing_to_angle(90);
+  wait(50, msec);
 
   chassis.turn_to_angle(265);
 
@@ -722,15 +736,19 @@ void leftAutondev(){
 
   chassis.turn_to_angle(180);
 
+  iC.suspend();
+
   chassis.drive_distance(10);
 
   intakeMotor2.spin(reverse, 100, percent);
 
   wait(150, msec);
 
-  chassis.drive_distance(-4);
+  chassis.drive_distance(-8);
 
-  chassis.turn_to_angle(110);
+  iC.resume();
+
+  chassis.turn_to_angle(120);
 
   intakeMotor2.spin(forward, 100, percent);
 
@@ -738,13 +756,17 @@ void leftAutondev(){
 
   chassis.right_swing_to_angle(80);
 
+  iC.sleep(250);
+
   deployBackWings();
 
-  /*chassis.drive_distance(-30);
+  chassis.set_drive_exit_conditions(1.5, 200, 900);
+
+  chassis.drive_distance(-36);
 
   chassis.drive_distance(20);
 
-  deployBackWings();*/
+  deployBackWings();
 
   intakeMotor2.stop(coast);
 }
@@ -1007,14 +1029,14 @@ void rightautonDev() {
   endgame();
 
   chassis.turn_to_angle(-90);
-  chassis.drive_distance(30);
-  intakeMotor2.stop(hold);
+  vex::task iC( intakeControl );
+  chassis.drive_distance(28);
 
   chassis.turn_to_angle(-45);
 
   //wingsDeployRetract();
 
-  chassis.drive_distance(20);
+  chassis.drive_distance(26);
 
   chassis.left_swing_to_angle(0);
 
@@ -1022,9 +1044,11 @@ void rightautonDev() {
 
   chassis.turn_to_angle(-2);
 
+  iC.stop();
+
   intakeMotor2.spin(reverse, 100, percent);
 
-  wait(300, msec);
+  wait(250, msec);
 
   chassis.turn_to_angle(0);
 
@@ -1042,7 +1066,6 @@ void rightautonDev() {
   chassis.turn_to_angle(-45);
 
   chassis.drive_distance(6);
-
 
 
   deployBackWings();
@@ -1107,9 +1130,8 @@ void autonType(int autonSelect) {
 /*---------------------------------------------------------------------------*/
 void autonomous(void) {
 
-
   //autonType(type);
-  leftAutondev();
+  //leftAutondev();
   //skillsautonDev();
   //skillsAuton();
   //chassis.turn_to_angle(180);
@@ -1120,7 +1142,7 @@ void autonomous(void) {
   armElevator3.spinFor(reverse, 90, degrees);
   catapaultMotor14.spin(forward, 100, percent);*/
 
-  //rightautonDev();
+  rightautonDev();
 }
 
 /*---------------------------------------------------------------------------*/
