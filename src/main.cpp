@@ -543,7 +543,7 @@ void standardControl_1(){
 
   //Run catapault
   if (Controller1.ButtonR2.pressing() == true){
-    Cata.spin(forward, 60, percent);
+    Cata.spin(forward, 100, percent);
   } else {
     Cata.stop(hold);
   }
