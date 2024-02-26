@@ -531,12 +531,31 @@ void deployBackWings() {
   }
 }
 
+bool icReset = false;
+bool intakecontrolEnabled = false;
+
 int intakeControl() {
-  while(1){
-    if(intakeMotor2.power() >= 4.6) {
-      intakeMotor2.stop(hold);
+  double ticks = 0.0;
+  int pause = 0;
+  while(intakecontrolEnabled){
+    if (icReset || intakeMotor2.power() < 4.6){
+      ticks = 0.0;
+      icReset = false;
     }
-    vex::task::sleep(250);
+
+    pause = 0;
+
+    if (ticks > 11.0) {
+      ticks = 12.7;
+      pause += 450;
+    }
+
+    if(intakeMotor2.power() >= 4.6) {
+      intakeMotor2.spin(forward, (12.7 - ticks), volt);
+      ticks += 1.0;
+    }
+    int timeout = 50 + pause;
+    vex::task::sleep(timeout);
   } 
 
   return 1;
@@ -696,6 +715,7 @@ void skillsautoPos() {
 
 void leftAutondev(){
   vex::task iC( intakeControl );
+  intakecontrolEnabled = true;
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
@@ -756,7 +776,7 @@ void leftAutondev(){
 
   chassis.right_swing_to_angle(80);
 
-  iC.sleep(250);
+  intakecontrolEnabled = false;
 
   deployBackWings();
 
@@ -1017,6 +1037,7 @@ void skillsAuton() {
 }
 
 void rightautonDev() {
+  intakecontrolEnabled = true;
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
@@ -1044,7 +1065,7 @@ void rightautonDev() {
 
   chassis.turn_to_angle(-2);
 
-  iC.stop();
+  intakecontrolEnabled = false;
 
   intakeMotor2.spin(reverse, 100, percent);
 
@@ -1067,7 +1088,6 @@ void rightautonDev() {
 
   chassis.drive_distance(6);
 
-
   deployBackWings();
 
   wait(150, msec);
@@ -1075,7 +1095,6 @@ void rightautonDev() {
   chassis.drive_distance(-10);
 
   chassis.left_swing_to_angle(-90);
-
 
   chassis.turn_to_angle(-90);
 
@@ -1085,9 +1104,6 @@ void rightautonDev() {
   wingsDeployRetract();
   wait(250,msec);
   wingsDeployRetract();
-
-
-
 }
 
 // 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
