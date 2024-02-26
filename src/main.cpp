@@ -414,7 +414,7 @@ void ensureCalibration(){
 
 double percentasVolt(double n) {
   double increment = 0.127;
-  return increment * n;
+  return (increment * n);
 }
 
 // volt = false percent = true
@@ -536,7 +536,9 @@ bool intakecontrolEnabled = false;
 
 int intakeControl() {
   double ticks = 0.0;
+  // a modifier for voltage
   int pause = 0;
+  // a timeout modifier that defaults to 0
   while(intakecontrolEnabled){
     if (icReset || intakeMotor2.power() < 4.6){
       ticks = 0.0;
@@ -545,7 +547,7 @@ int intakeControl() {
 
     pause = 0;
 
-    if (ticks > 11.0) {
+    if (ticks >= 11.0) {
       ticks = 12.7;
       pause += 450;
     }
@@ -714,8 +716,8 @@ void skillsautoPos() {
 }
 
 void leftAutondev(){
-  vex::task iC( intakeControl );
   intakecontrolEnabled = true;
+  vex::task iC( intakeControl );
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
