@@ -33,7 +33,7 @@ motor brMotor11 = motor(PORT11, ratio18_1, false);*/
 
 motor catapaultMotor14 = motor(PORT14, ratio18_1, false);
 motor intakeMotor2 = motor(PORT2, ratio18_1, true);
-motor armElevator3 = motor(PORT3, ratio18_1, false);
+//motor armElevator3 = motor(PORT3, ratio18_1, false);
 motor catapaultMotor4 = motor(PORT4, ratio18_1, true);
 // not motors
 controller mainController = controller(primary);
@@ -194,7 +194,7 @@ void autonSelect_buttons() {
         wait(200, msec);
         Brain.Screen.print(".");
       }*/
-    armElevator3.stop(coast);
+    //armElevator3.stop(coast);
     while(unselected == true){
         if (Brain.Screen.pressing()){
 
@@ -565,7 +565,7 @@ int intakeControl() {
 
 // for competition
 void competitionAutonL(){
-  armElevator3.stop(hold);
+  //armElevator3.stop(hold);
   // set operating constant to their default values
   default_constants();
   // initialize position as (0,0,0)
@@ -629,7 +629,7 @@ void competitionAutonL(){
 
 void competitionAutonR(){
   // set operating constant to their default values
-  armElevator3.stop(hold);
+  //armElevator3.stop(hold);
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
@@ -903,7 +903,7 @@ void skillsAuton() {
   spincataPerc(65,true);
   while (halter != false) {
     wait(2, msec); // sit there and wait while catapult is spinning
-    armElevator3.stop(hold);
+    //armElevator3.stop(hold);
   }
   chassis.set_coordinates(0,0,-115);
   //wait(2, sec);
@@ -1203,13 +1203,13 @@ void drive_User(){
     intakeMotor2.stop(coast);
   }
 
-  if (mainController.ButtonUp.pressing() != false) {
+ /*if (mainController.ButtonUp.pressing() != false) {
     armElevator3.spin(reverse, 60, pct);
   } else if (mainController.ButtonDown.pressing() != false) {
     armElevator3.spin(forward, 60, pct);
   } else {
     armElevator3.stop(hold);
-  }
+  }*/
 }
 
 void usercontrol(void) {
