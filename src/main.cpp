@@ -1153,19 +1153,19 @@ void swapPerc() {
 void drive_User(){
   // tank drive user control left side on left right side on right
   if (current_forwards == true) {
-    tlMotor18.spin(vex::directionType::fwd, (mainController.Axis3.position() + mainController.Axis1.position()), vex::velocityUnits::pct);
-    mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.position() + mainController.Axis1.position()), vex::velocityUnits::pct);
-    blMotor20.spin(vex::directionType::fwd, (mainController.Axis3.position() + mainController.Axis1.position()), vex::velocityUnits::pct);
-    trMotor13.spin(vex::directionType::fwd, (mainController.Axis3.position() - mainController.Axis1.position()), vex::velocityUnits::pct);
-    mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.position() - mainController.Axis1.position()), vex::velocityUnits::pct);
-    brMotor11.spin(vex::directionType::fwd, (mainController.Axis3.position() - mainController.Axis1.position()), vex::velocityUnits::pct);
+    tlMotor18.spin(vex::directionType::fwd, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
+    mlMotor19.spin(vex::directionType::fwd, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
+    blMotor20.spin(vex::directionType::fwd, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
+    trMotor13.spin(vex::directionType::fwd, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
+    mrMotor12.spin(vex::directionType::fwd, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
+    brMotor11.spin(vex::directionType::fwd, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
   } else {
-    tlMotor18.spin(vex::directionType::rev, (mainController.Axis3.position() - mainController.Axis1.position()), vex::velocityUnits::pct);
-    mlMotor19.spin(vex::directionType::rev, (mainController.Axis3.position() - mainController.Axis1.position()), vex::velocityUnits::pct);
-    blMotor20.spin(vex::directionType::rev, (mainController.Axis3.position() - mainController.Axis1.position()), vex::velocityUnits::pct);
-    trMotor13.spin(vex::directionType::rev, (mainController.Axis3.position() + mainController.Axis1.position()), vex::velocityUnits::pct);
-    mrMotor12.spin(vex::directionType::rev, (mainController.Axis3.position() + mainController.Axis1.position()), vex::velocityUnits::pct);
-    brMotor11.spin(vex::directionType::rev, (mainController.Axis3.position() + mainController.Axis1.position()), vex::velocityUnits::pct);
+    tlMotor18.spin(vex::directionType::rev, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
+    mlMotor19.spin(vex::directionType::rev, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
+    blMotor20.spin(vex::directionType::rev, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
+    trMotor13.spin(vex::directionType::rev, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
+    mrMotor12.spin(vex::directionType::rev, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
+    brMotor11.spin(vex::directionType::rev, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
   }
 
   // brake 
