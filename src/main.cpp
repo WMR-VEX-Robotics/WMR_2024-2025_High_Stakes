@@ -898,13 +898,13 @@ void skillsAuton() {
   chassis.turn_to_angle(-112);
   chassis.drive_distance(-4);
   chassis.left_swing_to_angle(-115);
-  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  /*thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
   spincataPerc(65,true);
   while (halter != false) {
     wait(2, msec); // sit there and wait while catapult is spinning
     //armElevator3.stop(hold);
-  }
+  }*/
   chassis.set_coordinates(0,0,-115);
   //wait(2, sec);
   chassis.turn_to_angle(-60);
@@ -918,10 +918,9 @@ void skillsAuton() {
   deployBackWings();
   wait(100, msec);
   chassis.drive_distance(-40);
-  chassis.turn_to_angle(110);
   chassis.drive_distance(25);
   deployBackWings();
-  chassis.drive_distance(20); 
+  /*chassis.drive_distance(20); 
   chassis.turn_to_angle(90); 
   deployBackWings();
   wait(100, msec);
@@ -935,7 +934,7 @@ void skillsAuton() {
   deployBackWings();
   wait(100, msec);
   chassis.drive_distance(-35);
-  intakeMotor2.stop(coast);
+  intakeMotor2.stop(coast);*/
   //chassis.drive_distance(60);
   /*a thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
@@ -1071,9 +1070,10 @@ void autonType(int autonSelect) {
 void autonP3()
 {
   default_constants();
-  endgame();
-  wait(200, msec);
-  endgame();
+ // endgame();
+  //wait(200, msec);
+  //endgame();
+  
   chassis.turn_to_angle(-30);
   chassis.drive_distance(-40);
   chassis.turn_to_angle(-20);
@@ -1093,19 +1093,38 @@ void autonP3()
   chassis.set_coordinates(0,0,-115);
   chassis.drive_distance(25);
   chassis.turn_to_angle(-90);
-  chassis.drive_distance(15);
+  chassis.drive_distance(10);
   chassis.right_swing_to_angle(180);
-  intakeMotor2.spin(forward);
-  chassis.drive_distance(80);
-  wait(500, msec);
-  chassis.drive_distance(-5);
+  chassis.turn_to_angle(0);
+  deployBackWings();
   wait(100, msec);
+  chassis.drive_distance(-80);
+  wait(100, msec);
+  
+  wait(2000, msec);
+  chassis.drive_distance(10);
+ 
+  wait(100, msec);
+  chassis.drive_distance(-25);
+  deployBackWings();
+  wait(100, msec);
+  chassis.drive_distance(10);
+  wait(100,msec);
   chassis.turn_to_angle(90);
-  chassis.drive_distance(25);
   wait(100, msec);
-  chassis.turn_to_angle(240);
+  chassis.drive_distance(15);
   wait(100, msec);
+  chassis.left_swing_to_angle(180);
+  wait(50, msec);
+  chassis.drive_distance(15);
+  chassis.left_swing_to_angle(270);
+  wait(100,msec);
+  chassis.drive_distance(60);
+  chassis.left_swing_to_angle(-45);
   chassis.drive_distance(20);
+  
+  chassis.drive_distance(20);
+  wait(100, msec);
   //chassis.drive_distance(20);
   //chassis.turn_to_angle(-90);
  // chassis.drive_distance(40);
@@ -1125,7 +1144,7 @@ void autonomous(void) {
   armElevator3.spinFor(reverse, 90, degrees);
   catapaultMotor14.spin(forward, 100, percent);*/
 
-  autonP3();
+  skillsAuton();
 }
 
 /*---------------------------------------------------------------------------*/
