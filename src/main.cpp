@@ -1071,6 +1071,9 @@ void autonType(int autonSelect) {
 void autonP3()
 {
   default_constants();
+  endgame();
+  wait(200, msec);
+  endgame();
   chassis.turn_to_angle(-30);
   chassis.drive_distance(-40);
   chassis.turn_to_angle(-20);
