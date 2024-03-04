@@ -953,86 +953,6 @@ void skillsAuton() {
 
 
   chassis.set_coordinates(-14, 14.9, 65);
-  //achassis.turn_to_angle(110);
- //a chassis.drive_distance(32); // modified from 24
-  //achassis.turn_to_angle(89);
-  //achassis.drive_distance(60);
-
-  //chassis.set_drive_constants(6, 1.5, 0, 10, 0);
-  //chassis.set_drive_exit_conditions(1.5, 200, 3000);
-  /*chassis.turn_to_angle(89);
-  chassis.drive_distance(74); // modified from 74
-
-  chassis.turn_to_angle(-30);
-  chassis.drive_distance(60);
-
-
-  chassis.turn_to_angle(90);
-  wingsDeployRetract();
-  chassis.drive_distance(33);
-  wingsDeployRetract();
-  chassis.drive_distance(-33);
-  chassis.turn_to_angle(0);
-  chassis.drive_distance(14);
-  chassis.turn_to_angle(90);
-  wingsDeployRetract();
-  chassis.drive_distance(33);
-  wingsDeployRetract();
-  chassis.drive_distance(-33);*/
-
-//
-  //// gross programming but if the bot moves the bot moves. It shouldn't.
-  // what if it doesnt - Jay
-//
-  ////wait(2, sec);
-//
-  //intakeMotor2.spin(forward, 12.7, volt);
-//
-  //chassis.drive_distance(1);
-  ////chassis.turn_to_angle(113);
-  ////chassis.drive_distance(12);
-  //chassis.turn_to_angle(35);
-  //chassis.drive_distance(80);
-  //chassis.set_coordinates(0, 0, 0);
-  //wait(10, msec);
-  //chassis.turn_to_angle(90);
-  //chassis.drive_distance(-18);
-//
-  //chassis.turn_to_angle(45);
-  ////-45
-  //chassis.drive_distance(-34);
-//
-  //chassis.turn_to_angle(90);
-  ////360
-//
-  //chassis.drive_distance(-12);
-//
-  //chassis.turn_to_angle(180);
-  ////90
-//
-  //wingsDeployRetract();
-  //chassis.drive_distance(-36);
-  //wingsDeployRetract();
-  //chassis.drive_distance(34);
-  //chassis.turn_to_angle(90);
-  ////360 
-//
-  //chassis.drive_distance(-20);
-//
-  //chassis.turn_to_angle(185);
-//
-  //wingsDeployRetract();
-  //chassis.drive_distance(-36);
-  //wingsDeployRetract();
-  ///*chassis.turn_to_angle(155);
-  //chassis.drive_distance(38);
-  //chassis.turn_to_angle(180);
-  //intakeMotor2.spinFor(360, degrees, false);
-  //chassis.drive_distance(18);
-  //chassis.turn_to_angle(90);
-  //chassis.drive_distance(40);*/
-//
-  //// set the mode of braking to coast for user post execution
   setdtBrakemode(coast);
 //
   //set_screen_color(team);
@@ -1146,6 +1066,48 @@ void autonType(int autonSelect) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
+
+
+void autonP3()
+{
+  default_constants();
+  chassis.turn_to_angle(-30);
+  chassis.drive_distance(-40);
+  chassis.turn_to_angle(-20);
+  chassis.drive_distance(-20);
+  chassis.drive_distance(20);
+  chassis.turn_to_angle(-112);
+  chassis.drive_distance(-4);
+  chassis.left_swing_to_angle(-115);
+  /* -- CATAPULT TAKES ~APPROX 23 secs
+  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  task1.detach(); // "allows" for execution from handle
+  spincataPerc(65,true);
+  while (halter != false) {
+    wait(2, msec); // sit there and wait while catapult is spinning
+    armElevator3.stop(hold);
+  }*/
+  chassis.set_coordinates(0,0,-115);
+  chassis.drive_distance(25);
+  chassis.turn_to_angle(-90);
+  chassis.drive_distance(15);
+  chassis.right_swing_to_angle(180);
+  intakeMotor2.spin(forward);
+  chassis.drive_distance(80);
+  wait(500, msec);
+  chassis.drive_distance(-5);
+  wait(100, msec);
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(25);
+  wait(100, msec);
+  chassis.turn_to_angle(240);
+  wait(100, msec);
+  chassis.drive_distance(20);
+  //chassis.drive_distance(20);
+  //chassis.turn_to_angle(-90);
+ // chassis.drive_distance(40);
+}
+
 void autonomous(void) {
 
   //autonType(type);
@@ -1160,7 +1122,7 @@ void autonomous(void) {
   armElevator3.spinFor(reverse, 90, degrees);
   catapaultMotor14.spin(forward, 100, percent);*/
 
-  rightautonDev();
+  autonP3();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1184,22 +1146,23 @@ void swapPerc() {
   }
 }
 
+
 void drive_User(){
   // tank drive user control left side on left right side on right
   if (current_forwards == true) {
-    tlMotor18.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    blMotor20.spin(vex::directionType::fwd, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    trMotor13.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    brMotor11.spin(vex::directionType::fwd, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
+    tlMotor18.spin(vex::directionType::fwd, (mainController.Axis3.position() + mainController.Axis1.position()), vex::velocityUnits::pct);
+    mlMotor19.spin(vex::directionType::fwd, (mainController.Axis3.position() + mainController.Axis1.position()), vex::velocityUnits::pct);
+    blMotor20.spin(vex::directionType::fwd, (mainController.Axis3.position() + mainController.Axis1.position()), vex::velocityUnits::pct);
+    trMotor13.spin(vex::directionType::fwd, (mainController.Axis3.position() - mainController.Axis1.position()), vex::velocityUnits::pct);
+    mrMotor12.spin(vex::directionType::fwd, (mainController.Axis3.position() - mainController.Axis1.position()), vex::velocityUnits::pct);
+    brMotor11.spin(vex::directionType::fwd, (mainController.Axis3.position() - mainController.Axis1.position()), vex::velocityUnits::pct);
   } else {
-    tlMotor18.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    mlMotor19.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    blMotor20.spin(vex::directionType::rev, (mainController.Axis3.value() - mainController.Axis1.value()), vex::velocityUnits::pct);
-    trMotor13.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    mrMotor12.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
-    brMotor11.spin(vex::directionType::rev, (mainController.Axis3.value() + mainController.Axis1.value()), vex::velocityUnits::pct);
+    tlMotor18.spin(vex::directionType::rev, (mainController.Axis3.position() - mainController.Axis1.position()), vex::velocityUnits::pct);
+    mlMotor19.spin(vex::directionType::rev, (mainController.Axis3.position() - mainController.Axis1.position()), vex::velocityUnits::pct);
+    blMotor20.spin(vex::directionType::rev, (mainController.Axis3.position() - mainController.Axis1.position()), vex::velocityUnits::pct);
+    trMotor13.spin(vex::directionType::rev, (mainController.Axis3.position() + mainController.Axis1.position()), vex::velocityUnits::pct);
+    mrMotor12.spin(vex::directionType::rev, (mainController.Axis3.position() + mainController.Axis1.position()), vex::velocityUnits::pct);
+    brMotor11.spin(vex::directionType::rev, (mainController.Axis3.position() + mainController.Axis1.position()), vex::velocityUnits::pct);
   }
 
   // brake 
@@ -1253,7 +1216,7 @@ void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
   //skillsautoPos();
-  setdtBrakemode(coast);
+  setdtBrakemode(brake);
   while (1) {
    drive_User();
   }
