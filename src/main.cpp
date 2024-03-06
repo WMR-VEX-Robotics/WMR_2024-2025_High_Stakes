@@ -363,7 +363,7 @@ bool auto_started = false;
 bool halter = true;
 
 void allowforskillsCata() {
-  for (int i = 0; i <= 30 /*2*/; i++) {
+  for (int i = 0; i <= 22 /*2*/; i++) {
     wait(985, msec);
 
     vex::task::sleep(15);
@@ -879,9 +879,9 @@ void skillsAuton() {
   
   //chassis.drive_distance(80);
 
-  //wingsDeployRetract();
-  //wait(500, msec);
-  //wingsDeployRetract();
+  endgame();
+  wait(500, msec);
+  endgame();
 
 
   // begin the fun program of skills auton
@@ -898,24 +898,25 @@ void skillsAuton() {
   chassis.turn_to_angle(-112);
   chassis.drive_distance(-4);
   chassis.left_swing_to_angle(-115);
-  /*thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
-  spincataPerc(65,true);
+  spincataPerc(100,true);
   while (halter != false) {
     wait(2, msec); // sit there and wait while catapult is spinning
     //armElevator3.stop(hold);
-  }*/
+  }
   chassis.set_coordinates(0,0,-115);
  // wait(10000, msec);
   //wait(2, sec);
   chassis.turn_to_angle(-60);
   chassis.drive_distance(24);
   chassis.turn_to_angle(-90);
-  chassis.turn_to_angle(92);
+  wait(100, msec);
+  chassis.turn_to_angle(91);
   intakeMotor2.spin(reverse);
   chassis.drive_distance(-135);
   //deployBackWings();
-  wait(1000, msec);
+  wait(100, msec);
   chassis.turn_to_angle(45);
   chassis.drive_distance(-60);
   chassis.turn_to_angle(0);
@@ -930,41 +931,15 @@ void skillsAuton() {
   deployBackWings();
   wait(100, msec);
   chassis.drive_distance(-40);
+  chassis.drive_distance(40);
+  deployBackWings();
+  chassis.left_swing_to_angle(180);
   chassis.drive_distance(25);
+  chassis.turn_to_angle(120);
   deployBackWings();
-  /*chassis.drive_distance(20); 
-  chassis.turn_to_angle(90); 
-  deployBackWings();
-  wait(100, msec);
   chassis.drive_distance(-40);
-  chassis.drive_distance(10);
-  deployBackWings();
-  chassis.drive_distance(30);
-  chassis.turn_to_angle(180);
   chassis.drive_distance(25);
-  chassis.turn_to_angle(115);
   deployBackWings();
-  wait(100, msec);
-  chassis.drive_distance(-35);
-  intakeMotor2.stop(coast);*/
-  //chassis.drive_distance(60);
-  /*a thread task1(allowforskillsCata); // creates timer thread for catapult in skills
-  task1.detach(); // "allows" for execution from handle
-
-  while (halter != false) {
-    wait(2, msec); // sit there and wait while catapult is spinning
-    armElevator3.stop(hold);
-  }
-
-  wait(2, sec);
-
-  armElevator3.setBrake(coast);
-
-  intakeMotor2.spin(reverse);*/
-
-
-  chassis.set_coordinates(-14, 14.9, 65);
-  setdtBrakemode(coast);
 //
   //set_screen_color(team);
 }
@@ -1168,35 +1143,24 @@ void autonomous(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-bool percent25 = true;
-
-void swapPerc() {
-  if (percent25 != true) {
-    percent25 = true;
-    wait(150, msec);
-  } else {
-    percent25 = false;
-    wait(150, msec); 
-  }
-}
 
 
 void drive_User(){
   // tank drive user control left side on left right side on right
   if (current_forwards == true) {
-    tlMotor18.spin(vex::directionType::fwd, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
-    mlMotor19.spin(vex::directionType::fwd, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
-    blMotor20.spin(vex::directionType::fwd, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
-    trMotor13.spin(vex::directionType::fwd, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
-    mrMotor12.spin(vex::directionType::fwd, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
-    brMotor11.spin(vex::directionType::fwd, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
+    tlMotor18.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/10), volt);
+    mlMotor19.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/10), volt);
+    blMotor20.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/10), volt);
+    trMotor13.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/10), volt);
+    mrMotor12.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/10), volt);
+    brMotor11.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/10), volt);
   } else {
-    tlMotor18.spin(vex::directionType::rev, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
-    mlMotor19.spin(vex::directionType::rev, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
-    blMotor20.spin(vex::directionType::rev, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
-    trMotor13.spin(vex::directionType::rev, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
-    mrMotor12.spin(vex::directionType::rev, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
-    brMotor11.spin(vex::directionType::rev, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
+    tlMotor18.spin(vex::directionType::rev, ((mainController.Axis3.value() - mainController.Axis1.value())/10), volt);
+    mlMotor19.spin(vex::directionType::rev, ((mainController.Axis3.value() - mainController.Axis1.value())/10), volt);
+    blMotor20.spin(vex::directionType::rev, ((mainController.Axis3.value() - mainController.Axis1.value())/10), volt);
+    trMotor13.spin(vex::directionType::rev, ((mainController.Axis3.value() + mainController.Axis1.value())/10), volt);
+    mrMotor12.spin(vex::directionType::rev, ((mainController.Axis3.value() + mainController.Axis1.value())/10), volt);
+    brMotor11.spin(vex::directionType::rev, ((mainController.Axis3.value() + mainController.Axis1.value())/10), volt);
   }
 
   // brake 
@@ -1206,9 +1170,10 @@ void drive_User(){
 
   // spin catapault
   if (mainController.ButtonY.pressing() == true){
-    spincataPerc(65.0, true);
+    spincataPerc(100.0, true);
   } else {
     catapaultMotor14.stop(coast);
+    catapaultMotor4.stop(coast);
   }
 
   /*if (mainController.ButtonRight.pressing() == true && percent25 == true) {
@@ -1250,7 +1215,7 @@ void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
   //skillsautoPos();
-  setdtBrakemode(brake);
+  setdtBrakemode(coast);
   while (1) {
    drive_User();
   }
