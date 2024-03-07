@@ -944,7 +944,26 @@ void skillsAuton() {
   chassis.drive_distance(-60);
   chassis.drive_distance(10);
   deployBackWings();
+
+    wait(200, msec);
+  chassis.drive_distance(-60);
+  chassis.drive_distance(10);
+  deployBackWings();
   chassis.drive_distance(25);
+
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(-10);
+  chassis.turn_to_angle(45);
+
+
+  chassis.drive_distance(-30);
+  deployBackWings();
+  chassis.right_swing_to_angle(115);
+  deployBackWings();
+  chassis.drive_distance(-50);
+  chassis.drive_distance(10);
+
+  /*chassis.drive_distance(25);
   chassis.turn_to_angle(0);
   chassis.drive_distance(-15);
   chassis.turn_to_angle(90);
@@ -956,7 +975,7 @@ void skillsAuton() {
   deployBackWings();
   chassis.drive_distance(20);
   chassis.drive_distance(-40);
-  chassis.drive_distance(10);
+  chassis.drive_distance(10);*/
 
 }
 
