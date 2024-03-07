@@ -313,19 +313,24 @@ void autonomous(void) {
         break;
       case 4:
         Brain.Screen.print("Dummy plug system engaged: Running: Skills Auton, Shooting Left");
+        chassis.set_drive_constants(13, 1.5, .03, 10, 0);
+        chassis.set_heading_constants(13, .4, .03, 1, 0);
+        chassis.set_turn_constants(13, .4, .03, 3, 15);
+        chassis.set_drive_exit_conditions(0.8, 300, 750);
+        chassis.set_turn_exit_conditions(0.8, 300, 1000);
+        chassis.set_swing_exit_conditions(0.8, 300, 1000);
+        frontleftwing.open();
+        wait(250,msec);
+        frontleftwing.close();
         chassis.turn_to_angle(-30);
         chassis.drive_distance(43);
         IntakeVacuum.spinFor(-2500,degrees,false);
         chassis.drive_distance(-15);
         chassis.turn_to_angle(70);
-        chassis.drive_distance(-11);
+        chassis.drive_distance(-12);
         chassis.left_swing_to_angle(70);
         Cata.setVelocity(100,pct);
         Cata.spinFor(24,seconds);
-        //chassis.turn_to_angle(70);
-        //chassis.drive_distance(-15);
-        //Cata.setVelocity(60,pct);
-        //Cata.spinFor(35,seconds);
         Brain.Screen.print("Dummy plug system disengaged.");
         break;
       case 5:
@@ -481,7 +486,7 @@ void autonomous(void) {
         chassis.drive_distance(46.5);
         frontleftwing.open();
         chassis.right_swing_to_angle(0);
-        IntakeVacuum.spinFor(-25000,degrees,false);
+        IntakeVacuum.spinFor(-6000,degrees,false);
         chassis.drive_distance(60);
         //chassis.drive_distance(-10);
         //chassis.drive_distance(15);
@@ -497,9 +502,11 @@ void autonomous(void) {
         chassis.drive_distance(35.5);
         //chassis.left_swing_to_angle(0);
         //chassis.drive_distance(10);
+        chassis.left_swing_to_angle(80);
+        chassis.drive_distance(10);
         chassis.left_swing_to_angle(90);
         chassis.set_drive_exit_conditions(0.8, 300, 2000);
-        chassis.drive_distance(78);
+        chassis.drive_distance(69);
         chassis.left_swing_to_angle(135);
         chassis.set_drive_exit_conditions(0.8, 300, 750);
         frontrightwing.open();
@@ -512,12 +519,15 @@ void autonomous(void) {
         //chassis.turn_to_angle(180);
         //frontrightwing.close();
         //chassis.drive_distance(40);
+        IntakeVacuum.spinFor(6000,degrees,false);
         chassis.drive_distance(-15);
         chassis.turn_to_angle(250);
-        chassis.drive_distance(35);
+        chassis.set_drive_exit_conditions(0.8, 300, 1500);
+        chassis.drive_distance(46);
+        chassis.set_drive_exit_conditions(0.8, 300, 750);
         chassis.turn_to_angle(180);
-        chassis.drive_distance(30);
-        chassis.turn_to_angle(110);
+        chassis.drive_distance(10);
+        chassis.turn_to_angle(100);
         frontleftwing.open();
         frontrightwing.open();
         wait(500,msec);
@@ -526,7 +536,7 @@ void autonomous(void) {
         frontleftwing.close();
         chassis.drive_distance(-40);
         chassis.turn_to_angle(180);
-        chassis.drive_distance(30);
+        chassis.drive_distance(15);
         chassis.turn_to_angle(90);
         frontleftwing.open();
         frontrightwing.open();
@@ -537,7 +547,7 @@ void autonomous(void) {
         chassis.drive_distance(-40);
         chassis.turn_to_angle(180);
         chassis.drive_distance(30);
-        chassis.turn_to_angle(70);
+        chassis.turn_to_angle(60);
         frontleftwing.open();
         frontrightwing.open();
         wait(250,msec);
