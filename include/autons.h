@@ -6,7 +6,7 @@ class Drive;
 extern Drive chassis;
 
 void default_constants();
-
+void default_constants(float perc);
 void drive_test();
 void turn_test();
 void swing_test();

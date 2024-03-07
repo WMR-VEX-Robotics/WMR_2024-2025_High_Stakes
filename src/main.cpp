@@ -873,7 +873,7 @@ void skillsautonDev(){
 void skillsAuton() {
   //wingsDeployRetract();
   // set operating constant to their default values
-  default_constants();
+  default_constants(0.85);
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
   
@@ -897,24 +897,27 @@ void skillsAuton() {
   chassis.drive_distance(20);
   chassis.turn_to_angle(-112);
   chassis.drive_distance(-4);
-  chassis.left_swing_to_angle(-115);
-  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  chassis.left_swing_to_angle(-111); // 115
+ /*thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
-  spincataPerc(100,true);
+  spincataPerc(90,true);
   while (halter != false) {
     wait(2, msec); // sit there and wait while catapult is spinning
     //armElevator3.stop(hold);
-  }
-  chassis.set_coordinates(0,0,-115);
- // wait(10000, msec);
+  }*/
+  wait(500, msec);
+  chassis.set_coordinates(0,0,-111); // 115
+ // wait(1000, msec);
   //wait(2, sec);
   chassis.turn_to_angle(-60);
-  chassis.drive_distance(24);
+  wait(50, msec);
+  chassis.drive_distance(26);
+  wait(100, msec);
   chassis.turn_to_angle(-90);
   wait(100, msec);
-  chassis.turn_to_angle(91);
+  chassis.turn_to_angle(90);
   intakeMotor2.spin(reverse);
-  chassis.drive_distance(-135);
+  chassis.drive_distance(-155);
   //deployBackWings();
   wait(100, msec);
   chassis.turn_to_angle(45);
@@ -922,24 +925,61 @@ void skillsAuton() {
   chassis.turn_to_angle(0);
   chassis.drive_distance(5);
   chassis.drive_distance(-60);
-  wait(100, msec);
-  chassis.turn_to_angle(95);
-  chassis.drive_distance(40);
+  wait(200, msec);
+  chassis.turn_to_angle(93);
+  chassis.drive_distance(30);
+  chassis.turn_to_angle(135);
+  chassis.drive_distance(30);
+  chassis.turn_to_angle(75);
+  deployBackWings();
+  wait(500, msec);
+  chassis.drive_distance(-60);
+  chassis.drive_distance(10);
+  deployBackWings();
+  chassis.drive_distance(25);
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(-30);
+  chassis.turn_to_angle(115);
+  deployBackWings();
+  wait(500, msec);
+  chassis.drive_distance(-60);
+  chassis.drive_distance(10);
+  deployBackWings();
+  chassis.drive_distance(25);
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(-10);
+  chassis.turn_to_angle(90);
+  deployBackWings();
+  wait(500, msec);
+  chassis.drive_distance(-40);
+  chassis.drive_distance(10);
+  deployBackWings();
+  chassis.drive_distance(20);
+  chassis.left_swing_to_angle(-110);
+  chassis.drive_distance(70);
   chassis.turn_to_angle(180);
+  chassis.drive_distance(10);
+  chassis.turn_to_angle(160);
+  deployBackWings();
+  wait(500, msec);
+  chassis.drive_distance(-40);
+  /*chassis.turn_to_angle(180);
   chassis.drive_distance(30);
   chassis.turn_to_angle(90);
   deployBackWings();
-  wait(100, msec);
+  wait(500, msec);
   chassis.drive_distance(-40);
-  chassis.drive_distance(40);
+  chassis.drive_distance(25);
   deployBackWings();
+  wait(500, msec);
   chassis.left_swing_to_angle(180);
   chassis.drive_distance(25);
   chassis.turn_to_angle(120);
   deployBackWings();
+  wait(500, msec);
   chassis.drive_distance(-40);
   chassis.drive_distance(25);
-  deployBackWings();
+  deployBackWings();*/
 //
   //set_screen_color(team);
 }
@@ -1080,38 +1120,10 @@ void autonP3()
   chassis.set_coordinates(0,0,-115);
   chassis.drive_distance(25);
   chassis.turn_to_angle(-90);
-  chassis.drive_distance(10);
-  chassis.right_swing_to_angle(180);
+  chassis.drive_distance(15);
   chassis.turn_to_angle(0);
-  deployBackWings();
-  wait(100, msec);
   chassis.drive_distance(-80);
-  wait(100, msec);
   
-  wait(2000, msec);
-  chassis.drive_distance(10);
- 
-  wait(100, msec);
-  chassis.drive_distance(-25);
-  deployBackWings();
-  wait(100, msec);
-  chassis.drive_distance(10);
-  wait(100,msec);
-  chassis.turn_to_angle(90);
-  wait(100, msec);
-  chassis.drive_distance(15);
-  wait(100, msec);
-  chassis.left_swing_to_angle(180);
-  wait(50, msec);
-  chassis.drive_distance(15);
-  chassis.left_swing_to_angle(270);
-  wait(100,msec);
-  chassis.drive_distance(60);
-  chassis.left_swing_to_angle(-45);
-  chassis.drive_distance(20);
-  
-  chassis.drive_distance(20);
-  wait(100, msec);
   //chassis.drive_distance(20);
   //chassis.turn_to_angle(-90);
  // chassis.drive_distance(40);
