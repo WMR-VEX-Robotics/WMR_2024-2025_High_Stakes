@@ -939,23 +939,17 @@ void skillsAuton() {
   deployBackWings();
   chassis.drive_distance(25);
   chassis.turn_to_angle(0);
-  chassis.drive_distance(-10);
+  chassis.drive_distance(-15);
   chassis.turn_to_angle(90);
+
+
+  chassis.drive_distance(-40);
   deployBackWings();
-  wait(200, msec);
+  chassis.right_swing_to_angle(180);
+  chassis.drive_distance(30);
   chassis.drive_distance(-40);
   chassis.drive_distance(10);
   deployBackWings();
-  chassis.drive_distance(20);
-  wait(5, seconds);
-  chassis.left_swing_to_angle(-110);
-  chassis.drive_distance(70);
-  chassis.turn_to_angle(180);
-  chassis.drive_distance(10);
-  chassis.turn_to_angle(160);
-  deployBackWings();
-  wait(200, msec);
-  chassis.drive_distance(-40);
 }
 
 void rightautonDev() {
