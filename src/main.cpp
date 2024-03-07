@@ -954,7 +954,7 @@ void skillsAuton() {
   deployBackWings();
   chassis.right_swing_to_angle(180);
   deployBackWings();
-  chassis.drive_distance(30);
+  chassis.drive_distance(20);
   chassis.drive_distance(-40);
   chassis.drive_distance(10);
 
