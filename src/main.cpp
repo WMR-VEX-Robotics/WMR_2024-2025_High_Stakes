@@ -535,29 +535,12 @@ bool icReset = false;
 bool intakecontrolEnabled = false;
 
 int intakeControl() {
-  double ticks = 0.0;
-  // a modifier for voltage
-  int pause = 0;
-  // a timeout modifier that defaults to 0
   while(intakecontrolEnabled){
-    if (icReset || intakeMotor2.power() < 4.6){
-      ticks = 0.0;
-      icReset = false;
-    }
 
-    pause = 0;
-
-    if (ticks >= 11.0) {
-      ticks = 12.7;
-      pause += 450;
+    if(intakeMotor2.power() > 4.6) {
+      intakeMotor2.stop(hold);
     }
-
-    if(intakeMotor2.power() >= 4.6) {
-      intakeMotor2.spin(forward, (12.7 - ticks), volt);
-      ticks += 1.0;
-    }
-    int timeout = 50 + pause;
-    vex::task::sleep(timeout);
+    vex::task::sleep(50);
   } 
 
   return 1;
@@ -1008,7 +991,7 @@ void rightautonDev() {
 
   chassis.drive_distance(2);
 
-  chassis.turn_to_angle(-2);
+  chassis.turn_to_angle(-4);
 
   intakecontrolEnabled = false;
 
@@ -1016,10 +999,7 @@ void rightautonDev() {
 
   wait(250, msec);
 
-  chassis.turn_to_angle(0);
-
   chassis.drive_distance(-6);
-  //wingsDeployRetract();
 
   chassis.turn_to_angle(180);
 
@@ -1027,28 +1007,28 @@ void rightautonDev() {
 
   //wingsDeployRetract();
 
+  chassis.turn_to_angle(184);
+
   chassis.drive_distance(22);
 
-  chassis.turn_to_angle(-45);
-
-  chassis.drive_distance(6);
+  chassis.turn_to_angle(135);
 
   deployBackWings();
 
   wait(150, msec);
 
-  chassis.drive_distance(-10);
+  chassis.drive_distance(16);
+
+  chassis.set_drive_exit_conditions(1.5, 100, 1250);
+
+  chassis.set_swing_exit_conditions(1.5, 50, 500);
 
   chassis.left_swing_to_angle(-90);
 
-  chassis.turn_to_angle(-90);
+  chassis.drive_distance(-16);
 
-  chassis.drive_distance(-8);
+  deployBackWings();
 
-  chassis.turn_to_angle(180);
-  wingsDeployRetract();
-  wait(250,msec);
-  wingsDeployRetract();
 }
 
 // 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
@@ -1139,8 +1119,8 @@ void autonomous(void) {
   wait(500,msec);
   armElevator3.spinFor(reverse, 90, degrees);
   catapaultMotor14.spin(forward, 100, percent);*/
-
-  skillsAuton();
+  rightautonDev();
+  //skillsAuton();
 }
 
 /*---------------------------------------------------------------------------*/
