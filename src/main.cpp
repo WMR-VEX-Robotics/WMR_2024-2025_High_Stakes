@@ -898,42 +898,45 @@ void skillsAuton() {
     //armElevator3.stop(hold);
   }
   chassis.set_coordinates(0,0,-113); // 115
-  wait(100, msec);
   chassis.turn_to_angle(-60);
   chassis.drive_distance(26);
   chassis.turn_to_angle(90);
   intakeMotor2.spin(reverse);
   chassis.drive_distance(-155);
   chassis.turn_to_angle(45);
-  chassis.drive_distance(-60);
+
+  chassis.set_drive_constants(11, 1.5, 0, 10, 0);
+
+  chassis.drive_distance(-30);
   chassis.turn_to_angle(0);
   chassis.drive_distance(5);
-  chassis.drive_distance(-60);
+  chassis.drive_distance(-30);
   wait(200, msec);
   chassis.turn_to_angle(93);
   chassis.drive_distance(30);
   chassis.turn_to_angle(135);
-  chassis.drive_distance(30);
+  chassis.drive_distance(20);
   chassis.turn_to_angle(75);
   deployBackWings();
   wait(200, msec);
-  chassis.drive_distance(-60);
-  chassis.drive_distance(10);
+  chassis.drive_distance(-40);
+  chassis.drive_distance(8);
   deployBackWings();
-  chassis.drive_distance(25);
+  chassis.drive_distance(28);
   chassis.turn_to_angle(0);
   chassis.drive_distance(-30);
-  chassis.turn_to_angle(115);
+  chassis.right_swing_to_angle(115);
   deployBackWings();
-  wait(200, msec);
-  chassis.drive_distance(-60);
-  chassis.drive_distance(10);
+  wait(150, msec);
+  chassis.drive_distance(-40);
+  chassis.drive_distance(5);
   deployBackWings();
-
-  wait(200, msec);
-  chassis.drive_distance(-60);
-  chassis.drive_distance(10);
-  deployBackWings();
+  wait(150, msec);
+  // huh where is this
+  printf("weird push");
+  chassis.drive_distance(5);
+  chassis.drive_distance(-40);
+  chassis.drive_distance(8);
   /*chassis.drive_distance(25);
 
   chassis.turn_to_angle(0);
@@ -948,17 +951,17 @@ void skillsAuton() {
   chassis.drive_distance(-50);
   chassis.drive_distance(10);*/
 
-  chassis.drive_distance(25);
+  chassis.drive_distance(23);
   chassis.turn_to_angle(0);
-  chassis.drive_distance(-15);
+  chassis.drive_distance(-25);
   chassis.turn_to_angle(90);
 
 
   chassis.drive_distance(-40);
   deployBackWings();
+  wait(150, msec);
   chassis.right_swing_to_angle(180);
-  deployBackWings();
-  chassis.drive_distance(20);
+
   chassis.drive_distance(-40);
   chassis.drive_distance(10);
 
@@ -1119,8 +1122,8 @@ void autonomous(void) {
   wait(500,msec);
   armElevator3.spinFor(reverse, 90, degrees);
   catapaultMotor14.spin(forward, 100, percent);*/
-  rightautonDev();
-  //skillsAuton();
+  //rightautonDev();
+  skillsAuton();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -1203,7 +1206,7 @@ void drive_User(){
 void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
-  //skillsautoPos();
+  skillsautoPos();
   setdtBrakemode(brake);
   while (1) {
    drive_User();
