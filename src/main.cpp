@@ -916,8 +916,8 @@ void skillsAuton() {
   chassis.drive_distance(30);
   chassis.turn_to_angle(135);
   chassis.drive_distance(20);
-  chassis.turn_to_angle(75);
   deployBackWings();
+  chassis.turn_to_angle(75);
   wait(200, msec);
   chassis.drive_distance(-40);
   chassis.drive_distance(8);
@@ -930,7 +930,6 @@ void skillsAuton() {
   wait(150, msec);
   chassis.drive_distance(-40);
   chassis.drive_distance(5);
-  deployBackWings();
   wait(150, msec);
   // huh where is this
   printf("weird push");
@@ -952,18 +951,12 @@ void skillsAuton() {
   chassis.drive_distance(10);*/
 
   chassis.drive_distance(23);
+  deployBackWings();
   chassis.turn_to_angle(0);
   chassis.drive_distance(-25);
+  deployBackWings();
   chassis.turn_to_angle(90);
 
-
-  chassis.drive_distance(-40);
-  deployBackWings();
-  wait(150, msec);
-  chassis.right_swing_to_angle(180);
-
-  chassis.drive_distance(-40);
-  chassis.drive_distance(10);
 
 }
 
