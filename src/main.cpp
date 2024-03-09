@@ -119,7 +119,7 @@ PORT2,
 
 );
 
-int current_auton_selection = 11;
+int current_auton_selection = 9;
 bool auto_started = true;
 bool driver_skills = true;
 
@@ -463,6 +463,7 @@ void autonomous(void) {
         chassis.drive_distance(-20);
         break;
       case 9:
+        //PID Initilization
         Brain.Screen.print("Running: -TERMINUS EST-");
         chassis.set_drive_constants(13, 1.5, .03, 10, 0);
         chassis.set_heading_constants(13, .4, .03, 1, 0);
@@ -470,12 +471,14 @@ void autonomous(void) {
         chassis.set_drive_exit_conditions(0.8, 300, 750);
         chassis.set_turn_exit_conditions(0.8, 300, 1000);
         chassis.set_swing_exit_conditions(0.8, 300, 1000);
+        //Score Preloads
         frontleftwing.open();
         wait(250,msec);
         frontleftwing.close();
         chassis.turn_to_angle(-30);
         chassis.drive_distance(43);
         IntakeVacuum.spinFor(-2500,degrees,false);
+        //Position Bot for Matchloading
         chassis.drive_distance(-15);
         chassis.turn_to_angle(70);
         chassis.drive_distance(-12);
@@ -484,45 +487,37 @@ void autonomous(void) {
         chassis.set_swing_exit_conditions(0.8, 300, 1000);
         Cata.setVelocity(100,pct);
         Cata.spinFor(24,seconds);
+        //Corral Triballs on our side
         chassis.set_drive_exit_conditions(0.8, 300, 2000);
         chassis.set_swing_exit_conditions(0.8, 300, 750);
         chassis.drive_distance(46.5);
         frontleftwing.open();
         chassis.right_swing_to_angle(0);
-        IntakeVacuum.spinFor(-7000,degrees,false);
+        IntakeVacuum.spinFor(-40000,degrees,false);
         chassis.drive_distance(60);
-        //chassis.drive_distance(-10);
-        //chassis.drive_distance(15);
-        //chassis.set_drive_constants(11, 1.5, .03, 10, 0);
         frontleftwing.close();
         chassis.set_drive_exit_conditions(0.8, 300, 750);
-        //chassis.drive_distance(-15);
         chassis.drive_distance(-20);
         chassis.drive_distance(25);
         chassis.drive_distance(-20);
+        //Bowl through the Alley
         chassis.set_drive_exit_conditions(0.8, 300, 750);
         chassis.right_swing_to_angle(-50);
-        chassis.drive_distance(35.5);
-        //chassis.left_swing_to_angle(0);
-        //chassis.drive_distance(10);
-        chassis.left_swing_to_angle(80);
+        chassis.drive_distance(34);
+        chassis.left_swing_to_angle(70);
         chassis.drive_distance(10);
         chassis.left_swing_to_angle(90);
         chassis.set_drive_exit_conditions(0.8, 300, 2000);
         chassis.drive_distance(69);
         chassis.left_swing_to_angle(135);
         chassis.set_drive_exit_conditions(0.8, 300, 750);
-        //frontrightwing.open();
         chassis.drive_distance(32);
-        //frontrightwing.close();
         chassis.turn_to_angle(180);
         chassis.set_drive_exit_conditions(0.8, 300, 500);
         chassis.drive_distance(30);
+        //Start Scoring
         chassis.set_drive_exit_conditions(0.8, 300, 750);
-        //chassis.turn_to_angle(180);
-        //frontrightwing.close();
-        //chassis.drive_distance(40);
-        IntakeVacuum.spinFor(4000,degrees,false);
+        //IntakeVacuum.spinFor(-4000,degrees,false);
         chassis.drive_distance(-15);
         chassis.turn_to_angle(250);
         chassis.set_drive_exit_conditions(0.8, 300, 1500);
@@ -557,8 +552,6 @@ void autonomous(void) {
         chassis.drive_distance(40);
         IntakeVacuum.spinFor(-6000,degrees,false);
         chassis.drive_distance(-40);
-        //IntakeVacuum.spinFor(-2500,degrees,false);
-        //chassis.drive_distance(50);
         break;
       case 10:
         chassis.set_drive_constants(13, 1.5, .03, 10, 0);
@@ -576,7 +569,6 @@ void autonomous(void) {
         chassis.drive_distance(55);
         chassis.set_drive_exit_conditions(0.8, 300, 1000);
         wait(500,msec);
-        //chassis.drive_distance();
         chassis.drive_distance(-3);
         chassis.turn_to_angle(90);
         chassis.drive_distance(26);
@@ -588,7 +580,6 @@ void autonomous(void) {
         chassis.turn_to_angle(140);
         chassis.drive_distance(-23);
         chassis.turn_to_angle(155);
-        //chassis.right_swing_to_angle(130);
         chassis.drive_distance(21);
         wallright.open();
         chassis.right_swing_to_angle(94);
@@ -770,11 +761,11 @@ void standardControl_1(){
   }
 
   //Run catapault
-  /*if (Controller1.ButtonR2.pressing() == true){
+  if (Controller1.ButtonLeft.pressing() == true){
     //Cata.spin(forward, 100, percent);
   } else {
     //Cata.stop(hold);
-  }*/
+  }
 
   if (Controller1.ButtonUp.pressing() == true){
     hang.spin(forward, 100, percent);
