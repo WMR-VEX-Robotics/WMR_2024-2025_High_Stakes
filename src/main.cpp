@@ -889,7 +889,7 @@ void skillsAuton() {
   chassis.drive_distance(20);
   chassis.turn_to_angle(-112);
   chassis.drive_distance(-4);
-  chassis.left_swing_to_angle(-113); // 115
+  chassis.left_swing_to_angle(-113); // 113
   thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
   spincataPerc(90, true);
@@ -897,7 +897,7 @@ void skillsAuton() {
     wait(2, msec); // sit there and wait while catapult is spinning
     //armElevator3.stop(hold);
   }
-  chassis.set_coordinates(0,0,-113); // 115
+  chassis.set_coordinates(0,0,-113); // 113
   chassis.turn_to_angle(-60);
   chassis.drive_distance(26);
   chassis.turn_to_angle(90);
