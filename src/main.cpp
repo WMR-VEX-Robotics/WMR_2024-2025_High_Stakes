@@ -605,7 +605,7 @@ void competitionAutonL(){
   intakeMotor2.stop(coast);
 
   // set the mode of braking to coast for user post execution
-  setdtBrakemode(coast);
+  //setdtBrakemode(coast);
   //set_screen_color(team);
 }
 
@@ -625,7 +625,7 @@ void competitionAutonR(){
   
   chassis.drive_distance(8);
 
-  chassis.turn_to_angle(56);
+  chassis.turn_to_angle(-56);
   
   chassis.drive_distance(31);
 
@@ -905,7 +905,7 @@ void skillsAuton() {
   chassis.drive_distance(-155);
   chassis.turn_to_angle(45);
 
-  chassis.set_drive_constants(11, 1.5, 0, 10, 0);
+  chassis.set_drive_constants(8, 1.5, 0, 10, 0);
 
   chassis.drive_distance(-30);
   chassis.turn_to_angle(0);
@@ -936,19 +936,7 @@ void skillsAuton() {
   chassis.drive_distance(5);
   chassis.drive_distance(-40);
   chassis.drive_distance(8);
-  /*chassis.drive_distance(25);
 
-  chassis.turn_to_angle(0);
-  chassis.drive_distance(-10);
-  chassis.turn_to_angle(45);
-
-
-  chassis.drive_distance(-30);
-  deployBackWings();
-  chassis.right_swing_to_angle(115);
-  deployBackWings();
-  chassis.drive_distance(-50);
-  chassis.drive_distance(10);*/
 
   chassis.drive_distance(23);
   deployBackWings();
@@ -958,6 +946,17 @@ void skillsAuton() {
   chassis.turn_to_angle(90);
 
 
+<<<<<<< Updated upstream
+=======
+  /*chassis.drive_distance(-40);
+ // deployBackWings();
+  wait(150, msec);
+  chassis.right_swing_to_angle(180);
+*/
+  //chassis.drive_distance(-40);
+  //chassis.drive_distance(10);
+
+>>>>>>> Stashed changes
 }
 
 void rightautonDev() {
@@ -1105,9 +1104,11 @@ void autonP3()
 void autonomous(void) {
 
   //autonType(type);
+  //competitionAutonL();
+  //competitionAutonR();
   //leftAutondev();
   //skillsautonDev();
-  //skillsAuton();
+  skillsAuton();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
@@ -1116,7 +1117,7 @@ void autonomous(void) {
   armElevator3.spinFor(reverse, 90, degrees);
   catapaultMotor14.spin(forward, 100, percent);*/
   //rightautonDev();
-  skillsAuton();
+  //skillsAuton();
 }
 
 /*---------------------------------------------------------------------------*/
