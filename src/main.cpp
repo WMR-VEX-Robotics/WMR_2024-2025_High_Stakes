@@ -895,8 +895,9 @@ void skillsAuton() {
   spincataPerc(90, true);
   while (halter != false) {
     wait(2, msec); // sit there and wait while catapult is spinning
-    //armElevator3.stop(hold);
   }
+
+
   chassis.set_coordinates(0,0,-113); // 113
   chassis.turn_to_angle(-60);
   chassis.drive_distance(26);
@@ -945,18 +946,6 @@ void skillsAuton() {
   deployBackWings();
   chassis.turn_to_angle(90);
 
-
-<<<<<<< Updated upstream
-=======
-  /*chassis.drive_distance(-40);
- // deployBackWings();
-  wait(150, msec);
-  chassis.right_swing_to_angle(180);
-*/
-  //chassis.drive_distance(-40);
-  //chassis.drive_distance(10);
-
->>>>>>> Stashed changes
 }
 
 void rightautonDev() {
