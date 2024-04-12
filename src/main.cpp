@@ -798,22 +798,34 @@ void skillsautonDev(){
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
-
-  chassis.drive_distance(18);
-  chassis.turn_to_angle(70);
-  chassis.drive_distance(-20);
-  chassis.turn_to_angle(65);
-
-  chassis.set_coordinates(-14, 14.9, 65);
+  chassis.turn_to_angle(-30);
+  chassis.drive_distance(-30);
+  chassis.right_swing_to_angle(0);
+  chassis.drive_distance(-10);
+  wait(100, msec);
+  chassis.turn_to_angle(-20);
+  chassis.drive_distance(10);
+  chassis.turn_to_angle(-115);
+  chassis.drive_distance(-8);
+  wait(2000, msec);
+  chassis.drive_distance(50);
+  wingsDeployRetract();
+  chassis.right_swing_to_angle(180);
+  wingsDeployRetract();
+  chassis.turn_to_angle(0);
+  deployBackWings();
+  chassis.drive_distance(-70);
+  wait(2000, msec);
+  deployBackWings();
   //spincataPerc(65.0, true);
   
 
   //chassis.drive_distance(20);
 
   //chassis.turn_to_angle(0);
-  intakeMotor2.spin(reverse, 90, percent);
+  //intakeMotor2.spin(reverse, 90, percent); ->
   //chassis.turn_to_angle(-20);
-  chassis.drive_distance(80);
+ // chassis.drive_distance(80);
   //chassis.turn_to_angle(80);
   //wingsDeployRetract();
 
@@ -912,7 +924,7 @@ void skillsAuton() {
   chassis.drive_distance(24);
   chassis.turn_to_angle(-90);
   chassis.turn_to_angle(92);
-  intakeMotor2.spin(reverse);
+  //intakeMotor2.spin(reverse);
   chassis.drive_distance(-135);
   //deployBackWings();
   wait(1000, msec);
@@ -1156,7 +1168,7 @@ void autonomous(void) {
   armElevator3.spinFor(reverse, 90, degrees);
   catapaultMotor14.spin(forward, 100, percent);*/
 
-  skillsAuton();
+  skillsautonDev();
 }
 
 /*---------------------------------------------------------------------------*/
