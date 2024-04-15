@@ -363,7 +363,7 @@ bool auto_started = false;
 bool halter = true;
 
 void allowforskillsCata() {
-  for (int i = 0; i <= 30 /*2*/; i++) {
+  for (int i = 0; i <= 23 /*2*/; i++) {
     wait(985, msec);
 
     vex::task::sleep(15);
@@ -535,29 +535,12 @@ bool icReset = false;
 bool intakecontrolEnabled = false;
 
 int intakeControl() {
-  double ticks = 0.0;
-  // a modifier for voltage
-  int pause = 0;
-  // a timeout modifier that defaults to 0
   while(intakecontrolEnabled){
-    if (icReset || intakeMotor2.power() < 4.6){
-      ticks = 0.0;
-      icReset = false;
-    }
 
-    pause = 0;
-
-    if (ticks >= 11.0) {
-      ticks = 12.7;
-      pause += 450;
+    if(intakeMotor2.power() > 4.6) {
+      intakeMotor2.stop(hold);
     }
-
-    if(intakeMotor2.power() >= 4.6) {
-      intakeMotor2.spin(forward, (12.7 - ticks), volt);
-      ticks += 1.0;
-    }
-    int timeout = 50 + pause;
-    vex::task::sleep(timeout);
+    vex::task::sleep(50);
   } 
 
   return 1;
@@ -622,7 +605,7 @@ void competitionAutonL(){
   intakeMotor2.stop(coast);
 
   // set the mode of braking to coast for user post execution
-  setdtBrakemode(coast);
+  //setdtBrakemode(coast);
   //set_screen_color(team);
 }
 
@@ -642,7 +625,7 @@ void competitionAutonR(){
   
   chassis.drive_distance(8);
 
-  chassis.turn_to_angle(56);
+  chassis.turn_to_angle(-56);
   
   chassis.drive_distance(31);
 
@@ -689,30 +672,32 @@ void competitionAutonR(){
 
 void skillsautoPos() {
   // Each constant set is in the form of (maxVoltage, kP, kI, kD, startI).
-  chassis.set_drive_constants(8.5, 1.5, 0, 10, 0);
-  chassis.set_heading_constants(8, .4, 0, 1, 0);
-  chassis.set_turn_constants(4, .4, .03, 3, 15);
-  chassis.set_swing_constants(10, .3, .001, 2, 15);
-
-  // Each exit condition set is in the form (settle_error, settle_time, timeout).
-  chassis.set_drive_exit_conditions(1.5, 200, 1750);
-  chassis.set_turn_exit_conditions(1, 200, 1750);
-  chassis.set_swing_exit_conditions(1, 200, 1000);
+  default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
 
   endgame();
-  wait(500, msec);
+  wait(200, msec);
   endgame();
 
   chassis.turn_to_angle(-30);
-  chassis.drive_distance(30);
-  intakeMotor2.spin(reverse);
-  chassis.drive_distance(13);
-  chassis.drive_distance(-30);
-  chassis.turn_to_angle(70);
-  chassis.drive_distance(-6.5);
-  chassis.turn_to_angle(65); 
+  //chassis.drive_with_voltage(chassis.drive_max_voltage, chassis.drive_max_voltage); 
+  chassis.drive_distance(-40);
+  chassis.turn_to_angle(-20);
+  chassis.drive_distance(-20);
+  //wait(500, msec);
+  chassis.drive_distance(20);
+  chassis.turn_to_angle(-112);
+  chassis.drive_distance(-4);
+  chassis.left_swing_to_angle(-113); // 115
+
+  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  task1.detach(); // "allows" for execution from handle
+  spincataPerc(90, true);
+  while (halter != false) {
+    wait(2, msec); // sit there and wait while catapult is spinning
+    //armElevator3.stop(hold);
+  }
 }
 
 void leftAutondev(){
@@ -827,39 +812,46 @@ void skillsautonDev(){
   //chassis.turn_to_angle(-20);
  // chassis.drive_distance(80);
   //chassis.turn_to_angle(80);
-  //wingsDeployRetract();
+  wingsDeployRetract();
+  chassis.set_drive_exit_conditions(1.5, 200, 3000);
+  wingsDeployRetract();
+  chassis.drive_distance(65);
+  chassis.turn_to_angle(25);
+  chassis.turn_to_angle(-25);
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(20);
+  chassis.set_drive_exit_conditions(1.5, 200, 1250); // going over the middle
+  chassis.drive_distance(-20);
 
-  //chassis.set_drive_exit_conditions(1.5, 200, 3000);
 
-  //wingsDeployRetract();
+  chassis.set_coordinates(0, 0, 0);
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(30);
 
-  //chassis.drive_distance(65);
-  
-  //chassis.turn_to_angle(25);
-  //chassis.turn_to_angle(-25);
-  //chassis.turn_to_angle(0);
-  //chassis.drive_distance(20);
-  //chassis.set_drive_exit_conditions(1.5, 200, 1250); // going over the middle
-  //chassis.drive_distance(-20);
+  wingsDeployRetract();
 
- // chassis.set_coordinates(0, 0, 0);
-  //chassis.turn_to_angle(0);
-  //chassis.drive_distance(30);
+  chassis.drive_distance(-30);
 
- // wingsDeployRetract();
-  
- // chassis.drive_distance(-30);
- // intakeMotor2.stop(coast);
- // chassis.turn_to_angle(90);
- // chassis.drive_distance(20);
- // chassis.turn_to_angle(0);
- // wingsDeployRetract();
- // intakeMotor2.spin(reverse, 80, percent);
- // chassis.drive_distance(30);
- // wingsDeployRetract();
- // chassis.drive_distance(-30);
- // intakeMotor2.stop(coast); 
-  /*wingsDeployRetract();
+  intakeMotor2.stop(coast);
+
+  chassis.turn_to_angle(90);
+
+  chassis.drive_distance(20);
+
+  chassis.turn_to_angle(0);
+
+  wingsDeployRetract();
+
+  intakeMotor2.spin(reverse, 80, percent);
+
+  chassis.drive_distance(30);
+
+  wingsDeployRetract();
+
+  chassis.drive_distance(-30);
+
+  intakeMotor2.stop(coast); 
+  wingsDeployRetract();
 
   chassis.drive_distance(30);
 
@@ -877,7 +869,7 @@ void skillsautonDev(){
 
   wingsDeployRetract();
 
-  chassis.drive_distance(-20);*/
+  chassis.drive_distance(-20);
 
 }
 
@@ -891,9 +883,9 @@ void skillsAuton() {
   
   //chassis.drive_distance(80);
 
-  //wingsDeployRetract();
-  //wait(500, msec);
-  //wingsDeployRetract();
+  endgame();
+  wait(200, msec);
+  endgame();
 
 
   // begin the fun program of skills auton
@@ -909,14 +901,13 @@ void skillsAuton() {
   chassis.drive_distance(20);
   chassis.turn_to_angle(-112);
   chassis.drive_distance(-4);
-  chassis.left_swing_to_angle(-115);
-  /*thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  chassis.left_swing_to_angle(-113); // 113
+  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
   task1.detach(); // "allows" for execution from handle
-  spincataPerc(65,true);
+  spincataPerc(90, true);
   while (halter != false) {
     wait(2, msec); // sit there and wait while catapult is spinning
-    //armElevator3.stop(hold);
-  }*/
+  }
   chassis.set_coordinates(0,0,-115);
  // wait(10000, msec);
   //wait(2, sec);
@@ -967,18 +958,54 @@ void skillsAuton() {
     wait(2, msec); // sit there and wait while catapult is spinning
     armElevator3.stop(hold);
   }
+  chassis.set_coordinates(0,0,-113); // 113
+  chassis.turn_to_angle(-60);
+  chassis.drive_distance(26);
+  chassis.turn_to_angle(90);
+  intakeMotor2.spin(reverse);
+  chassis.drive_distance(-155);
+  chassis.turn_to_angle(45);
 
-  wait(2, sec);
+  chassis.set_drive_constants(8, 1.5, 0, 10, 0);
 
-  armElevator3.setBrake(coast);
+  chassis.drive_distance(-30);
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(5);
+  chassis.drive_distance(-30);
+  wait(200, msec);
+  chassis.turn_to_angle(93);
+  chassis.drive_distance(30);
+  chassis.turn_to_angle(135);
+  chassis.drive_distance(20);
+  deployBackWings();
+  chassis.turn_to_angle(75);
+  wait(200, msec);
+  chassis.drive_distance(-40);
+  chassis.drive_distance(8);
+  deployBackWings();
+  chassis.drive_distance(28);
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(-30);
+  chassis.right_swing_to_angle(115);
+  deployBackWings();
+  wait(150, msec);
+  chassis.drive_distance(-40);
+  chassis.drive_distance(5);
+  wait(150, msec);
+  // huh where is this
+  printf("weird push");
+  chassis.drive_distance(5);
+  chassis.drive_distance(-40);
+  chassis.drive_distance(8);
 
-  intakeMotor2.spin(reverse);*/
 
+  chassis.drive_distance(23);
+  deployBackWings();
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(-25);
+  deployBackWings();
+  chassis.turn_to_angle(90);
 
-  chassis.set_coordinates(-14, 14.9, 65);
-  setdtBrakemode(coast);
-//
-  //set_screen_color(team);
 }
 
 void rightautonDev() {
@@ -1008,7 +1035,7 @@ void rightautonDev() {
 
   chassis.drive_distance(2);
 
-  chassis.turn_to_angle(-2);
+  chassis.turn_to_angle(-4);
 
   intakecontrolEnabled = false;
 
@@ -1016,10 +1043,7 @@ void rightautonDev() {
 
   wait(250, msec);
 
-  chassis.turn_to_angle(0);
-
   chassis.drive_distance(-6);
-  //wingsDeployRetract();
 
   chassis.turn_to_angle(180);
 
@@ -1027,28 +1051,28 @@ void rightautonDev() {
 
   //wingsDeployRetract();
 
+  chassis.turn_to_angle(184);
+
   chassis.drive_distance(22);
 
-  chassis.turn_to_angle(-45);
-
-  chassis.drive_distance(6);
+  chassis.turn_to_angle(135);
 
   deployBackWings();
 
   wait(150, msec);
 
-  chassis.drive_distance(-10);
+  chassis.drive_distance(16);
+
+  chassis.set_drive_exit_conditions(1.5, 100, 1250);
+
+  chassis.set_swing_exit_conditions(1.5, 50, 500);
 
   chassis.left_swing_to_angle(-90);
 
-  chassis.turn_to_angle(-90);
+  chassis.drive_distance(-16);
 
-  chassis.drive_distance(-8);
+  deployBackWings();
 
-  chassis.turn_to_angle(180);
-  wingsDeployRetract();
-  wait(250,msec);
-  wingsDeployRetract();
 }
 
 // 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
@@ -1117,38 +1141,10 @@ void autonP3()
   chassis.set_coordinates(0,0,-115);
   chassis.drive_distance(25);
   chassis.turn_to_angle(-90);
-  chassis.drive_distance(10);
-  chassis.right_swing_to_angle(180);
+  chassis.drive_distance(15);
   chassis.turn_to_angle(0);
-  deployBackWings();
-  wait(100, msec);
   chassis.drive_distance(-80);
-  wait(100, msec);
   
-  wait(2000, msec);
-  chassis.drive_distance(10);
- 
-  wait(100, msec);
-  chassis.drive_distance(-25);
-  deployBackWings();
-  wait(100, msec);
-  chassis.drive_distance(10);
-  wait(100,msec);
-  chassis.turn_to_angle(90);
-  wait(100, msec);
-  chassis.drive_distance(15);
-  wait(100, msec);
-  chassis.left_swing_to_angle(180);
-  wait(50, msec);
-  chassis.drive_distance(15);
-  chassis.left_swing_to_angle(270);
-  wait(100,msec);
-  chassis.drive_distance(60);
-  chassis.left_swing_to_angle(-45);
-  chassis.drive_distance(20);
-  
-  chassis.drive_distance(20);
-  wait(100, msec);
   //chassis.drive_distance(20);
   //chassis.turn_to_angle(-90);
  // chassis.drive_distance(40);
@@ -1157,9 +1153,11 @@ void autonP3()
 void autonomous(void) {
 
   //autonType(type);
+  //competitionAutonL();
+  //competitionAutonR();
   //leftAutondev();
   //skillsautonDev();
-  //skillsAuton();
+  skillsAuton();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
@@ -1180,35 +1178,24 @@ void autonomous(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-bool percent25 = true;
-
-void swapPerc() {
-  if (percent25 != true) {
-    percent25 = true;
-    wait(150, msec);
-  } else {
-    percent25 = false;
-    wait(150, msec); 
-  }
-}
 
 
 void drive_User(){
   // tank drive user control left side on left right side on right
   if (current_forwards == true) {
-    tlMotor18.spin(vex::directionType::fwd, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
-    mlMotor19.spin(vex::directionType::fwd, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
-    blMotor20.spin(vex::directionType::fwd, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
-    trMotor13.spin(vex::directionType::fwd, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
-    mrMotor12.spin(vex::directionType::fwd, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
-    brMotor11.spin(vex::directionType::fwd, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
-  } else {
-    tlMotor18.spin(vex::directionType::rev, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
-    mlMotor19.spin(vex::directionType::rev, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
-    blMotor20.spin(vex::directionType::rev, ((mainController.Axis3.position() - mainController.Axis1.position())/10), volt);
-    trMotor13.spin(vex::directionType::rev, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
-    mrMotor12.spin(vex::directionType::rev, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
-    brMotor11.spin(vex::directionType::rev, ((mainController.Axis3.position() + mainController.Axis1.position())/10), volt);
+    tlMotor18.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
+    mlMotor19.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
+    blMotor20.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
+    trMotor13.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
+    mrMotor12.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
+    brMotor11.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
+  } else {//                                (                      value                          value   /11)  volt               adsdasdsdas
+    tlMotor18.spin(vex::directionType::rev, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
+    mlMotor19.spin(vex::directionType::rev, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
+    blMotor20.spin(vex::directionType::rev, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
+    trMotor13.spin(vex::directionType::rev, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
+    mrMotor12.spin(vex::directionType::rev, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
+    brMotor11.spin(vex::directionType::rev, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
   }
 
   // brake 
@@ -1218,9 +1205,10 @@ void drive_User(){
 
   // spin catapault
   if (mainController.ButtonY.pressing() == true){
-    spincataPerc(65.0, true);
+    spincataPerc(100.0, true);
   } else {
     catapaultMotor14.stop(coast);
+    catapaultMotor4.stop(coast);
   }
 
   /*if (mainController.ButtonRight.pressing() == true && percent25 == true) {
@@ -1261,7 +1249,7 @@ void drive_User(){
 void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
-  //skillsautoPos();
+  skillsautoPos();
   setdtBrakemode(brake);
   while (1) {
    drive_User();
