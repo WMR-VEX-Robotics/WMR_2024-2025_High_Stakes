@@ -1157,7 +1157,7 @@ void autonomous(void) {
   //competitionAutonR();
   //leftAutondev();
   //skillsautonDev();
-  skillsAuton();
+  //skillsAuton();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
   wait(500, msec);
