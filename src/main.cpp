@@ -800,77 +800,21 @@ void skillsautonDev(){
   chassis.turn_to_angle(0);
   deployBackWings();
   chassis.drive_distance(-70);
-  wait(2000, msec);
+  wait(100, msec);
   deployBackWings();
-  //spincataPerc(65.0, true);
-  
-
-  //chassis.drive_distance(20);
-
-  //chassis.turn_to_angle(0);
-  //intakeMotor2.spin(reverse, 90, percent); ->
-  //chassis.turn_to_angle(-20);
- // chassis.drive_distance(80);
-  //chassis.turn_to_angle(80);
-  wingsDeployRetract();
-  chassis.set_drive_exit_conditions(1.5, 200, 3000);
-  wingsDeployRetract();
-  chassis.drive_distance(65);
-  chassis.turn_to_angle(25);
-  chassis.turn_to_angle(-25);
-  chassis.turn_to_angle(0);
-  chassis.drive_distance(20);
-  chassis.set_drive_exit_conditions(1.5, 200, 1250); // going over the middle
-  chassis.drive_distance(-20);
-
-
-  chassis.set_coordinates(0, 0, 0);
-  chassis.turn_to_angle(0);
-  chassis.drive_distance(30);
-
-  wingsDeployRetract();
-
-  chassis.drive_distance(-30);
-
-  intakeMotor2.stop(coast);
-
-  chassis.turn_to_angle(90);
-
-  chassis.drive_distance(20);
-
-  chassis.turn_to_angle(0);
-
-  wingsDeployRetract();
-
-  intakeMotor2.spin(reverse, 80, percent);
-
-  chassis.drive_distance(30);
-
-  wingsDeployRetract();
-
-  chassis.drive_distance(-30);
-
-  intakeMotor2.stop(coast); 
-  wingsDeployRetract();
-
-  chassis.drive_distance(30);
-
-  wingsDeployRetract();
-
-  chassis.drive_distance(-20);
-
   chassis.turn_to_angle(-90);
-
-  chassis.drive_distance(14);
-
-  chassis.turn_to_angle(0);
-
-  chassis.drive_distance(30);
-
-  wingsDeployRetract();
-
-  chassis.drive_distance(-20);
-
+  wait(500, msec);
+  chassis.turn_to_angle(-90);
+  wait(100, msec);
+  chassis.drive_distance(-30);
+  //chassis.right_swing_to_angle(-180);
+  chassis.right_swing_to_angle(-270);
+  chassis.right_swing_to_angle(-240);
+  wait(100, msec);
+  chassis.drive_distance(-10);
+  chassis.right_swing_to_angle(-270);
+  chassis.drive_distance(-30);
+  wait(200, msec);
 }
 
 // for skills
@@ -1004,7 +948,7 @@ void skillsAuton() {
   chassis.turn_to_angle(0);
   chassis.drive_distance(-25);
   deployBackWings();
-  chassis.turn_to_angle(90);
+  chassis.turn_to_angle(90);*/
 
 }
 
