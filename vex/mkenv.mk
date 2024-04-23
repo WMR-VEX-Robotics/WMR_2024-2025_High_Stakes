@@ -46,7 +46,7 @@ endif
 
 # allow verbose to be set by makefile if not set by app
 ifndef VERBOSE
-BUILD_VERBOSE ?= 0
+BUILD_VERBOSE ?= 1
 else
 BUILD_VERBOSE ?= $(VERBOSE)
 endif
