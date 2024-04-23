@@ -47,7 +47,7 @@ pneumatics solonoidG = pneumatics(Brain.ThreeWirePort.G); //forward wing 2
 
 pneumatics solonoidE = pneumatics(Brain.ThreeWirePort.E); //rear wings
 
-// select color brain goes to on auton completion, and autonomous program to be runned if any
+// select color brain goes to on auton completion, and autonomous program to be ran if any
 int type = -1;
 int team = -1;
 
@@ -547,7 +547,7 @@ int intakeControl() {
 }
 
 // for competition
-void competitionAutonL(){
+void defensiveOld(){
   //armElevator3.stop(hold);
   // set operating constant to their default values
   default_constants();
@@ -610,7 +610,7 @@ void competitionAutonL(){
 }
 
 
-void competitionAutonR(){
+void offensiveOld(){
   // set operating constant to their default values
   //armElevator3.stop(hold);
   default_constants();
@@ -625,7 +625,7 @@ void competitionAutonR(){
   
   chassis.drive_distance(8);
 
-  chassis.turn_to_angle(-56);
+  chassis.turn_to_angle(45);
   
   chassis.drive_distance(31);
 
@@ -700,7 +700,7 @@ void skillsautoPos() {
   }
 }
 
-void leftAutondev(){
+void offensiveNew(){
   intakecontrolEnabled = true;
   vex::task iC( intakeControl );
   default_constants();
@@ -1008,7 +1008,7 @@ void skillsAuton() {
 
 }
 
-void rightautonDev() {
+void defensiveNew() {
   intakecontrolEnabled = true;
   default_constants();
   // initialize position as (0,0,0)
@@ -1090,11 +1090,11 @@ void autonType(int autonSelect) {
       break;
     case 2:
       Brain.Screen.print("Competition Auton Loaded. R");
-      competitionAutonR();
+      offensiveOld();
       break;
     case 3:
       Brain.Screen.print("Competition Auton Loaded. L");
-      competitionAutonL();
+      defensiveOld();
       break;
     case 4:
       default_constants();
@@ -1153,9 +1153,10 @@ void autonP3()
 void autonomous(void) {
 
   //autonType(type);
-  //competitionAutonL();
-  //competitionAutonR();
-  //leftAutondev();
+  //defensiveOld(); // works not optimally scoring
+  //offensiveOld(); // works not optimally scoring
+  offensiveNew(); // unknown state (probably working)
+  //defensiveNew(); // works 
   //skillsautonDev();
   //skillsAuton();
   //chassis.turn_to_angle(180);
@@ -1166,7 +1167,7 @@ void autonomous(void) {
   armElevator3.spinFor(reverse, 90, degrees);
   catapaultMotor14.spin(forward, 100, percent);*/
 
-  skillsautonDev();
+  // skillsautonDev(); // good
 }
 
 /*---------------------------------------------------------------------------*/
