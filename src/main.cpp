@@ -32,7 +32,7 @@ motor mrMotor12 = motor(PORT12, ratio18_1, false);
 motor brMotor11 = motor(PORT11, ratio18_1, false);*/
 
 motor catapaultMotor14 = motor(PORT14, ratio18_1, false);
-motor intakeMotor2 = motor(PORT2, ratio18_1, true);
+motor intakeMotor2 = motor(PORT2, ratio18_1, false);
 //motor armElevator3 = motor(PORT3, ratio18_1, false);
 motor catapaultMotor4 = motor(PORT4, ratio18_1, true);
 // not motors
@@ -701,8 +701,8 @@ void skillsautoPos() {
 }
 
 void offensiveNew(){
-  intakecontrolEnabled = true;
-  vex::task iC( intakeControl );
+  //intakecontrolEnabled = true;
+  //vex::task iC( intakeControl );
   default_constants();
   // initialize position as (0,0,0)
   chassis.set_coordinates(0,0,0);
@@ -724,26 +724,25 @@ void offensiveNew(){
   deployBackWings();
 
   endgame();
-  wait(100, msec);
+  intakeMotor2.spin(forward, 12.7, volt);
+  wait(150, msec);
   endgame();
 
-  chassis.turn_to_angle(90);
+  //wait(10, seconds);
 
   chassis.turn_to_angle(115);
 
-  intakeMotor2.spin(forward, 12.7, volt);
+  chassis.drive_distance(44);
 
-  chassis.drive_distance(46);
-
-  wait(50, msec);
+  wait(75, msec);
 
   chassis.turn_to_angle(265);
 
-  chassis.drive_distance(22);
+  chassis.drive_distance(20);
 
   chassis.turn_to_angle(180);
 
-  iC.suspend();
+  //iC.suspend();
 
   chassis.drive_distance(10);
 
@@ -751,19 +750,19 @@ void offensiveNew(){
 
   wait(150, msec);
 
-  chassis.drive_distance(-8);
+  chassis.drive_distance(-10);
 
-  iC.resume();
+  //iC.resume();
 
-  chassis.turn_to_angle(120);
+  chassis.turn_to_angle(115);
 
   intakeMotor2.spin(forward, 100, percent);
 
-  chassis.drive_distance(26);
+  chassis.drive_distance(25);
 
   chassis.right_swing_to_angle(80);
 
-  intakecontrolEnabled = false;
+  //intakecontrolEnabled = false;
 
   deployBackWings();
 
@@ -1155,7 +1154,7 @@ void autonomous(void) {
   //autonType(type);
   //defensiveOld(); // works not optimally scoring
   //offensiveOld(); // works not optimally scoring
-  offensiveNew(); // unknown state (probably working)
+  //offensiveNew(); // works (preferably start defensive)
   //defensiveNew(); // works 
   //skillsautonDev();
   //skillsAuton();
@@ -1250,7 +1249,7 @@ void drive_User(){
 void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
-  skillsautoPos();
+  //skillsautoPos();
   setdtBrakemode(brake);
   while (1) {
    drive_User();

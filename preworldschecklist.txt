@@ -1,0 +1,8 @@
+Confirm screen name & number
+Confirm medic is working
+Confirm VexOS up to date
+Get pre comp log file
+Confirm depressurized
+Confirm autons working
+Confirm no battery
+Confirm brain cover
