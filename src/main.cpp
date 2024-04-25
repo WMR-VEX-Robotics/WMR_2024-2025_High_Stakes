@@ -800,7 +800,15 @@ void skillsautonDev(){
   chassis.drive_distance(10);
   chassis.turn_to_angle(-115);
   chassis.drive_distance(-8);
-  wait(2000, msec);
+
+  thread task1(allowforskillsCata); // creates timer thread for catapult in skills
+  task1.detach(); // "allows" for execution from handle
+  spincataPerc(95, true);
+  while (halter != false) {
+    wait(2, msec); // sit there and wait while catapult is spinning
+  }
+  chassis.set_coordinates(0,0,-115);
+
   chassis.drive_distance(50);
   wingsDeployRetract();
   chassis.right_swing_to_angle(180);
@@ -1156,7 +1164,7 @@ void autonomous(void) {
   //offensiveOld(); // works not optimally scoring
   //offensiveNew(); // works (preferably start defensive)
   //defensiveNew(); // works 
-  //skillsautonDev();
+  skillsautonDev();
   //skillsAuton();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
@@ -1249,7 +1257,7 @@ void drive_User(){
 void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
-  //skillsautoPos();
+  skillsautoPos();
   setdtBrakemode(brake);
   while (1) {
    drive_User();
@@ -1280,14 +1288,4 @@ int main() {
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
 
-  //assess();
-  /*if (type == 0) {
-    usercontrol();
-  } else {
-    autonomous();
-  }*/
-  /*while(type == -1) {
-    wait(1, msec);
-  }*/
-  //autonType(type);
 }
