@@ -32,7 +32,7 @@ motor mrMotor12 = motor(PORT12, ratio18_1, false);
 motor brMotor11 = motor(PORT11, ratio18_1, false);*/
 
 motor catapaultMotor14 = motor(PORT14, ratio18_1, false);
-motor intakeMotor2 = motor(PORT2, ratio18_1, false);
+motor intakeMotor2 = motor(PORT2, ratio18_1, true);
 //motor armElevator3 = motor(PORT3, ratio18_1, false);
 motor catapaultMotor4 = motor(PORT4, ratio18_1, true);
 // not motors
@@ -809,6 +809,8 @@ void skillsautonDev(){
   }
   chassis.set_coordinates(0,0,-115);
 
+  intakeMotor2.spin(reverse, 100, percent);
+
   chassis.drive_distance(50);
   wingsDeployRetract();
   chassis.right_swing_to_angle(180);
@@ -816,15 +818,14 @@ void skillsautonDev(){
   chassis.turn_to_angle(0);
   deployBackWings();
   chassis.drive_distance(-70);
-  wait(100, msec);
+
   deployBackWings();
   chassis.turn_to_angle(-90);
-  wait(500, msec);
+  wait(50, msec);
   chassis.drive_distance(-2);
   chassis.turn_to_angle(-90);
-  wait(100, msec);
   chassis.drive_distance(-40); // pt 2
-  intakeMotor2.spin(forward);
+  //intakeMotor2.spin(forward);
   chassis.turn_to_angle(180);
   chassis.drive_distance(15);
   chassis.turn_to_angle(220);
@@ -833,10 +834,10 @@ void skillsautonDev(){
   chassis.drive_distance(70);
   chassis.turn_to_angle(-50);
   chassis.drive_distance(35);
-  intakeMotor2.spin(reverse);
+  //intakeMotor2.spin(reverse);
   chassis.turn_to_angle(0);
   chassis.drive_distance(20);
-  wait(200, msec);
+  wait(100, msec);
   chassis.drive_distance(-5);
   for(int i = 0; i < 4; i++)
   {
@@ -846,7 +847,7 @@ void skillsautonDev(){
     chassis.drive_distance(15);
     chassis.turn_to_angle(90);
     deployBackWings();
-    wait(200, msec);
+    wait(50, msec);
     chassis.drive_distance(-35);
     deployBackWings();
   }
@@ -925,7 +926,6 @@ void skillsAuton() {
   //intakeMotor2.spin(reverse);
   chassis.drive_distance(-135);
   //deployBackWings();
-  wait(1000, msec);
   chassis.turn_to_angle(45);
   chassis.drive_distance(-60);
   chassis.turn_to_angle(0);
@@ -1024,7 +1024,7 @@ void defensiveNew() {
   wingsDeployRetract();
   endgame();
   intakeMotor2.spin(forward, 12.7, volt);
-  wait(200, msec);
+  wait(250, msec);
   wingsDeployRetract();
   endgame();
 
@@ -1050,11 +1050,11 @@ void defensiveNew() {
 
   wait(250, msec);
 
-  chassis.drive_distance(-6);
+  chassis.drive_distance(-8);
 
   chassis.turn_to_angle(180);
 
-  chassis.drive_distance(-16);
+  chassis.drive_distance(-13);
 
   //wingsDeployRetract();
 
@@ -1158,13 +1158,13 @@ void autonP3()
 }
 
 void autonomous(void) {
-
+  // defensive offensive skills
   //autonType(type);
   //defensiveOld(); // works not optimally scoring
   //offensiveOld(); // works not optimally scoring
-  //offensiveNew(); // works (preferably start defensive)
-  //defensiveNew(); // works 
-  skillsautonDev();
+  //offensiveNew(); // works 
+  defensiveNew(); // works 
+  //skillsautonDev();
   //skillsAuton();
   //chassis.turn_to_angle(180);
   /*armElevator3.spin(forward, 12.7, volt);
@@ -1257,7 +1257,7 @@ void drive_User(){
 void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
-  skillsautoPos();
+  //skillsautoPos();
   setdtBrakemode(brake);
   while (1) {
    drive_User();
