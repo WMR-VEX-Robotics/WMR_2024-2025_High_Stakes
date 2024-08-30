@@ -1,9 +1,9 @@
-# WMR_2023-2024_Over_Under
+# WMR_2024-2025_High_Stakes
 
 # NOTICE: Please Commit Changes To Your Teams Branches
 
 # Useful Links:
-- [Over Under Game Manual](https://www.vexrobotics.com/over-under-manual)
+- [High Stakes Game Manual](https://www.vexrobotics.com/high-stakes-manual)
 - [Parts Order Form](https://docs.google.com/forms/d/e/1FAIpQLSeFg_zleeqHIRU9lrxiFkXbjZgg2E67jKUJd5AkV_R5zo71jg/viewform?pli=1)
 - [Team Merch Order Form](https://docs.google.com/forms/d/e/1FAIpQLSdxR6KkjUQ6A4ZKhxE1QsEypBgxBPV9mEK-Zm8SP0OPMLcKdg/viewform)
 - [VEX Official Q&A](https://www.robotevents.com/VRC/2023-2024/QA)
