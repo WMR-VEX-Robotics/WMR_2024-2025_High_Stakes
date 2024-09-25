@@ -18,13 +18,22 @@ brain Brain;
 
 // define your global instances of motors and other devices here
 // motors
-motor tlMotor18 = motor(PORT18, ratio6_1, true);
+
+motor tplf_motor = motor(PORT12, true);
+motor tprt_motor = motor(PORT1, false);
+motor dwlf_motor = motor(PORT20, true);
+motor dwrt_motor = motor(PORT10, false);
+
+//motor_group MotorGrouplf = motor_group(tplf_motor, dwlf_motor);
+//motor_group MotorGrouprt = motor_group(tprt_motor, dwrt_motor);
+
+/*motor tlMotor18 = motor(PORT18, ratio6_1, true);
 motor mlMotor19 = motor(PORT19, ratio6_1, true);
 motor blMotor20 = motor(PORT20, ratio6_1, true);
 motor trMotor13 = motor(PORT13, ratio6_1, false);
 motor mrMotor12 = motor(PORT12, ratio6_1, false);
 motor brMotor11 = motor(PORT11, ratio6_1, false);
-/*motor tlMotor18 = motor(PORT17, ratio18_1, true);
+motor tlMotor18 = motor(PORT17, ratio18_1, true);
 motor mlMotor19 = motor(PORT19, ratio18_1, true);
 motor blMotor20 = motor(PORT20, ratio18_1, true);
 motor trMotor13 = motor(PORT13, ratio18_1, false);
@@ -155,126 +164,6 @@ void color_select() {
  }
 }
 
-// select auton
-void autonSelect_buttons() {
-  bool unselected = true;
-    int Y;
-    int X;
-
-    int originX = 10;
-    int width = 100;
-   
-    int originY = 10;
-    int height = 100;
-    
-    Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, white);
-    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 0), det_Positionon_screen('Y', 0, originY, 0), width, height, purple);
-    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 1), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
-    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 2), det_Positionon_screen('Y', 0, originY, 0), width, height, yellow);
-    Brain.Screen.drawRectangle(det_Positionon_screen('X', 0, originX, 0), det_Positionon_screen('Y', height, originY, 0), width, height, cyan);
-    Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 0), det_Positionon_screen('Y', height, originY, 0), width, height, cyan);   
-    Brain.Screen.setPenColor(black);
-    Brain.Screen.setCursor(4,5);
-    Brain.Screen.setFillColor(white);
-    Brain.Screen.print("None");
-    Brain.Screen.setCursor(4,15);
-    Brain.Screen.setFillColor(purple);
-    Brain.Screen.print("Skills");
-    Brain.Screen.setCursor(4,27);
-    Brain.Screen.setFillColor(green);
-    Brain.Screen.print("Right");
-    Brain.Screen.setCursor(4,38);
-    Brain.Screen.setFillColor(yellow);
-    Brain.Screen.print("Left");
-    Brain.Screen.setCursor(6, 1);
-    Brain.Screen.setPenColor(white);
-    Brain.Screen.setFillColor(black);
-      /*Brain.Screen.print("Entering Auton Diagnostic Mode");
-      for (int i = 0; i <= 10; i++) {
-        wait(200, msec);
-        Brain.Screen.print(".");
-      }*/
-    //armElevator3.stop(coast);
-    while(unselected == true){
-        if (Brain.Screen.pressing()){
-
-            X = Brain.Screen.xPosition();//X pos of press
-            Y = Brain.Screen.yPosition();// Y pos of press
-
-            //Checks if press is within boundaries of rectangle
-            if ((X >= originX && X <= originX+width) && (Y >= originY && Y <= det_Positionon_screen('Y', height, originY, 0))){
-                Brain.Screen.clearScreen();
-                type = 0;
-                unselected = false;
-                printf("XPress %d\n", X);
-                printf("YPress %d\n", Y);
-            }
-        } else if (Brain.Screen.pressing()){
-
-            X = Brain.Screen.xPosition();//X pos of press
-            Y = Brain.Screen.yPosition();// Y pos of press
-
-            //Checks if press is within boundaries of rectangle
-            if ((X >= det_Positionon_screen('X', width, originX, 0) && X <= det_Positionon_screen('X', width, originX, 0)+width) && (Y >= originY && Y <= det_Positionon_screen('Y', height, originY, 0))){
-                Brain.Screen.clearScreen();
-                type = 1;
-                unselected = false;
-                printf("XPress %d\n", X);
-                printf("YPress %d\n", Y);
-            }
-        } else if (Brain.Screen.pressing()){
-
-            X = Brain.Screen.xPosition();//X pos of press
-            Y = Brain.Screen.yPosition();// Y pos of press
-
-            //Checks if press is within boundaries of rectangle
-            if ((X >= det_Positionon_screen('X', width, originX, 1) && X <= det_Positionon_screen('X', width, originX, 1)+width) && (Y >= originY && Y <= det_Positionon_screen('Y', height, originY, 0))){
-                Brain.Screen.clearScreen();
-                type = 2;
-                unselected = false;
-                printf("XPress %d\n", X);
-                printf("YPress %d\n", Y);
-            }
-        } else if (Brain.Screen.pressing()){
-
-            X = Brain.Screen.xPosition();//X pos of press
-            Y = Brain.Screen.yPosition();// Y pos of press
-
-            //Checks if press is within boundaries of rectangle
-            if ((X >= det_Positionon_screen('X', width, originX, 2) && X <= det_Positionon_screen('X', width, originX, 2)+width) && (Y >= originY && Y <= det_Positionon_screen('Y', height, originY, 0))){
-                Brain.Screen.clearScreen();
-                type = 3;
-                unselected = false;
-                printf("XPress %d\n", X);
-                printf("YPress %d\n", Y);
-            }
-        }
-        else if (Brain.Screen.pressing()){
-
-            X = Brain.Screen.xPosition();//X pos of press
-            Y = Brain.Screen.yPosition();// Y pos of press
-
-            //Checks if press is within boundaries of rectangle
-            if ((X >= det_Positionon_screen('X', 0, originX, 0) && X <= det_Positionon_screen('X', 0, originX, 0)+width) && (Y >= det_Positionon_screen('Y', height, originY, 0) && Y <= det_Positionon_screen('Y', height, originY, 0))){
-                Brain.Screen.clearScreen();
-                type = 3;
-                unselected = false;
-                printf("XPress %d\n", X);
-                printf("YPress %d\n", Y);
-            }
-        }
-    }
-}
-
-void set_screen_color(int A) {
-  if (A == 0) {
-    Brain.Screen.clearScreen(vex::color::blue);
-  } else if(A == 2) {
-    Brain.Screen.clearScreen(vex::color::red);
-  } else {
-    Brain.Screen.clearScreen(vex::color::purple);
-  }
-}
 
 //odometry
 /*---------------------------------------------------------------------------*/
@@ -284,7 +173,7 @@ void set_screen_color(int A) {
 /*  all the physical constants and values for your robot. You should         */
 /*  already have configured your robot manually with the sidebar configurer. */
 /*---------------------------------------------------------------------------*/
-
+/* Nina & Anthony*/
 Drive chassis(
 
 //Specify your drive setup below. There are eight options:
@@ -295,10 +184,10 @@ ZERO_TRACKER_ODOM,
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
 
 //Left Motors:
-motor_group(tlMotor18, mlMotor19, blMotor20),
+motor_group(tplf_motor, dwlf_motor),
 
 //Right Motors:
-motor_group(trMotor13, mrMotor12, brMotor11),
+motor_group(tprt_motor, dwrt_motor),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
 PORT5,
@@ -377,12 +266,10 @@ void allowforskillsCata() {
 
 void motorsHalt(){
   // stop the motor with implicit type brake
-  tlMotor18.stop(brake);
-  mlMotor19.stop(brake);
-  blMotor20.stop(brake);
-  trMotor13.stop(brake);
-  mrMotor12.stop(brake);
-  brMotor11.stop(brake);
+  tplf_motor.stop(brake);
+  tprt_motor.stop(brake);
+  dwlf_motor.stop(brake);
+  dwrt_motor.stop(brake);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -397,12 +284,10 @@ void motorsHalt(){
 
 void setdtBrakemode(brakeType mode){
   // change brake mode
-  tlMotor18.setStopping(mode);
-  mlMotor19.setStopping(mode);
-  blMotor20.setStopping(mode);
-  trMotor13.setStopping(mode);
-  mrMotor12.setStopping(mode);
-  brMotor11.setStopping(mode);
+  tplf_motor.setStopping(mode);
+  tprt_motor.setStopping(mode);
+  dwlf_motor.setStopping(mode);
+  dwrt_motor.setStopping(mode);
 }
 
 void ensureCalibration(){
@@ -1089,7 +974,7 @@ void autonType(int autonSelect) {
   switch (autonSelect) {
     case 0:
       Brain.Screen.print("No Auton Loaded. Skipping...");
-      set_screen_color(1);
+      //set_screen_color(1);
       break;
     case 1:
       Brain.Screen.print("Skills Auton Loaded.");
@@ -1187,30 +1072,26 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-
+/*Nina & Anthony*/
 void drive_User(){
   // tank drive user control left side on left right side on right
   if (current_forwards == true) {
-    tlMotor18.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
-    mlMotor19.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
-    blMotor20.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
-    trMotor13.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
-    mrMotor12.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
-    brMotor11.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
+    tplf_motor.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
+    dwlf_motor.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
+    tprt_motor.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
+    dwrt_motor.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
   } else {//                                (                      value                          value   /11)  volt               adsdasdsdas
-    tlMotor18.spin(vex::directionType::rev, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
-    mlMotor19.spin(vex::directionType::rev, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
-    blMotor20.spin(vex::directionType::rev, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
-    trMotor13.spin(vex::directionType::rev, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
-    mrMotor12.spin(vex::directionType::rev, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
-    brMotor11.spin(vex::directionType::rev, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
+    tplf_motor.spin(vex::directionType::rev, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
+    dwlf_motor.spin(vex::directionType::rev, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
+    tprt_motor.spin(vex::directionType::rev, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
+    dwrt_motor.spin(vex::directionType::rev, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
   }
 
   // brake 
   if (mainController.ButtonB.pressing() == true) {
     motorsHalt();
   }
-
+  /*
   // spin catapault
   if (mainController.ButtonY.pressing() == true){
     spincataPerc(100.0, true);
@@ -1218,7 +1099,7 @@ void drive_User(){
     catapaultMotor14.stop(coast);
     catapaultMotor4.stop(coast);
   }
-
+  */
   /*if (mainController.ButtonRight.pressing() == true && percent25 == true) {
     //spincataPercrev(25.0, false);
     catapaultMotor14.spin(reverse, 25, percent);
@@ -1226,15 +1107,6 @@ void drive_User(){
     //spincataPercrev(73.0, false);
     catapaultMotor14.spin(reverse, 75, percent);
   }*/
-
-  //deploy wings
-  mainController.ButtonL2.pressed(wingsDeployRetract);
-
-  mainController.ButtonL1.pressed(deployBackWings);
-
-  mainController.ButtonX.pressed(motorReverse);
-
-  mainController.ButtonA.pressed(endgame);
 
   // for intake
   if (mainController.ButtonR2.pressing() == true ) {
@@ -1253,7 +1125,7 @@ void drive_User(){
     armElevator3.stop(hold);
   }*/
 }
-
+/* Nina & Anthony */
 void usercontrol(void) {
   // User control code here, inside the loop
   //wingsDeployRetract();
@@ -1281,6 +1153,7 @@ void assess() {
   }
 }
 
+/* Nina & Anthony */
 int main() {
   //wingsDeployRetract();
   pre_auton();
