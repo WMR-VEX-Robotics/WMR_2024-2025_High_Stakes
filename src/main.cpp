@@ -24,6 +24,10 @@ motor tprt_motor = motor(PORT1, false);
 motor dwlf_motor = motor(PORT20, true);
 motor dwrt_motor = motor(PORT10, false);
 
+motor lfin_motor = motor(PORT5, true);
+motor rtin_motor = motor(PORT15,true);
+motor_group intakeMotor = motor_group(lfin_motor, rtin_motor);
+
 //motor_group MotorGrouplf = motor_group(tplf_motor, dwlf_motor);
 //motor_group MotorGrouprt = motor_group(tprt_motor, dwrt_motor);
 
@@ -259,7 +263,7 @@ void allowforskillsCata() {
   }
   catapaultMotor14.stop(coast);
   catapaultMotor4.stop(coast);
-  intakeMotor2.stop(coast);
+  //intakeMotor2.stop(coast);
   //chassis.set_coordinates(0,0,0);
   halter = false;
 }
@@ -1110,11 +1114,19 @@ void drive_User(){
 
   // for intake
   if (mainController.ButtonR2.pressing() == true ) {
-    intakeMotor2.spin(forward, 12.5, volt);
+    intakeMotor.spin(forward, 12.5, volt);
   } else if (mainController.ButtonR1.pressing() == true) {
-    intakeMotor2.spin(reverse, 12.5, volt);
+    intakeMotor.spin(reverse, 12.5, volt);
   } else {
-    intakeMotor2.stop(coast);
+    intakeMotor.stop(coast);
+  }
+
+  // pneumatics
+  if (mainController.ButtonA.pressing() == true) {
+    solonoidF.open();
+  }
+  else {
+    solonoidF.close();
   }
 
  /*if (mainController.ButtonUp.pressing() != false) {
