@@ -24,12 +24,12 @@ motor tprt_motor = motor(PORT1, false);
 motor dwlf_motor = motor(PORT20, true);
 motor dwrt_motor = motor(PORT10, false);
 
-motor lfin_motor = motor(PORT5, true);
-motor rtin_motor = motor(PORT15,true);
-motor_group intakeMotor = motor_group(lfin_motor, rtin_motor);
+motor lfin_motor = motor(PORT6, true);
+//motor rtin_motor = motor(PORT15,true);
+//motor_group intakeMotor = motor_group(lfin_motor, rtin_motor);
 
-//motor_group MotorGrouplf = motor_group(tplf_motor, dwlf_motor);
-//motor_group MotorGrouprt = motor_group(tprt_motor, dwrt_motor);
+motor_group MotorGrouplf = motor_group(tplf_motor, dwlf_motor);
+motor_group MotorGrouprt = motor_group(tprt_motor, dwrt_motor);
 
 /*motor tlMotor18 = motor(PORT18, ratio6_1, true);
 motor mlMotor19 = motor(PORT19, ratio6_1, true);
@@ -53,13 +53,14 @@ controller mainController = controller(primary);
 inertial inertialSensor5 = inertial(PORT5);
 //encoder enc1 = encoder(Brain.ThreeWirePort.A);
 //rotation rot1 = rotation(PORT8, true);
-pneumatics solonoidF = pneumatics(Brain.ThreeWirePort.F); //hang
+/*
+pneumatics solonoidF = pneumatics(Brain.ThreeWirePort.A); //hang
 
 pneumatics solonoidH = pneumatics(Brain.ThreeWirePort.H); //forward wing
 pneumatics solonoidG = pneumatics(Brain.ThreeWirePort.G); //forward wing 2
 
 pneumatics solonoidE = pneumatics(Brain.ThreeWirePort.E); //rear wings
-
+*/
 // select color brain goes to on auton completion, and autonomous program to be ran if any
 int type = -1;
 int team = -1;
@@ -371,15 +372,15 @@ void pre_auton(void) {
   catapaultMotor14.setStopping(coast);
   //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 3), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
-  // ensure that the first solonoid is registering as closed visually confirming this fact
+  /*// ensure that the first solonoid is registering as closed visually confirming this fact
   solonoidH.set(false);
   solonoidH.close();
-  solonoidF.close();
+  solonoidF.close();*/
   //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 4), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
 
-  // ensure that the second solonoid is registering as closed visually confirming this fact
+  /*// ensure that the second solonoid is registering as closed visually confirming this fact
   solonoidG.set(false);
-  solonoidG.close();
+  solonoidG.close();*/
   //Brain.Screen.drawRectangle(det_Positionon_screen('X', width, originX, 5), det_Positionon_screen('Y', 0, originY, 0), width, height, green);
   wait(25, msec);
   Brain.Screen.clearScreen();
@@ -392,16 +393,17 @@ void pre_auton(void) {
 }
 
 void endgame() {
-  if (solonoidF.value() == true) {
+  /*if (solonoidF.value() == true) {
     solonoidF.close();
   } else {
     solonoidF.open();
-  }
+  }*/
 }
 
 // for competition
 
 void wingsDeployRetract() {
+  /*
   // snippet to deploy pneumatic wings
   if (solonoidH.value() == true) {
     solonoidH.close(); 
@@ -409,15 +411,15 @@ void wingsDeployRetract() {
   } else {
     solonoidH.open(); 
     solonoidG.open();
-  }
+  }*/
 }
 
 void deployBackWings() {
-  if(solonoidE.value() == true) {
+  /*if(solonoidE.value() == true) {
     solonoidE.close();
   } else {
     solonoidE.open();
-  }
+  }*/
 }
 
 bool icReset = false;
@@ -1079,17 +1081,21 @@ void autonomous(void) {
 /*Nina & Anthony*/
 void drive_User(){
   // tank drive user control left side on left right side on right
-  if (current_forwards == true) {
-    tplf_motor.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
+  MotorGrouplf.spin(vex::directionType::fwd, (mainController.Axis3.value() + (mainController.Axis1.value()/(5/2))), percent);
+  MotorGrouprt.spin(vex::directionType::fwd, (mainController.Axis3.value() - (mainController.Axis1.value()/(5/2))), percent);
+  //if (current_forwards == true) {
+    /*tplf_motor.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
     dwlf_motor.spin(vex::directionType::fwd, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
     tprt_motor.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
-    dwrt_motor.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
-  } else {//                                (                      value                          value   /11)  volt               adsdasdsdas
+    dwrt_motor.spin(vex::directionType::fwd, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);*/
+  //} else {//                                (                      value                          value   /11)  volt               adsdasdsdas
+    /*
     tplf_motor.spin(vex::directionType::rev, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
     dwlf_motor.spin(vex::directionType::rev, ((mainController.Axis3.value() - mainController.Axis1.value())/11), volt);
     tprt_motor.spin(vex::directionType::rev, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
     dwrt_motor.spin(vex::directionType::rev, ((mainController.Axis3.value() + mainController.Axis1.value())/11), volt);
-  }
+    */
+  //}
 
   // brake 
   if (mainController.ButtonB.pressing() == true) {
@@ -1113,14 +1119,14 @@ void drive_User(){
   }*/
 
   // for intake
-  if (mainController.ButtonR2.pressing() == true ) {
-    intakeMotor.spin(forward, 12.5, volt);
-  } else if (mainController.ButtonR1.pressing() == true) {
-    intakeMotor.spin(reverse, 12.5, volt);
+  if (mainController.ButtonR1.pressing() == true ) {
+    lfin_motor.spin(forward, 12.5, volt);
+  } else if (mainController.ButtonR2.pressing() == true) {
+    lfin_motor.spin(reverse, 12.5, volt);
   } else {
-    intakeMotor.stop(coast);
+    lfin_motor.stop(coast);
   }
-
+/*
   // pneumatics
   if (mainController.ButtonA.pressing() == true) {
     solonoidF.open();
@@ -1128,7 +1134,7 @@ void drive_User(){
   else {
     solonoidF.close();
   }
-
+*/
  /*if (mainController.ButtonUp.pressing() != false) {
     armElevator3.spin(reverse, 60, pct);
   } else if (mainController.ButtonDown.pressing() != false) {
