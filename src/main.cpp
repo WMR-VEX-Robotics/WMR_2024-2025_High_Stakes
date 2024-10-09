@@ -22,9 +22,7 @@ motor lfin_motor = motor(PORT6, true);
 motor_group MotorGrouplf = motor_group(tplf_motor, dwlf_motor);
 motor_group MotorGrouprt = motor_group(tprt_motor, dwrt_motor);
 controller mainController = controller(primary);
-inertial inertialSensor5 = inertial(PORT5);
-pneumatics solonoidA = pneumatics(Brain.ThreeWirePort.B);   
-pneumatics solonoidB = pneumatics(Brain.ThreeWirePort.D); 
+pneumatics solonoidA = pneumatics(Brain.ThreeWirePort.F);
 #pragma endregion
 #pragma region Chassis
 Drive chassis(
@@ -133,43 +131,21 @@ void motorReverse() {
 #pragma endregion
 #pragma region Pneumatics
 
-bool press = false;
-bool isPressing = false;
-void togglePneumaticA(){
-  if(isPressing){return;}
-  isPressing = true;
-  if(press){
-    Brain.Screen.clearScreen();
-    Brain.Screen.drawCircle(100, 100, 100);
-    solonoidA.close();
-  } 
-  else {
-    Brain.Screen.clearScreen();
-    Brain.Screen.drawCircle(100, 100, 5);
+void toggle_A(){
+  if(solonoidA.value() == true){
     solonoidA.close();
   }
-  if(press == true){press = false;} else {press = true;}
+  else{
+    solonoidA.open();
+  }
 }
-
-void togglePneumaticB(){if(solonoidB.value() == true){solonoidB.close();} else {solonoidB.open();}}
 
 #pragma endregion
 #pragma region Autonomous
-void ensureCalibration(){
-  // MAKE SURE THE INERTIAL SENSOR CALIBRATES
-  if (inertialSensor5.isCalibrating() != false){
-    wait(200,msec);
-  }
-}
-
-double percentasVolt(double n) {
-  double increment = 0.127;
-  return (increment * n);
-}
 
 void pre_auton(void) {
-  inertialSensor5.calibrate();
-  ensureCalibration();
+  //inertialSensor5.calibrate();
+  //ensureCalibration();
   setdtBrakemode(brake);
   wait(25, msec);
   Brain.Screen.clearScreen();
@@ -229,36 +205,14 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 #pragma endregion
 #pragma region Driver
-/*Nina & Anthony*/
-void drive_User(){
-  if(mainController.ButtonL2.pressing() == false){isPressing = false;}
-  mainController.ButtonL2.pressed(togglePneumaticA);
-  // tank drive user control left side on left right side on right
-  MotorGrouplf.spin(vex::directionType::fwd, (mainController.Axis3.value() + (mainController.Axis1.value()/(5/2))), percent);
-  MotorGrouprt.spin(vex::directionType::fwd, (mainController.Axis3.value() - (mainController.Axis1.value()/(5/2))), percent);
-  // brake 
-  if (mainController.ButtonB.pressing() == true) {
-    motorsHalt();
-  }
-  // for intake
-  if (mainController.ButtonR1.pressing() == true ) {
-    lfin_motor.spin(forward, 12.5, volt);
-  } else if (mainController.ButtonR2.pressing() == true) {
-    lfin_motor.spin(reverse, 12.5, volt);
-  } else {
-    lfin_motor.stop(coast);
-  }
-
-  
-}
-/* Nina & Anthony */
 void usercontrol(void) {
-  // User control code here, inside the loop
-  //wingsDeployRetract();
-  //skillsautoPos();
   setdtBrakemode(brake);
   while (1) {
-   drive_User();
+   // tank drive user control left side on left right side on right
+      mainController.ButtonA.pressed(toggle_A);
+      MotorGrouplf.spin(vex::directionType::fwd, (mainController.Axis3.value() + (mainController.Axis1.value()/(5/2))), percent);
+      MotorGrouprt.spin(vex::directionType::fwd, (mainController.Axis3.value() - (mainController.Axis1.value()/(5/2))), percent);
+      wait(20, msec);
   }
 }
 #pragma endregion
