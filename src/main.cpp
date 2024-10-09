@@ -209,7 +209,7 @@ void usercontrol(void) {
   setdtBrakemode(brake);
   while (1) {
    // tank drive user control left side on left right side on right
-      mainController.ButtonA.pressed(toggle_A);
+      mainController.ButtonL2.pressed(toggle_A);
       MotorGrouplf.spin(vex::directionType::fwd, (mainController.Axis3.value() + (mainController.Axis1.value()/(5/2))), percent);
       MotorGrouprt.spin(vex::directionType::fwd, (mainController.Axis3.value() - (mainController.Axis1.value()/(5/2))), percent);
       wait(20, msec);
