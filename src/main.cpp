@@ -18,11 +18,13 @@ motor tplf_motor = motor(PORT12, true);
 motor tprt_motor = motor(PORT1, false);
 motor dwlf_motor = motor(PORT20, true);
 motor dwrt_motor = motor(PORT10, false);
-motor lfin_motor = motor(PORT6, true); 
+motor intake_motor = motor(PORT6, true);
+motor hook_motor = motor(PORT4, true); 
 motor_group MotorGrouplf = motor_group(tplf_motor, dwlf_motor);
 motor_group MotorGrouprt = motor_group(tprt_motor, dwrt_motor);
 controller mainController = controller(primary);
 pneumatics solonoidA = pneumatics(Brain.ThreeWirePort.F);
+pneumatics solonoidB = pneumatics(Brain.ThreeWirePort.E);
 #pragma endregion
 #pragma region Chassis
 Drive chassis(
@@ -100,6 +102,8 @@ void motorsHalt(){
   tprt_motor.stop(brake);
   dwlf_motor.stop(brake);
   dwrt_motor.stop(brake);
+  intake_motor.stop(brake);
+  hook_motor.stop(brake);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -118,6 +122,8 @@ void setdtBrakemode(brakeType mode){
   tprt_motor.setStopping(mode);
   dwlf_motor.setStopping(mode);
   dwrt_motor.setStopping(mode);
+  intake_motor.setStopping(mode);
+  hook_motor.setStopping(mode);
 }
 
 void motorReverse() {
@@ -137,6 +143,15 @@ void toggle_A(){
   }
   else{
     solonoidA.open();
+  }
+}
+
+void toggle_B(){
+  if(solonoidB.value() == true){
+    solonoidB.close();
+  }
+  else{
+    solonoidB.open();
   }
 }
 
@@ -209,7 +224,28 @@ void usercontrol(void) {
   setdtBrakemode(brake);
   while (1) {
    // tank drive user control left side on left right side on right
-      mainController.ButtonL2.pressed(toggle_A);
+    mainController.ButtonL2.pressed(toggle_A);
+    mainController.ButtonY.pressed(toggle_B);
+
+    if (mainController.ButtonR2.pressing() == true ) {
+      intake_motor.spin(forward, 12.5, volt);
+      //hook_motor.spin(forward, 12.5, volt);
+    } else if (mainController.ButtonR1.pressing() == true) {
+      intake_motor.spin(reverse, 12.5, volt);
+      //hook__motor.spin(reverse, 12.5, volt);
+    } else {
+      intake_motor.stop(coast);
+      //hook_motor.stop(coast);
+    }
+    // /*
+    if (mainController.ButtonR2.pressing() == true ) {
+      hook_motor.spin(forward, 12.5, volt);
+    } else if (mainController.ButtonR1.pressing() == true) {
+      hook_motor.spin(reverse, 12.5, volt);
+    } else {
+      hook_motor.stop(coast);
+    }
+    // */
       MotorGrouplf.spin(vex::directionType::fwd, (mainController.Axis3.value() + (mainController.Axis1.value()/(5/2))), percent);
       MotorGrouprt.spin(vex::directionType::fwd, (mainController.Axis3.value() - (mainController.Axis1.value()/(5/2))), percent);
       wait(20, msec);
