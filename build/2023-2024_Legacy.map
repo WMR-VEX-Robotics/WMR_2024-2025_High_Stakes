@@ -1548,6 +1548,8 @@ Discarded input sections
                 0x00000000        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
  .rodata._ZN3vex6PORT11E
                 0x00000000        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
+ .rodata._ZN3vex5PORT6E
+                0x00000000        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
  .rodata._ZN3vex3degE
                 0x00000000        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
  .rodata._ZN3vex6monoXLE
@@ -4164,30 +4166,28 @@ Linker script and memory map
  .rodata._ZN3vex5PORT2E
                 0x0380323c        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
                 0x0380323c                vex::PORT2
- .rodata._ZN3vex5PORT6E
-                0x03803240        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
-                0x03803240                vex::PORT6
  .rodata._ZN3vex7primaryE
-                0x03803244        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
-                0x03803244                vex::primary
+                0x03803240        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
+                0x03803240                vex::primary
  .rodata._ZN3vex7percentE
-                0x03803248        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
-                0x03803248                vex::percent
+                0x03803244        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
+                0x03803244                vex::percent
  .rodata._ZN3vex6PORT22E
-                0x0380324c        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
-                0x0380324c                vex::PORT22
+                0x03803248        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
+                0x03803248                vex::PORT22
  .rodata._ZN3vex6PORT12E
-                0x03803250        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
-                0x03803250                vex::PORT12
+                0x0380324c        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
+                0x0380324c                vex::PORT12
  .rodata._ZN3vex5brakeE
-                0x03803254        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
-                0x03803254                vex::brake
+                0x03803250        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
+                0x03803250                vex::brake
  .rodata._ZN3vex5coastE
-                0x03803258        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
-                0x03803258                vex::coast
+                0x03803254        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
+                0x03803254                vex::coast
  .rodata._ZN3vex5PORT4E
-                0x0380325c        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
-                0x0380325c                vex::PORT4
+                0x03803258        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj)
+                0x03803258                vex::PORT4
+ *fill*         0x0380325c        0x4 
  .rodata._ZTVN3vex5motorE
                 0x03803260       0x18 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_motor.cpp.obj)
                 0x03803260                vtable for vex::motor

@@ -15,17 +15,17 @@ using namespace vex;
 competition Competition;
 brain Brain;
 motor tplf_motor = motor(PORT12, true);
-motor tprt_motor = motor(PORT1, false);
+motor tprt_motor = motor(PORT1, true);
 motor dwlf_motor = motor(PORT20, true);
 motor dwrt_motor = motor(PORT10, false);
-motor intake_motor = motor(PORT6, true);
-motor hook_motor = motor(PORT4, true); 
+motor intake_motor = motor(PORT4, false);
+motor hook_motor = motor(PORT3, true); 
 motor_group MotorGrouplf = motor_group(tplf_motor, dwlf_motor);
 motor_group MotorGrouprt = motor_group(tprt_motor, dwrt_motor);
 controller mainController = controller(primary);
 pneumatics solonoidA = pneumatics(Brain.ThreeWirePort.F);
 pneumatics solonoidB = pneumatics(Brain.ThreeWirePort.E);
-#pragma endregion
+#pragma endregionpne
 #pragma region Chassis
 Drive chassis(
 
