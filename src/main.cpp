@@ -15,10 +15,10 @@ using namespace vex;
 competition Competition;
 brain Brain;
 motor tplf_motor = motor(PORT12, true);
-motor tprt_motor = motor(PORT1, true);
+motor tprt_motor = motor(PORT1, false);
 motor dwlf_motor = motor(PORT20, true);
-motor dwrt_motor = motor(PORT10, false);
-motor intake_motor = motor(PORT4, false);
+motor dwrt_motor = motor(PORT10, true);
+motor intake_motor = motor(PORT4, true);
 motor hook_motor = motor(PORT3, true); 
 motor_group MotorGrouplf = motor_group(tplf_motor, dwlf_motor);
 motor_group MotorGrouprt = motor_group(tprt_motor, dwrt_motor);
@@ -247,7 +247,7 @@ void usercontrol(void) {
     }
     // */
       MotorGrouplf.spin(vex::directionType::fwd, (mainController.Axis3.value() + (mainController.Axis1.value()/(5/2))), percent);
-      MotorGrouprt.spin(vex::directionType::fwd, (mainController.Axis3.value() - (mainController.Axis1.value()/(5/2))), percent);
+      MotorGrouprt.spin(vex::directionType::rev, (mainController.Axis3.value() - (mainController.Axis1.value()/(5/2))), percent);
       wait(20, msec);
   }
 }
