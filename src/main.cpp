@@ -98,10 +98,10 @@ PORT3,     -PORT4,
 
 void motorsHalt(){
   // stop the motor with implicit type brake
-  tplf_motor.stop(brake);
-  tprt_motor.stop(brake);
-  dwlf_motor.stop(brake);
-  dwrt_motor.stop(brake);
+  tplf_motor.stop(coast);
+  tprt_motor.stop(coast);
+  dwlf_motor.stop(coast);
+  dwrt_motor.stop(coast);
   intake_motor.stop(brake);
   hook_motor.stop(brake);
 }
@@ -221,7 +221,7 @@ void autonomous(void) {
 #pragma endregion
 #pragma region Driver
 void usercontrol(void) {
-  setdtBrakemode(brake);
+  setdtBrakemode(coast);
   while (1) {
    // tank drive user control left side on left right side on right
     mainController.ButtonL2.pressed(toggle_A);
@@ -231,7 +231,7 @@ void usercontrol(void) {
       intake_motor.spin(forward, 12.5, volt);
       //hook_motor.spin(forward, 12.5, volt);
     } else if (mainController.ButtonR1.pressing() == true) {
-      intake_motor.spin(reverse, 12.5, volt);
+      intake_motor.spin(reverse, 100, percent);
       //hook__motor.spin(reverse, 12.5, volt);
     } else {
       intake_motor.stop(coast);
@@ -239,9 +239,9 @@ void usercontrol(void) {
     }
     // /*
     if (mainController.ButtonR2.pressing() == true ) {
-      hook_motor.spin(forward, 12.5, volt);
+      hook_motor.spin(forward, 100, percent);
     } else if (mainController.ButtonR1.pressing() == true) {
-      hook_motor.spin(reverse, 12.5, volt);
+      hook_motor.spin(reverse, 100, percent);
     } else {
       hook_motor.stop(coast);
     }
