@@ -99,10 +99,10 @@ PORT3,     -PORT4,
 
 void motorsHalt(){
   // stop the motor with implicit type brake
-  tplf_motor.stop(brake);
-  tprt_motor.stop(brake);
-  dwlf_motor.stop(brake);
-  dwrt_motor.stop(brake);
+  tplf_motor.stop(coast);
+  tprt_motor.stop(coast);
+  dwlf_motor.stop(coast);
+  dwrt_motor.stop(coast);
   intake_motor.stop(brake);
   hook_motor.stop(brake);
 }
@@ -173,6 +173,10 @@ void pre_auton(void) {
   //ensureCalibration();
   setdtBrakemode(brake);
   wait(25, msec);
+  setdtBrakemode(brake);
+  default_constants();
+  chassis.set_coordinates(0,0,0);
+  wait(25, msec);
   Brain.Screen.clearScreen();
 }
 
@@ -216,7 +220,9 @@ void autonType(int autonSelect) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  // insert auton
+  chassis.turn_to_angle(-1);
+  wait(1, sec);
+  chassis.drive_distance(15); // 60 units - about half a field
 }
 
 /*---------------------------------------------------------------------------*/
