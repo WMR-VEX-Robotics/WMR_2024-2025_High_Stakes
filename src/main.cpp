@@ -230,21 +230,38 @@ void autonType(int autonSelect) {
 
 void autonomous(void) {
   //bluerightside
+  
+  //redrightside
+  
+  //blueleftside
+
+  //redleftside
+  
+
+  //chassis.drive_distance(15); // 60 units - about half a field
+}
+void blue_negative_auton(void){
   chassis.drive_distance(-11);
   wait(0.5, sec);
   solonoidA.close();
   chassis.drive_distance(-2);
   chassis.turn_to_angle(-90);
 
-  //redrightside
-
-  //blueleftside
-
-  //redleftside
-
-  //chassis.drive_distance(15); // 60 units - about half a field
 }
+void red_positive_auton(void){
+  chassis.drive_distance(-11);
+  wait(0.5, sec);
+  solonoidA.close();
+  chassis.drive_distance(-2);
+  chassis.turn_to_angle(-90);
+  intake_motor.spin(forward, 12.5, volt);
+  chassis.drive_distance(2);
+  hook_motor.spin(forward, 12.5, volt);
+  chassis.turn_to_angle(-135);
+  chassis.drive_distance(11);
 
+
+}
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
 /*                              User Control Task                            */
