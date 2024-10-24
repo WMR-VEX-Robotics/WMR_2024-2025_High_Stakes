@@ -233,7 +233,9 @@ void autonomous(void) {
   chassis.drive_distance(-11);
   wait(0.5, sec);
   solonoidA.close();
-  
+  chassis.drive_distance(-2);
+  chassis.turn_to_angle(-90);
+
   //redrightside
 
   //blueleftside
