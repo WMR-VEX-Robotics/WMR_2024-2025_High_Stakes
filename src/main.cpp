@@ -22,7 +22,7 @@ motor intake_motor = motor(PORT4, true);
 motor hook_motor = motor(PORT3, true); 
 motor_group MotorGrouplf = motor_group(tplf_motor, dwlf_motor);
 motor_group MotorGrouprt = motor_group(tprt_motor, dwrt_motor);
-//motor_group allDrive = motor_group(tp)
+//motor_group allDrive = motor_group(tplf_motor, dwlf_motor, tprt_motor, dwrt_motor))
 controller mainController = controller(primary);
 pneumatics solonoidA = pneumatics(Brain.ThreeWirePort.F); //goal grabber pneumatics
 pneumatics solonoidB = pneumatics(Brain.ThreeWirePort.E); //goal doinker pneumatics
@@ -177,6 +177,9 @@ void toggle_C(){                 //color doinker
 void pre_auton(void) {
   //inertialSensor5.calibrate();
   //ensureCalibration();
+  solonoidA.open();
+  solonoidB.close();
+  solonoidC.close();
   setdtBrakemode(brake);
   wait(25, msec);
   setdtBrakemode(brake);
@@ -226,9 +229,18 @@ void autonType(int autonSelect) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
-  chassis.turn_to_angle(-1);
-  wait(1, sec);
-  chassis.drive_distance(15); // 60 units - about half a field
+  //bluerightside
+  chassis.drive_distance(-11);
+  wait(0.5, sec);
+  solonoidA.close();
+  
+  //redrightside
+
+  //blueleftside
+
+  //redleftside
+
+  //chassis.drive_distance(15); // 60 units - about half a field
 }
 
 /*---------------------------------------------------------------------------*/
