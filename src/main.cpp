@@ -8,7 +8,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "vex.h"
-
+#include <iostream>
 using namespace vex;
 
 #pragma region Global
@@ -22,10 +22,16 @@ motor intake_motor = motor(PORT4, true);
 motor hook_motor = motor(PORT3, true); 
 motor_group MotorGrouplf = motor_group(tplf_motor, dwlf_motor);
 motor_group MotorGrouprt = motor_group(tprt_motor, dwrt_motor);
+//motor_group allDrive = motor_group(tp)
 controller mainController = controller(primary);
 pneumatics solonoidA = pneumatics(Brain.ThreeWirePort.F); //goal grabber pneumatics
 pneumatics solonoidB = pneumatics(Brain.ThreeWirePort.E); //goal doinker pneumatics
-pneumatics solonoidC = pneumatics(Brain.ThreeWirePort.G);
+pneumatics solonoidC = pneumatics(Brain.ThreeWirePort.G); //color doinker pneumatics
+color Red = color(0xFF0000);
+color Blue = color(0x0000FF);
+optical colorSensor = optical(PORT14);
+
+
 #pragma endregion
 #pragma region Chassis
 Drive chassis(
@@ -156,7 +162,7 @@ void toggle_B(){                  //goal doinker
   }
 }
 
-void toggle_C(){
+void toggle_C(){                 //color doinker
   if(solonoidC.value() == true){
     solonoidC.close();
   }
@@ -242,6 +248,9 @@ void usercontrol(void) {
    // tank drive user control left side on left right side on right
     mainController.ButtonL2.pressed(toggle_A); //goal grabber
     mainController.ButtonL1.pressed(toggle_B);  //goal doinker
+    
+    
+    
 
     if (mainController.ButtonR2.pressing() == true ) {
       intake_motor.spin(forward, 12.5, volt);
@@ -253,6 +262,27 @@ void usercontrol(void) {
       intake_motor.stop(coast);
       hook_motor.stop(coast);
     }
+ 
+    int read = colorSensor.hue();
+    std::string result = "";
+    if(read <= 20){
+      result = "red";
+      solonoidC.close();
+    }
+    else if(read >= 100){
+      result = "blue";
+      solonoidC.open();
+    }
+    else {
+      result = "other";
+    }
+    Brain.Screen.clearScreen();
+    Brain.Screen.setCursor(1, 1);
+
+    Brain.Screen.print(result.c_str());
+
+
+    
      /*
     if (mainController.ButtonR2.pressing() == true ) {
       hook_motor.spin(forward, 12.5, volt);
