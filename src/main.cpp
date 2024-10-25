@@ -46,7 +46,7 @@ MotorGrouplf,
 MotorGrouprt,
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT5,
+PORT9,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 3.25,
@@ -179,7 +179,7 @@ void pre_auton(void) {
   //ensureCalibration();
   solonoidA.open();
   solonoidB.close();
-  solonoidC.close();
+  solonoidC.open();
   setdtBrakemode(brake);
   wait(25, msec);
   setdtBrakemode(brake);
@@ -233,8 +233,22 @@ void autonomous(void) {
   chassis.drive_distance(-11);
   wait(0.5, sec);
   solonoidA.close();
+  wait(0.5, sec);
+  hook_motor.spin(forward, 12.5, volt);
   chassis.drive_distance(-2);
+  wait(0.5, sec);
   chassis.turn_to_angle(-90);
+  wait(0.5,sec);
+  intake_motor.spin(forward, 12.5, volt);
+  chassis.drive_distance(7.5);
+  hook_motor.spin(forward, 12.5, volt);
+  wait(0.2, sec);
+  chassis.turn_to_angle(-39);
+  solonoidB.open();
+  wait(0.2,sec);
+  chassis.drive_distance(13.5);
+  chassis.turn_to_angle(90);
+
 
   //redrightside
 
