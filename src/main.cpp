@@ -227,20 +227,7 @@ void autonType(int autonSelect) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-
-void autonomous(void) {
-  //bluerightside
-  
-  //redrightside
-  
-  //blueleftside
-
-  //redleftside
-  
-
-  //chassis.drive_distance(15); // 60 units - about half a field
-}
-void blue_negative_auton(void){
+void blue_negative_auton(){
   chassis.drive_distance(-11);
   wait(0.5, sec);
   solonoidA.close();
@@ -259,10 +246,9 @@ void blue_negative_auton(void){
   wait(0.2,sec);
   chassis.drive_distance(13.5);
   chassis.turn_to_angle(90);
-
-
 }
-void red_positive_auton(void){
+
+void red_positive_auton(){
   chassis.drive_distance(-11);
   wait(0.5, sec);
   solonoidA.close();
@@ -276,6 +262,18 @@ void red_positive_auton(void){
 
 
 }
+
+
+void autonomous(void) {
+  //blue_negative_auton();
+  
+  //redrightside
+  
+  //blueleftside
+
+  //red_positive_auton();
+}
+
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
 /*                              User Control Task                            */
