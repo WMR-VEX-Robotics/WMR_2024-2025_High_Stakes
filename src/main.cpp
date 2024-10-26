@@ -423,7 +423,8 @@ void usercontrol(void) {
       hook_motor.stop(coast);
     }
  
-    autoDoink();
+    autoDoinkRed(); //set to autoDoinkRed if on blue side else set to autoDoinkBlue()
+  //autoDoinkBlue();
 
 
     
