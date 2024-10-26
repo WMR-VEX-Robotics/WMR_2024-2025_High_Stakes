@@ -227,7 +227,7 @@ void pre_auton(void) {
   chassis.set_coordinates(0,0,0);
   wait(25, msec);
   Brain.Screen.clearScreen();
-  autoDoinkRed(); //set to autoDoinkRed if on blue side else set to autoDoinkBlue()
+  autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
   //autoDoinkBlue();
 }
 
@@ -423,7 +423,7 @@ void usercontrol(void) {
       hook_motor.stop(coast);
     }
  
-    autoDoinkRed(); //set to autoDoinkRed if on blue side else set to autoDoinkBlue()
+    autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
   //autoDoinkBlue();
 
 
