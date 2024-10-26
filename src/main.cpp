@@ -227,7 +227,8 @@ void pre_auton(void) {
   chassis.set_coordinates(0,0,0);
   wait(25, msec);
   Brain.Screen.clearScreen();
-  autoDoink();
+  autoDoinkRed(); //set to autoDoinkRed if on blue side else set to autoDoinkBlue()
+  //autoDoinkBlue();
 }
 
 // 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
