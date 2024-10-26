@@ -174,6 +174,26 @@ void toggle_C(){                 //color doinker
 #pragma endregion
 #pragma region Autonomous
 
+void autoDoink() {
+    int read = colorSensor.hue();
+    std::string result = "";
+    if(read <= 20){
+      result = "red";
+      solonoidC.close();
+    }
+    else if(read >= 100){
+      result = "blue";
+      solonoidC.open();
+    }
+    else {
+      result = "other";
+    }
+    Brain.Screen.clearScreen();
+    Brain.Screen.setCursor(1, 1);
+
+    Brain.Screen.print(result.c_str());
+}
+
 void pre_auton(void) {
   //inertialSensor5.calibrate();
   //ensureCalibration();
@@ -187,6 +207,7 @@ void pre_auton(void) {
   chassis.set_coordinates(0,0,0);
   wait(25, msec);
   Brain.Screen.clearScreen();
+  autoDoink();
 }
 
 // 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
@@ -227,13 +248,17 @@ void autonType(int autonSelect) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
+   
+    
+
 void blue_negative_auton(){
-  chassis.drive_distance(-11);
+  autoDoink();
+  chassis.drive_distance(-12);
   wait(0.5, sec);
   solonoidA.close();
   wait(0.5, sec);
   hook_motor.spin(forward, 12.5, volt);
-  chassis.drive_distance(-2);
+  chassis.drive_distance(-3.7);
   wait(0.5, sec);
   chassis.turn_to_angle(-90);
   wait(0.5,sec);
@@ -241,11 +266,23 @@ void blue_negative_auton(){
   chassis.drive_distance(7.5);
   hook_motor.spin(forward, 12.5, volt);
   wait(0.2, sec);
-  chassis.turn_to_angle(-39);
+  chassis.turn_to_angle(-31);
   solonoidB.open();
   wait(0.2,sec);
-  chassis.drive_distance(13.5);
+  chassis.drive_distance(20);
+  chassis.turn_to_angle(60);
+  wait(0.1, sec);
+  solonoidB.close();
+  wait(0.1, sec);
+  chassis.drive_distance(17);
   chassis.turn_to_angle(90);
+  /*chassis.drive_distance(-11);
+  wait(0.2, sec);
+  chassis.turn_to_angle(-90);
+  chassis.drive_distance(7.5);
+  chassis.turn_to_angle(-38);
+  chassis.drive_distance(18);
+  chassis.turn_to_angle(50);*/
 }
 
 void red_positive_auton(){
@@ -265,8 +302,8 @@ void red_positive_auton(){
 
 
 void autonomous(void) {
-  //blue_negative_auton();
-  
+  blue_negative_auton();
+
   //redrightside
   
   //blueleftside
@@ -306,23 +343,7 @@ void usercontrol(void) {
       hook_motor.stop(coast);
     }
  
-    int read = colorSensor.hue();
-    std::string result = "";
-    if(read <= 20){
-      result = "red";
-      solonoidC.close();
-    }
-    else if(read >= 100){
-      result = "blue";
-      solonoidC.open();
-    }
-    else {
-      result = "other";
-    }
-    Brain.Screen.clearScreen();
-    Brain.Screen.setCursor(1, 1);
-
-    Brain.Screen.print(result.c_str());
+    autoDoink();
 
 
     
