@@ -174,6 +174,10 @@ void toggle_C(){                 //color doinker
 #pragma endregion
 #pragma region Autonomous
 
+void autoDoink() {
+  autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
+  //autoDoinkBlue();
+}
 void autoDoinkRed() {
     int read = colorSensor.hue();
     std::string result = "";
@@ -227,38 +231,10 @@ void pre_auton(void) {
   chassis.set_coordinates(0,0,0);
   wait(25, msec);
   Brain.Screen.clearScreen();
-  autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
-  //autoDoinkBlue();
+  autoDoink(); 
 }
 
-// 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
-void autonType(int autonSelect) {
-  // select different types of auton
 
-  switch (autonSelect) {
-    case 0:
-      Brain.Screen.print("No Auton Loaded. Skipping...");
-      //set_screen_color(1);
-      break;
-    case 1:
-      Brain.Screen.print("Skills Auton Loaded.");
-      // insert skills auton
-      break;
-    case 2:
-      Brain.Screen.print("Competition Auton Loaded. R");
-      // offensive auton
-      break;
-    case 3:
-      Brain.Screen.print("Competition Auton Loaded. L");
-      // defensive auton
-      break;
-    case 4:
-      default_constants();
-      // initialize position as (0,0,0)
-      chassis.set_coordinates(0,0,0);
-      drive_test();
-  }
-}
 
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
@@ -273,7 +249,7 @@ void autonType(int autonSelect) {
     
 
 void blue_negative_auton(){
-  autoDoinkRed();
+  autoDoink();
   chassis.drive_distance(-12);
   wait(0.5, sec);
   solonoidA.close();
@@ -300,7 +276,7 @@ void blue_negative_auton(){
 }
 
 void blue_positive_auton() {
-  autoDoinkRed();
+  autoDoink();
   chassis.drive_distance(-12);
   wait(0.5, sec);
   solonoidA.close();
@@ -327,7 +303,7 @@ void blue_positive_auton() {
 }
 
 void red_negative_auton() {
-  autoDoinkBlue();
+  autoDoink();
   chassis.drive_distance(-12);
   wait(0.5, sec);
   solonoidA.close();
@@ -354,7 +330,7 @@ void red_negative_auton() {
 }
 
 void red_positive_auton(){
-  autoDoinkBlue();
+  autoDoink();
   chassis.drive_distance(-12);
   wait(0.5, sec);
   solonoidA.close();
@@ -423,8 +399,7 @@ void usercontrol(void) {
       hook_motor.stop(coast);
     }
  
-    autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
-  //autoDoinkBlue();
+    autoDoink(); 
 
 
     
