@@ -21,7 +21,7 @@ motor dwrt_motor = motor(PORT10, false);
 motor intake_motor = motor(PORT4, true);
 motor hook_motor = motor(PORT3, true); 
 motor wall_stake_motor_one = motor(PORT16, true);
-motor wall_stake_motor_two = motor(PORT17, true);
+motor wall_stake_motor_two = motor(PORT17, false);
 motor_group MotorGrouplf = motor_group(tplf_motor, dwlf_motor);
 motor_group MotorGrouprt = motor_group(tprt_motor, dwrt_motor);
 motor_group MotorGroupWS = motor_group(wall_stake_motor_one, wall_stake_motor_two);
@@ -114,6 +114,8 @@ void motorsHalt(){
   dwrt_motor.stop(coast);
   intake_motor.stop(brake);
   hook_motor.stop(brake);
+  wall_stake_motor_one.stop(brake);
+  wall_stake_motor_two.stop(brake);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -307,13 +309,15 @@ void usercontrol(void) {
     } else if (mainController.ButtonX.pressing() == true) { // for getting onto wall stake contraption
       intake_motor.spin(forward, 4, volt);
       hook_motor.spin(forward , 4, volt);
-    } else if(mainController.ButtonUp.pressing() == true){
-      MotorGroupWS.spin(vex::directionType::fwd, 12.5, volt);
-    } else if(mainController.ButtonDown.pressing() == true){
-      MotorGroupWS.spin(vex::directionType::rev, 12.5, volt);
+    } else if(mainController.ButtonLeft.pressing() == true){
+      MotorGroupWS.spin(vex::directionType::fwd, 100, percent);
+    } else if(mainController.ButtonRight.pressing() == true){
+      MotorGroupWS.spin(vex::directionType::rev, 100, percent);
     } else {
       intake_motor.stop(coast);
       hook_motor.stop(coast);
+      wall_stake_motor_one.stop(coast);
+      wall_stake_motor_two.stop(coast);
     }
  
     int read = colorSensor.hue();
