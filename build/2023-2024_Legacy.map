@@ -24,6 +24,7 @@ c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexc
                               build/src/JAR-Template/drive.o (vex::task::task())
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 c:\Users\26_nchakounis\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
                               c:\Users\26_nchakounis\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj) (vex::this_thread::sleep_for(unsigned long))
 c:\Users\26_nchakounis\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_event.cpp.obj)
@@ -41,6 +42,8 @@ c:\Users\27_abhatnagar\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexco
 c:\Users\27_abhatnagar\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_brain.cpp.obj)
 >>>>>>> parent of a12f496 (end comp commit)
 =======
+=======
+>>>>>>> parent of a402a7d (started on steps 0-2.)
 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
                               c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_global.cpp.obj) (vex::this_thread::sleep_for(unsigned long))
 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_event.cpp.obj)
@@ -48,6 +51,9 @@ c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexc
 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_mevent.cpp.obj)
                               c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_controller.cpp.obj) (vex::mevent::mevent(unsigned long, unsigned long))
 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_brain.cpp.obj)
+<<<<<<< HEAD
+>>>>>>> parent of a402a7d (started on steps 0-2.)
+=======
 >>>>>>> parent of a402a7d (started on steps 0-2.)
                               build/src/main.o (vex::brain::lcd::setCursor(long, long))
 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_competition.cpp.obj)
@@ -468,6 +474,7 @@ Discarded input sections
  .text.vexTaskHardwareConcurrency
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 0x00000000       0x10 c:\Users\26_nchakounis\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(v5_apijump.c.obj)
  .text.vexTaskAddWithArg
                 0x00000000       0x10 c:\Users\26_nchakounis\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(v5_apijump.c.obj)
@@ -476,6 +483,11 @@ Discarded input sections
  .text.vexTaskAddWithArg
                 0x00000000       0x10 c:\Users\27_abhatnagar\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(v5_apijump.c.obj)
 >>>>>>> parent of a12f496 (end comp commit)
+=======
+                0x00000000       0x10 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(v5_apijump.c.obj)
+ .text.vexTaskAddWithArg
+                0x00000000       0x10 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(v5_apijump.c.obj)
+>>>>>>> parent of a402a7d (started on steps 0-2.)
 =======
                 0x00000000       0x10 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(v5_apijump.c.obj)
  .text.vexTaskAddWithArg
@@ -1968,6 +1980,7 @@ Discarded input sections
  .text._ZN3vex6threadC2EPFivE
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 0x00000000       0x5c c:\Users\26_nchakounis\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
 =======
                 0x00000000       0x5c c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
@@ -1985,6 +1998,13 @@ Discarded input sections
                 0x00000000        0x4 c:\Users\27_abhatnagar\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
 >>>>>>> parent of a12f496 (end comp commit)
 =======
+                0x00000000        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
+>>>>>>> parent of a402a7d (started on steps 0-2.)
+=======
+                0x00000000       0x5c c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
+ .text._ZN3vex6threadC2EPFiPvES1_
+                0x00000000       0x5c c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
+ .text._ZN3vex6threadD2Ev
                 0x00000000        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
 >>>>>>> parent of a402a7d (started on steps 0-2.)
  .text._ZN3vex6thread8joinableEv
@@ -2028,6 +2048,7 @@ Discarded input sections
  .text._ZN3vex5mutex6unlockEv
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 0x00000000        0x4 c:\Users\26_nchakounis\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
 =======
                 0x00000000        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
@@ -2051,10 +2072,19 @@ Discarded input sections
  .bss           0x00000000        0x0 c:\Users\27_abhatnagar\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_event.cpp.obj)
 >>>>>>> parent of a12f496 (end comp commit)
 =======
+=======
+                0x00000000        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
+ .rodata.str1.1
+                0x00000000       0x14 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
+ .bss._ZN3vex6thread8_labelIdE
+>>>>>>> parent of a402a7d (started on steps 0-2.)
                 0x00000000        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_thread.cpp.obj)
  .text          0x00000000        0x0 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_event.cpp.obj)
  .data          0x00000000        0x0 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_event.cpp.obj)
  .bss           0x00000000        0x0 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_event.cpp.obj)
+<<<<<<< HEAD
+>>>>>>> parent of a402a7d (started on steps 0-2.)
+=======
 >>>>>>> parent of a402a7d (started on steps 0-2.)
  .text._ZN3vex5eventC2Ev
                 0x00000000        0xc c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5\libv5rt.a(vex_event.cpp.obj)
@@ -3391,10 +3421,14 @@ Linker script and memory map
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 .text           0x03800000     0x4a90
 =======
 .text           0x03800000     0x4a38
 >>>>>>> parent of a12f496 (end comp commit)
+=======
+.text           0x03800000     0x4170
+>>>>>>> parent of a402a7d (started on steps 0-2.)
 =======
 .text           0x03800000     0x4170
 >>>>>>> parent of a402a7d (started on steps 0-2.)
@@ -4262,6 +4296,7 @@ Linker script and memory map
                 0x03804108       0x58 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5/gcc/libs\libc.a(lib_a-init.o)
                 0x03804108                __libc_init_array
  .text.__libc_init_array.__stub
+<<<<<<< HEAD
 <<<<<<< HEAD
                 0x03804a80       0x10 linker stubs
 =======
@@ -5157,6 +5192,9 @@ Linker script and memory map
 =======
                 0x03804160       0x10 linker stubs
 >>>>>>> parent of a402a7d (started on steps 0-2.)
+=======
+                0x03804160       0x10 linker stubs
+>>>>>>> parent of a402a7d (started on steps 0-2.)
  *(.gnu.linkonce.t.*)
  *(.plt)
  *(.gnu_warning)
@@ -5170,6 +5208,7 @@ Linker script and memory map
  *(.ARM.extab)
  *(.gnu.linkonce.armextab.*)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 .v4_bx          0x03804a90        0x0
@@ -5188,6 +5227,12 @@ Linker script and memory map
 
 .iplt           0x03804170        0x0
 >>>>>>> parent of a402a7d (started on steps 0-2.)
+=======
+.v4_bx          0x03804170        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x03804170        0x0
+>>>>>>> parent of a402a7d (started on steps 0-2.)
  .iplt          0x00000000        0x0 build/src/main.o
 
 .init
@@ -5198,8 +5243,13 @@ Linker script and memory map
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 .rodata         0x03804a90      0x26c
                 0x03804a90                __rodata_start = .
+=======
+.rodata         0x03804170      0x25c
+                0x03804170                __rodata_start = .
+>>>>>>> parent of a402a7d (started on steps 0-2.)
 =======
 .rodata         0x03804170      0x25c
                 0x03804170                __rodata_start = .
@@ -5353,6 +5403,7 @@ Linker script and memory map
  .data.impure_data
                 0x038043e0      0x428 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5/gcc/libs\libc.a(lib_a-impure.o)
  .data._impure_ptr
+<<<<<<< HEAD
 <<<<<<< HEAD
                 0x03805138        0x4 c:\Users\26_nchakounis\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5/gcc/libs\libc.a(lib_a-impure.o)
                 0x03805138                _impure_ptr
@@ -5519,13 +5570,21 @@ Linker script and memory map
                 0x03804808        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5/gcc/libs\libc.a(lib_a-impure.o)
                 0x03804808                _impure_ptr
 >>>>>>> parent of a402a7d (started on steps 0-2.)
+=======
+                0x03804808        0x4 c:\Users\26_asantsevich\AppData\Roaming\Code\User\globalStorage\vexrobotics.vexcode\sdk\cpp\V5\V5_20240223_11_00_00/vexv5/gcc/libs\libc.a(lib_a-impure.o)
+                0x03804808                _impure_ptr
+>>>>>>> parent of a402a7d (started on steps 0-2.)
  *(.gnu.linkonce.d.*)
  *(.jcr)
  *(.got)
  *(.got.plt)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 0x0380513c                __data_end = .
+=======
+                0x0380480c                __data_end = .
+>>>>>>> parent of a402a7d (started on steps 0-2.)
 =======
                 0x0380480c                __data_end = .
 >>>>>>> parent of a402a7d (started on steps 0-2.)
@@ -5537,6 +5596,7 @@ Linker script and memory map
                 0x0380480c                __data1_start = .
  *(.data1)
  *(.data1.*)
+<<<<<<< HEAD
 <<<<<<< HEAD
                 0x0380513c                __data1_end = .
 =======
@@ -5554,10 +5614,14 @@ Linker script and memory map
 =======
                 0x0380480c                __data1_end = .
 >>>>>>> parent of a402a7d (started on steps 0-2.)
+=======
+                0x0380480c                __data1_end = .
+>>>>>>> parent of a402a7d (started on steps 0-2.)
 
 .got
  *(.got)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 .ctors          0x0380513c        0x0
@@ -5573,10 +5637,16 @@ Linker script and memory map
                 0x0380480c                __CTOR_LIST__ = .
                 0x0380480c                ___CTORS_LIST___ = .
 >>>>>>> parent of a402a7d (started on steps 0-2.)
+=======
+.ctors          0x0380480c        0x0
+                0x0380480c                __CTOR_LIST__ = .
+                0x0380480c                ___CTORS_LIST___ = .
+>>>>>>> parent of a402a7d (started on steps 0-2.)
  *crtbegin.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o) .ctors)
  *(SORT(.ctors.*))
  *(.ctors)
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
                 0x0380513c                __CTOR_END__ = .
@@ -5601,10 +5671,19 @@ Linker script and memory map
                 0x0380480c                __DTOR_LIST__ = .
                 0x0380480c                ___DTORS_LIST___ = .
 >>>>>>> parent of a402a7d (started on steps 0-2.)
+=======
+                0x0380480c                __CTOR_END__ = .
+                0x0380480c                ___CTORS_END___ = .
+
+.dtors          0x0380480c        0x0
+                0x0380480c                __DTOR_LIST__ = .
+                0x0380480c                ___DTORS_LIST___ = .
+>>>>>>> parent of a402a7d (started on steps 0-2.)
  *crtbegin.o(.dtors)
  *(EXCLUDE_FILE(*crtend.o) .dtors)
  *(SORT(.dtors.*))
  *(.dtors)
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
                 0x0380513c                __DTOR_END__ = .
@@ -5613,10 +5692,15 @@ Linker script and memory map
                 0x0380480c                __DTOR_END__ = .
                 0x0380480c                ___DTORS_END___ = .
 >>>>>>> parent of a402a7d (started on steps 0-2.)
+=======
+                0x0380480c                __DTOR_END__ = .
+                0x0380480c                ___DTORS_END___ = .
+>>>>>>> parent of a402a7d (started on steps 0-2.)
 
 .fixup          0x0380480c        0x0
                 0x0380480c                __fixup_start = .
  *(.fixup)
+<<<<<<< HEAD
 <<<<<<< HEAD
                 0x0380513c                __fixup_end = .
 =======
@@ -5631,10 +5715,14 @@ Linker script and memory map
 =======
                 0x0380480c                __fixup_end = .
 >>>>>>> parent of a402a7d (started on steps 0-2.)
+=======
+                0x0380480c                __fixup_end = .
+>>>>>>> parent of a402a7d (started on steps 0-2.)
 
 .eh_frame
  *(.eh_frame)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 .eh_framehdr    0x0380513c        0x0
@@ -5653,6 +5741,12 @@ Linker script and memory map
  *(.eh_framehdr)
                 0x0380480c                __eh_framehdr_end = .
 >>>>>>> parent of a402a7d (started on steps 0-2.)
+=======
+.eh_framehdr    0x0380480c        0x0
+                0x0380480c                __eh_framehdr_start = .
+ *(.eh_framehdr)
+                0x0380480c                __eh_framehdr_end = .
+>>>>>>> parent of a402a7d (started on steps 0-2.)
 
 .gcc_except_table
  *(.gcc_except_table)
@@ -5664,8 +5758,13 @@ Linker script and memory map
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 .ARM.exidx      0x0380513c        0x8
                 0x0380513c                __exidx_start = .
+=======
+.ARM.exidx      0x0380480c        0x8
+                0x0380480c                __exidx_start = .
+>>>>>>> parent of a402a7d (started on steps 0-2.)
 =======
 .ARM.exidx      0x0380480c        0x8
                 0x0380480c                __exidx_start = .
@@ -6011,6 +6110,7 @@ Linker script and memory map
                 0x0380481c                _SDA_BASE_ = (__sdata_start + ((__sbss_end - __sdata_start) / 0x2))
                 0x038043cc                _SDA2_BASE_ = (__sdata2_start + ((__sbss2_end - __sdata2_start) / 0x2))
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 .heap           0x03805cc0   0x100000
                 0x03805cc0                . = ALIGN (0x10)
@@ -6421,6 +6521,19 @@ Linker script and memory map
                 0x03905390                HeapLimit = .
 >>>>>>> parent of a402a7d (started on steps 0-2.)
 
+=======
+.heap           0x03805390   0x100000
+                0x03805390                . = ALIGN (0x10)
+ *fill*         0x03805390        0x0 
+                0x03805390                _heap = .
+                0x03805390                HeapBase = .
+                0x03805390                _heap_start = .
+                0x03905390                . = (. + _HEAP_SIZE)
+ *fill*         0x03805390   0x100000 
+                0x03905390                _heap_end = .
+                0x03905390                HeapLimit = .
+
+>>>>>>> parent of a402a7d (started on steps 0-2.)
 .stack          0x03905390     0x3800
                 0x03905390                . = ALIGN (0x10)
                 0x03905390                _stack_end = .
