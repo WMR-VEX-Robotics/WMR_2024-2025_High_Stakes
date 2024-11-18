@@ -268,27 +268,6 @@ void red_positive_auton(){
 
 }
 
-void skillsAuton(){
-  //
-  solonoidB.open();
-  MotorGroupWS.spin(vex::directionType::rev,-70,percent);//get wall stake to go backward
-  chassis.drive_distance(-6);
-  //ring has to slide forward or start in that climb thing
-  wait(0.5,sec);
-  chassis.drive_distance(4);
-  chassis.turn_to_angle(-90);
-  chassis.drive_distance(-6);
-  solonoidA.close();
-  chassis.turn_to_angle(180);
-  intake_motor.spin(forward,12.5, volt);
-  hook_motor.spin(forward,12.5, volt);
-  chassis.drive_distance(14);
-  
-
-
-  
-
-}
 
 void autonomous(void) {
   //blue_negative_auton();
@@ -296,7 +275,7 @@ void autonomous(void) {
   //redrightside
   
   //blueleftside
-  skillsAuton();
+
   //red_positive_auton();
 }
 
