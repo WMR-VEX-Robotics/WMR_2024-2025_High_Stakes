@@ -4,15 +4,15 @@
 		"slot": 4,
 		"description": "The 42747 Legacy team bot code for 2023-2024 Over Under using JAR-Template for odometry. This code is defined for configuration Occiptor the current and only configuration of bot",
 		"platform": "V5",
-		"creationDate": "Tue, 03 Oct 2023 19:31:14 GMT",
+		"creationDate": "Wed, 04 Dec 2024 19:42:06 GMT",
 		"language": "cpp",
-		"sdkVersion": "V5_20240223_11_00_00",
+		"sdkVersion": "V5_20240802_15_00_00",
 		"cpp": {
 			"includePath": []
 		}
 	},
 	"extension": {
-		"version": "0.5.0",
+		"version": "0.6.1",
 		"json": 2
 	}
 }
