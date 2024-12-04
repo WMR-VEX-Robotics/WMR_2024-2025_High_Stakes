@@ -268,27 +268,34 @@ void red_positive_auton(){
 
 }
 
+
 void skillsAuton(){
-  //
-  solonoidB.open();
-  MotorGroupWS.spin(vex::directionType::rev,100,percent);//get wall stake to go backward
-  //chassis.drive_distance(-6);
-  //ring has to slide forward or start in that climb thing
-  wait(0.5,sec);
-  /*chassis.drive_distance(4);
+  // STEP 1: Grab the stake
+  default_constants();
+  intake_motor.spin(vex::directionType::fwd, 100, percent);
+  MotorGroupWS.spin(vex::directionType::rev, 100, percent);
+  wait(2.5, sec);
+  solonoidA.open();
+  chassis.drive_distance(4); 
   chassis.turn_to_angle(-90);
-  chassis.drive_distance(-7);
+  wall_stake_motor_one.stop(coast);
+  chassis.drive_distance(-12);
+  hook_motor.spin(vex::directionType::fwd, 100, percent);
+  wait(100, msec);
   solonoidA.close();
+  wait(1, sec);
+  solonoidC.open();
+  solonoidB.open();
+  chassis.turn_to_angle(90);
+  wait(100, msec);
+  chassis.drive_distance(9);
+  chassis.drive_distance(-5);
   chassis.turn_to_angle(180);
-  intake_motor.spin(forward,12.5, volt);
-  hook_motor.spin(forward,12.5, volt);
-  chassis.drive_distance(14);*/
-
-
-  
-
+  chassis.drive_distance(10);
+  // STEP 2: Load it up.
+  // Step 3: Cut across the middle
+  // Step 4: Load the second stake
 }
-
 
 void autonomous(void) {
   //blue_negative_auton();
@@ -296,10 +303,8 @@ void autonomous(void) {
   //redrightside
   
   //blueleftside
-
-  //red_positive_auton();
-
   skillsAuton();
+  //red_positive_auton();
 }
 
 /*---------------------------------------------------------------------------*/
