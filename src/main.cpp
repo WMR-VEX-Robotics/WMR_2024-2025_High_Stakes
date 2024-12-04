@@ -272,27 +272,31 @@ void red_positive_auton(){
 void skillsAuton(){
   // STEP 1: Grab the stake
   default_constants();
-  intake_motor.spin(vex::directionType::fwd, 100, percent);
+  /*intake_motor.spin(vex::directionType::fwd, 100, percent);
+  hook_motor.spin(vex::directionType::fwd, 100, percent);
   MotorGroupWS.spin(vex::directionType::rev, 100, percent);
-  wait(2.5, sec);
+  wait(2.5, sec);*/
   solonoidA.open();
   chassis.drive_distance(4); 
   chassis.turn_to_angle(-90);
   wall_stake_motor_one.stop(coast);
-  chassis.drive_distance(-12);
+  chassis.drive_distance(-7);
+  solonoidA.close();
   hook_motor.spin(vex::directionType::fwd, 100, percent);
   wait(100, msec);
   solonoidA.close();
   wait(1, sec);
   solonoidC.open();
   solonoidB.open();
+  // STEP 2: Load it up.
   chassis.turn_to_angle(90);
   wait(100, msec);
+  intake_motor.spin(vex::directionType::fwd, 100, percent);
+  hook_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(9);
   chassis.drive_distance(-5);
   chassis.turn_to_angle(180);
   chassis.drive_distance(10);
-  // STEP 2: Load it up.
   // Step 3: Cut across the middle
   // Step 4: Load the second stake
 }
