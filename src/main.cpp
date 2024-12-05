@@ -179,6 +179,60 @@ void toggle_C(){                 //color doinker
 #pragma endregion
 #pragma region Autonomous
 
+
+void autoDoinkRed() {
+    int read = colorSensor.hue();
+    std::string result = "";
+    if(read <= 20){
+      result = "red";
+      solonoidC.close();
+    }
+    else if(read >= 100){
+      result = "blue";
+      solonoidC.open();
+    }
+    else {
+      result = "other";
+    }
+    Brain.Screen.clearScreen();
+    Brain.Screen.setCursor(1, 1);
+
+    Brain.Screen.print(result.c_str());
+}
+
+void autoDoinkBlue() {
+    int read = colorSensor.hue();
+    std::string result = "";
+    if(read <= 20){
+      result = "red";
+      solonoidC.open();
+    }
+    else if(read >= 100){
+      result = "blue";
+      solonoidC.close();
+    }
+    else {
+      result = "other";
+    }
+    Brain.Screen.clearScreen();
+    Brain.Screen.setCursor(1, 1);
+
+    Brain.Screen.print(result.c_str());
+}
+
+void autoDoink() {
+  //autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
+  autoDoinkBlue();
+}
+
+int threadedAutoDoink(void* p) {
+  while (true) {
+    autoDoink();
+  }
+  return 0;
+}
+
+
 void pre_auton(void) {
   //inertialSensor5.calibrate();
   //ensureCalibration();
@@ -192,35 +246,7 @@ void pre_auton(void) {
   chassis.set_coordinates(0,0,0);
   wait(25, msec);
   Brain.Screen.clearScreen();
-}
-
-// 1 if by skills 2 if by right and 3 if by left 0 if by stupid (none loaded)
-void autonType(int autonSelect) {
-  // select different types of auton
-
-  switch (autonSelect) {
-    case 0:
-      Brain.Screen.print("No Auton Loaded. Skipping...");
-      //set_screen_color(1);
-      break;
-    case 1:
-      Brain.Screen.print("Skills Auton Loaded.");
-      // insert skills auton
-      break;
-    case 2:
-      Brain.Screen.print("Competition Auton Loaded. R");
-      // offensive auton
-      break;
-    case 3:
-      Brain.Screen.print("Competition Auton Loaded. L");
-      // defensive auton
-      break;
-    case 4:
-      default_constants();
-      // initialize position as (0,0,0)
-      chassis.set_coordinates(0,0,0);
-      drive_test();
-  }
+  autoDoink();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -233,7 +259,104 @@ void autonType(int autonSelect) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void blue_negative_auton(){
-  chassis.drive_distance(-11);
+  thread(threadedAutoDoink, nullptr);
+  chassis.drive_distance(-12);
+  wait(0.5, sec);
+  solonoidA.close();
+  wait(0.5, sec);
+  hook_motor.spin(forward, 12.5, volt);
+  chassis.drive_distance(-2.3);
+  wait(0.5, sec);
+  chassis.turn_to_angle(-90);
+  wait(0.5,sec);
+  intake_motor.spin(forward, 12.5, volt);
+  chassis.drive_distance(7.5);
+  hook_motor.spin(forward, 12.5, volt);
+  wait(0.2, sec);
+  chassis.turn_to_angle(-31);
+  solonoidB.open();
+  wait(0.2,sec);
+  chassis.drive_distance(20);
+  chassis.turn_to_angle(60);
+  wait(0.1, sec);
+  solonoidB.close();
+  wait(0.1, sec);
+  chassis.drive_distance(17);
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(4);
+  chassis.turn_to_angle(155);
+  chassis.drive_distance(6.5);
+  
+}
+
+void blue_positive_auton() {
+  thread(threadedAutoDoink, nullptr);
+  chassis.drive_distance(-12);
+  wait(0.5, sec);
+  solonoidA.close();
+  wait(0.5, sec);
+  hook_motor.spin(forward, 12.5, volt);
+  chassis.drive_distance(-2);
+  wait(0.5, sec);
+  chassis.turn_to_angle(90);
+  wait(0.5,sec);
+  chassis.drive_distance(7.5);
+  hook_motor.spin(forward, 12.5, volt);
+  wait(0.2, sec);
+  chassis.turn_to_angle(32);
+  solonoidB.open();
+  wait(0.2,sec);
+  chassis.drive_distance(20);
+  chassis.turn_to_angle(165);
+  wait(0.1, sec);
+  solonoidB.close();
+  wait(0.1, sec);
+  chassis.drive_distance(15);
+  /*chassis.turn_to_angle(-90);
+  chassis.drive_distance(4);
+  chassis.turn_to_angle(-155);
+  chassis.drive_distance(6.5);*/
+}
+
+void red_negative_auton() {
+  thread(threadedAutoDoink, nullptr);
+  chassis.drive_distance(-12);
+  wait(0.5, sec);
+  solonoidA.close();
+  wait(0.5, sec);
+  hook_motor.spin(forward, 12.5, volt);
+  chassis.drive_distance(-1.5);
+  wait(0.5, sec);
+  chassis.turn_to_angle(90);
+  wait(0.5,sec);
+  intake_motor.spin(forward, 12.5, volt);
+  chassis.drive_distance(7.5);
+  hook_motor.spin(forward, 12.5, volt);
+  wait(2, sec);
+  chassis.turn_to_angle(297);
+  wait(2, sec);
+  chassis.drive_distance(18);
+  wait(0.4, sec);
+  chassis.drive_distance(4.5);
+
+  /*chassis.turn_to_angle(37);
+  solonoidB.open();
+  wait(0.2,sec);
+  chassis.drive_distance(21);
+  chassis.turn_to_angle(-60);
+  wait(0.1, sec);
+  solonoidB.close();
+  wait(0.1, sec);
+  chassis.drive_distance(17);
+  chassis.turn_to_angle(-90);
+  chassis.drive_distance(4);
+  chassis.turn_to_angle(-155);
+  chassis.drive_distance(6.5);*/
+}
+
+void red_positive_auton(){
+  thread(threadedAutoDoink, nullptr);
+  chassis.drive_distance(-12);
   wait(0.5, sec);
   solonoidA.close();
   wait(0.5, sec);
@@ -242,31 +365,24 @@ void blue_negative_auton(){
   wait(0.5, sec);
   chassis.turn_to_angle(-90);
   wait(0.5,sec);
-  intake_motor.spin(forward, 12.5, volt);
   chassis.drive_distance(7.5);
   hook_motor.spin(forward, 12.5, volt);
   wait(0.2, sec);
-  chassis.turn_to_angle(-39);
+  chassis.turn_to_angle(-32);
   solonoidB.open();
   wait(0.2,sec);
-  chassis.drive_distance(13.5);
-  chassis.turn_to_angle(90);
+  chassis.drive_distance(20);
+  chassis.turn_to_angle(-165);
+  wait(0.1, sec);
+  solonoidB.close();
+  wait(0.1, sec);
+  chassis.drive_distance(15);
+  /*chassis.turn_to_angle(-90);
+  chassis.drive_distance(4);
+  chassis.turn_to_angle(-155);
+  chassis.drive_distance(6.5);*/
 }
 
-void red_positive_auton(){
-  chassis.drive_distance(-11);
-  wait(0.5, sec);
-  solonoidA.close();
-  chassis.drive_distance(-2);
-  chassis.turn_to_angle(-90);
-  intake_motor.spin(forward, 12.5, volt);
-  chassis.drive_distance(2);
-  hook_motor.spin(forward, 12.5, volt);
-  chassis.turn_to_angle(-135);
-  chassis.drive_distance(11);
-
-
-}
 
 
 void skillsAuton(){
@@ -302,13 +418,13 @@ void skillsAuton(){
 }
 
 void autonomous(void) {
-  //blue_negative_auton();
+  //blue_negative_auton(); //best slot 1
+
+  //blue_positive_auton(); //slot 2
+
+  //red_negative_auton(); //slot 3
   
-  //redrightside
-  
-  //blueleftside
-  skillsAuton();
-  //red_positive_auton();
+  red_positive_auton(); //slot 4
 }
 
 /*---------------------------------------------------------------------------*/
@@ -341,9 +457,9 @@ void usercontrol(void) {
     } else if (mainController.ButtonX.pressing() == true) { // for getting onto wall stake contraption
       intake_motor.spin(forward, 4, volt);
       hook_motor.spin(forward , 4, volt);
-    } else if(mainController.ButtonLeft.pressing() == true){
+    } else if(mainController.ButtonDown.pressing() == true){
       MotorGroupWS.spin(vex::directionType::fwd, 100, percent);
-    } else if(mainController.ButtonRight.pressing() == true){
+    } else if(mainController.ButtonUp.pressing() == true){
       MotorGroupWS.spin(vex::directionType::rev, 100, percent);
     } else {
       intake_motor.stop(coast);
@@ -352,23 +468,7 @@ void usercontrol(void) {
       wall_stake_motor_two.stop(coast);
     }
  
-    int read = colorSensor.hue();
-    std::string result = "";
-    if(read <= 20){
-      result = "red";
-      solonoidC.close();
-    }
-    else if(read >= 100){
-      result = "blue";
-      solonoidC.open();
-    }
-    else {
-      result = "other";
-    }
-    Brain.Screen.clearScreen();
-    Brain.Screen.setCursor(1, 1);
-
-    Brain.Screen.print(result.c_str());
+    autoDoink();
 
 
     
