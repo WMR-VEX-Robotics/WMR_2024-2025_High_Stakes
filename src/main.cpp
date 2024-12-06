@@ -221,8 +221,8 @@ void autoDoinkBlue() {
 }
 
 void autoDoink() {
-  //autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
-  autoDoinkBlue();
+  autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
+  //autoDoinkBlue();
 }
 
 int threadedAutoDoink(void* p) {
@@ -260,18 +260,19 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 void blue_negative_auton(){
   thread(threadedAutoDoink, nullptr);
+  MotorGroupWS.spinFor(1.25, seconds, -99999999, rpm);
   chassis.drive_distance(-12);
   wait(0.5, sec);
   solonoidA.close();
   wait(0.5, sec);
-  hook_motor.spin(forward, 12.5, volt);
+  hook_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(-2.3);
   wait(0.5, sec);
   chassis.turn_to_angle(-90);
   wait(0.5,sec);
-  intake_motor.spin(forward, 12.5, volt);
+  intake_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(7.5);
-  hook_motor.spin(forward, 12.5, volt);
+  hook_motor.spin(vex::directionType::fwd, 100, percent);
   wait(0.2, sec);
   chassis.turn_to_angle(-31);
   solonoidB.open();
@@ -418,13 +419,13 @@ void skillsAuton(){
 }
 
 void autonomous(void) {
-  //blue_negative_auton(); //best slot 1
+  blue_negative_auton(); //best slot 1
 
   //blue_positive_auton(); //slot 2
 
   //red_negative_auton(); //slot 3
   
-  red_positive_auton(); //slot 4
+  //red_positive_auton(); //slot 4
 }
 
 /*---------------------------------------------------------------------------*/
