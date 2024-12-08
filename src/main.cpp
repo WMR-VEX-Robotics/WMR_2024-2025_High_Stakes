@@ -221,8 +221,8 @@ void autoDoinkBlue() {
 }
 
 void autoDoink() {
-  autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
-  //autoDoinkBlue();
+  //autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
+  autoDoinkBlue();
 }
 
 int threadedAutoDoink(void* p) {
@@ -262,21 +262,21 @@ void blue_negative_auton(){
   thread(threadedAutoDoink, nullptr);
   MotorGroupWS.spinFor(1.25, seconds, -99999999, rpm);
   chassis.drive_distance(-12);
-  wait(0.5, sec);
+  wait(0.1, sec);
   solonoidA.close();
-  wait(0.5, sec);
+  wait(0.1, sec);
   hook_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(-2.3);
-  wait(0.5, sec);
+  wait(0.1, sec);
   chassis.turn_to_angle(-90);
-  wait(0.5,sec);
+  wait(0.1,sec);
   intake_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(7.5);
   hook_motor.spin(vex::directionType::fwd, 100, percent);
-  wait(0.2, sec);
+  wait(0.1, sec);
   chassis.turn_to_angle(-31);
   solonoidB.open();
-  wait(0.2,sec);
+  wait(0.1,sec);
   chassis.drive_distance(20);
   chassis.turn_to_angle(60);
   wait(0.1, sec);
@@ -292,140 +292,141 @@ void blue_negative_auton(){
 
 void blue_positive_auton() {
   thread(threadedAutoDoink, nullptr);
+  MotorGroupWS.spinFor(1.25, seconds, -99999999, rpm);
   chassis.drive_distance(-12);
-  wait(0.5, sec);
+  wait(0.1, sec);
   solonoidA.close();
-  wait(0.5, sec);
-  hook_motor.spin(forward, 12.5, volt);
+  wait(0.1, sec);
+  hook_motor.spin(fwd, 100, percent);
   chassis.drive_distance(-2);
-  wait(0.5, sec);
+  wait(0.1, sec);
   chassis.turn_to_angle(90);
-  wait(0.5,sec);
+  wait(0.1,sec);
+  intake_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(7.5);
-  hook_motor.spin(forward, 12.5, volt);
-  wait(0.2, sec);
+  wait(0.1, sec);
   chassis.turn_to_angle(32);
   solonoidB.open();
-  wait(0.2,sec);
+  wait(0.1,sec);
   chassis.drive_distance(20);
-  chassis.turn_to_angle(165);
+  chassis.turn_to_angle(-70);
   wait(0.1, sec);
   solonoidB.close();
   wait(0.1, sec);
   chassis.drive_distance(15);
-  /*chassis.turn_to_angle(-90);
+  chassis.turn_to_angle(-90);
   chassis.drive_distance(4);
   chassis.turn_to_angle(-155);
-  chassis.drive_distance(6.5);*/
+  chassis.drive_distance(6.5);
 }
 
 void red_negative_auton() {
   thread(threadedAutoDoink, nullptr);
+  MotorGroupWS.spinFor(1.25, seconds, -99999999, rpm);
+  intake_motor.spin(fwd, 100, percent);
   chassis.drive_distance(-12);
-  wait(0.5, sec);
+  wait(0.1, sec);
   solonoidA.close();
-  wait(0.5, sec);
-  hook_motor.spin(forward, 12.5, volt);
+  wait(0.1, sec);
+  hook_motor.spin(fwd, 100, percent);
   chassis.drive_distance(-1.5);
-  wait(0.5, sec);
+  wait(0.1, sec);
   chassis.turn_to_angle(90);
-  wait(0.5,sec);
-  intake_motor.spin(forward, 12.5, volt);
+  wait(0.1,sec);
   chassis.drive_distance(7.5);
-  hook_motor.spin(forward, 12.5, volt);
-  wait(2, sec);
+  wait(0.1, sec);
   chassis.turn_to_angle(297);
-  wait(2, sec);
+  wait(0.1, sec);
   chassis.drive_distance(18);
-  wait(0.4, sec);
+  wait(0.1, sec);
   chassis.drive_distance(4.5);
-
-  /*chassis.turn_to_angle(37);
-  solonoidB.open();
-  wait(0.2,sec);
-  chassis.drive_distance(21);
-  chassis.turn_to_angle(-60);
-  wait(0.1, sec);
-  solonoidB.close();
-  wait(0.1, sec);
-  chassis.drive_distance(17);
-  chassis.turn_to_angle(-90);
-  chassis.drive_distance(4);
-  chassis.turn_to_angle(-155);
-  chassis.drive_distance(6.5);*/
 }
 
 void red_positive_auton(){
   thread(threadedAutoDoink, nullptr);
+  MotorGroupWS.spinFor(1.25, seconds, -99999999, rpm);
   chassis.drive_distance(-12);
-  wait(0.5, sec);
+  wait(0.1, sec);
   solonoidA.close();
-  wait(0.5, sec);
-  hook_motor.spin(forward, 12.5, volt);
-  chassis.drive_distance(-2);
-  wait(0.5, sec);
+  wait(0.1, sec);
+  hook_motor.spin(vex::directionType::fwd, 100, percent);
+  chassis.drive_distance(-2.3);
+  wait(0.1, sec);
   chassis.turn_to_angle(-90);
-  wait(0.5,sec);
+  wait(0.1,sec);
+  intake_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(7.5);
-  hook_motor.spin(forward, 12.5, volt);
-  wait(0.2, sec);
-  chassis.turn_to_angle(-32);
+  hook_motor.spin(vex::directionType::fwd, 100, percent);
+  wait(0.1, sec);
+  chassis.turn_to_angle(-31);
   solonoidB.open();
-  wait(0.2,sec);
+  wait(0.1,sec);
   chassis.drive_distance(20);
-  chassis.turn_to_angle(-165);
+  chassis.turn_to_angle(60);
   wait(0.1, sec);
   solonoidB.close();
   wait(0.1, sec);
-  chassis.drive_distance(15);
-  /*chassis.turn_to_angle(-90);
+  chassis.drive_distance(17);
+  chassis.turn_to_angle(90);
   chassis.drive_distance(4);
-  chassis.turn_to_angle(-155);
-  chassis.drive_distance(6.5);*/
+  chassis.turn_to_angle(155);
+  chassis.drive_distance(6.5);
 }
 
 
 
 void skillsAuton(){
+  thread(threadedAutoDoink, nullptr);
   // STEP 1: Grab the stake
   default_constants();
-  /*intake_motor.spin(vex::directionType::fwd, 100, percent);
-  hook_motor.spin(vex::directionType::fwd, 100, percent);
+  MotorGroupWS.spinFor(1.25, seconds, -99999999, rpm);
+  /*hook_motor.spin(vex::directionType::fwd, 100, percent);
   MotorGroupWS.spin(vex::directionType::rev, 100, percent);
   wait(2.5, sec);*/
-  solonoidA.open();
-  chassis.drive_distance(4); 
-  chassis.turn_to_angle(-90);
-  wall_stake_motor_one.stop(coast);
-  chassis.drive_distance(-7);
+  chassis.drive_distance(-4); 
   solonoidA.close();
-  hook_motor.spin(vex::directionType::fwd, 100, percent);
-  wait(100, msec);
-  solonoidA.close();
-  wait(1, sec);
-  solonoidC.open();
-  solonoidB.open();
-  // STEP 2: Load it up.
-  chassis.turn_to_angle(90);
-  wait(100, msec);
-  intake_motor.spin(vex::directionType::fwd, 100, percent);
-  hook_motor.spin(vex::directionType::fwd, 100, percent);
-  chassis.drive_distance(9);
-  chassis.drive_distance(-5);
+  wait(0.4, sec);
   chassis.turn_to_angle(180);
+  intake_motor.spin(fwd, 100, percent);
+  hook_motor.spin(vex::directionType::fwd, 100, percent);
+  wait(0.1, sec);
   chassis.drive_distance(10);
+  wait(0.1, sec);
+  chassis.turn_to_angle(-90);
+  wait(0.1, sec);
+  chassis.drive_distance(9);
+  wait(0.1, sec);
+  chassis.turn_to_angle(0);
+  wait(0.1, sec);
+  chassis.drive_distance(12);
+  wait(0.1, sec);
+  chassis.drive_distance(-4);
+  wait(0.1, sec);
+  chassis.turn_to_angle(-90);
+  wait(0.1, sec);
+  chassis.drive_distance(5);
+  wait(0.1, sec);
+  chassis.turn_to_angle(170);
+  wait(0.1, sec);
+  chassis.drive_distance(5);
+
+
+
+  
   // Step 3: Cut across the middle
   // Step 4: Load the second stake
 }
 
 void autonomous(void) {
-  blue_negative_auton(); //best slot 1
+  //blue_negative_auton(); //best slot 1
 
   //blue_positive_auton(); //slot 2
 
   //red_negative_auton(); //slot 3
   
-  //red_positive_auton(); //slot 4
+  red_positive_auton(); //slot 4
+
+  //skillsAuton();
 }
 
 /*---------------------------------------------------------------------------*/
