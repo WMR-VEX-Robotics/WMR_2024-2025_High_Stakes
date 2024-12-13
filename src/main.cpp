@@ -260,7 +260,6 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 void blue_negative_auton(){
   thread(threadedAutoDoink, nullptr);
-  MotorGroupWS.spinFor(1.25, seconds, -99999999, rpm);
   chassis.drive_distance(-12);
   wait(0.1, sec);
   solonoidA.close();
@@ -292,7 +291,6 @@ void blue_negative_auton(){
 
 void blue_positive_auton() {
   thread(threadedAutoDoink, nullptr);
-  MotorGroupWS.spinFor(1.25, seconds, -99999999, rpm);
   chassis.drive_distance(-12);
   wait(0.1, sec);
   solonoidA.close();
@@ -322,7 +320,6 @@ void blue_positive_auton() {
 
 void red_negative_auton() {
   thread(threadedAutoDoink, nullptr);
-  MotorGroupWS.spinFor(1.25, seconds, -99999999, rpm);
   intake_motor.spin(fwd, 100, percent);
   chassis.drive_distance(-12);
   wait(0.1, sec);
@@ -344,7 +341,6 @@ void red_negative_auton() {
 
 void red_positive_auton(){
   thread(threadedAutoDoink, nullptr);
-  MotorGroupWS.spinFor(1.25, seconds, -99999999, rpm);
   chassis.drive_distance(-12);
   wait(0.1, sec);
   solonoidA.close();
@@ -377,11 +373,9 @@ void red_positive_auton(){
 
 void skillsAuton(){
   thread(threadedAutoDoink, nullptr);
-  // STEP 1: Grab the stake
+
+  //1/4th field code
   default_constants();
-  /*hook_motor.spin(vex::directionType::fwd, 100, percent);
-  MotorGroupWS.spin(vex::directionType::rev, 100, percent);
-  wait(2.5, sec);*/
   chassis.drive_distance(-4); 
   solonoidA.close();
   wait(0.4, sec);
@@ -389,28 +383,91 @@ void skillsAuton(){
   intake_motor.spin(fwd, 100, percent);
   hook_motor.spin(vex::directionType::fwd, 100, percent);
   wait(0.1, sec);
-  chassis.drive_distance(10);
-  wait(0.5, sec);
+  chassis.drive_distance(11);
+  wait(0.2, sec);
+  chassis.drive_distance(-1.1);
+  wait(0.4, sec);
   chassis.turn_to_angle(-90);
   wait(0.1, sec);
-  chassis.drive_distance(7.9);
+  chassis.drive_distance(8.7);
   wait(0.1, sec);
+  chassis.drive_distance(-0.8);
+  wait(0.3, sec);
   chassis.turn_to_angle(0);
   wait(0.1, sec);
-  chassis.drive_distance(14);
+  chassis.drive_distance(9);
   wait(0.1, sec);
-  chassis.drive_distance(-5);
+  chassis.drive_distance(5);
+  wait(0.3, sec);
+  chassis.drive_distance(-5.75);
   wait(0.1, sec);
   chassis.turn_to_angle(-90);
   wait(0.1, sec);
   chassis.drive_distance(5);
   wait(0.1, sec);
   chassis.turn_to_angle(160);
-  wait(0.1, sec);
-  chassis.drive_distance(-9);
+  wait(1.25, sec);
+  hook_motor.spin(vex::directionType::rev, 100, percent);
   wait(0.5, sec);
   solonoidA.open();
-  chassis.drive_distance(8);
+  wait(0.2, sec);
+  chassis.drive_distance(-7.5);
+  
+  //1/2 field code
+  wait(0.2, sec);
+  chassis.drive_distance(3.9); //subject to change
+  wait(0.3, sec);
+  chassis.turn_to_angle(-90);
+  wait(0.3, sec);
+  chassis.set_drive_constants(10, 1.5, 0, 10, 0);
+  chassis.set_drive_exit_conditions(1.5, 250, 1400);
+  chassis.drive_distance(-50);
+  return;
+  default_constants();
+  wait(1, sec);
+  solonoidA.close();
+  wait(0.6, sec);
+  chassis.turn_to_angle(180);
+  wait(0.3, sec);
+  chassis.drive_distance(11);
+  wait(0.2, sec);
+  chassis.drive_distance(-1.1);
+  wait(0.4, sec);
+  chassis.turn_to_angle(89);
+  wait(0.1, sec);
+  chassis.drive_distance(8.5);
+  wait(0.1, sec);
+  chassis.drive_distance(-0.6);
+  wait(0.3, sec);
+  chassis.turn_to_angle(0);
+  wait(0.1, sec);
+  chassis.drive_distance(9);
+  wait(0.1, sec);
+  chassis.drive_distance(5);
+  wait(0.3, sec);
+  chassis.drive_distance(-5.75);
+  wait(0.1, sec);
+  chassis.turn_to_angle(90);
+  wait(0.1, sec);
+  chassis.drive_distance(5);
+  wait(0.1, sec);
+  chassis.turn_to_angle(180);
+  wait(0.7, sec);
+  chassis.drive_distance(20);
+  wait(0.3, sec);
+  chassis.drive_distance(-20);
+  wait(0.3, sec);
+  chassis.turn_to_angle(-160);
+  wait(0.3, sec);
+  hook_motor.spin(vex::directionType::rev, 100, percent);
+  wait(0.5, sec);
+  solonoidA.open();
+  chassis.drive_distance(-7.5);
+  wait(0.3, sec);
+  chassis.drive_distance(4);
+
+
+
 
 
 
@@ -428,7 +485,7 @@ void autonomous(void) {
   
   //red_positive_auton(); //slot 4
 
-  skillsAuton();
+  //skillsAuton();
 }
 
 /*---------------------------------------------------------------------------*/

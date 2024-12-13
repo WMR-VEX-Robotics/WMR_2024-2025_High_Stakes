@@ -10,7 +10,7 @@ void default_constants(){
   // Each exit condition set is in the form (settle_error, settle_time, timeout).
   chassis.set_drive_exit_conditions(1.5, 200, 1250);
   chassis.set_turn_exit_conditions(1, 200, 1250);
-  chassis.set_swing_exit_conditions(1, 200, 1000); // lowered from 200
+  chassis.set_swing_exit_conditions(1, 200, 1000); 
 }
 
 void odom_constants(){
