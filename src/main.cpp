@@ -372,7 +372,8 @@ void red_positive_auton(){
 
 
 void skillsAuton(){
-  thread(threadedAutoDoink, nullptr);
+    default_constants();
+  /*thread(threadedAutoDoink, nullptr);
 
   //1/4th field code
   default_constants();
@@ -405,7 +406,7 @@ void skillsAuton(){
   wait(0.1, sec);
   chassis.drive_distance(5);
   wait(0.1, sec);
-  chassis.turn_to_angle(160);
+  chassis.turn_to_angle(155);
   wait(1.25, sec);
   hook_motor.spin(vex::directionType::rev, 100, percent);
   wait(0.5, sec);
@@ -417,13 +418,9 @@ void skillsAuton(){
   wait(0.2, sec);
   chassis.drive_distance(3.9); //subject to change
   wait(0.3, sec);
-  chassis.turn_to_angle(-90);
-  wait(0.3, sec);
-  chassis.set_drive_constants(10, 1.5, 0, 10, 0);
-  chassis.set_drive_exit_conditions(1.5, 250, 1400);
-  chassis.drive_distance(-50);
-  return;
-  default_constants();
+  chassis.turn_to_angle(-90);*/
+  wait(0.5, sec);
+  chassis.drive_distance(-32.5, 0, 5, 12, 10, 10, 9000);
   wait(1, sec);
   solonoidA.close();
   wait(0.6, sec);
@@ -485,7 +482,7 @@ void autonomous(void) {
   
   //red_positive_auton(); //slot 4
 
-  //skillsAuton();
+  skillsAuton();
 }
 
 /*---------------------------------------------------------------------------*/
