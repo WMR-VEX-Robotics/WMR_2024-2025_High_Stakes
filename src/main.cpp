@@ -372,12 +372,12 @@ void red_positive_auton(){
 
 
 void skillsAuton(){
-    default_constants();
-  /*thread(threadedAutoDoink, nullptr);
+  default_constants();
+  thread(threadedAutoDoink, nullptr);
 
   //1/4th field code
-  default_constants();
   chassis.drive_distance(-4); 
+  wait(0.4, sec);
   solonoidA.close();
   wait(0.4, sec);
   chassis.turn_to_angle(180);
@@ -398,9 +398,9 @@ void skillsAuton(){
   wait(0.1, sec);
   chassis.drive_distance(9);
   wait(0.1, sec);
-  chassis.drive_distance(5);
+  chassis.drive_distance(5.7);
   wait(0.3, sec);
-  chassis.drive_distance(-5.75);
+  chassis.drive_distance(-6.45);
   wait(0.1, sec);
   chassis.turn_to_angle(-90);
   wait(0.1, sec);
@@ -418,9 +418,11 @@ void skillsAuton(){
   wait(0.2, sec);
   chassis.drive_distance(3.9); //subject to change
   wait(0.3, sec);
-  chassis.turn_to_angle(-90);*/
+  chassis.turn_to_angle(-90);
   wait(0.5, sec);
-  chassis.drive_distance(-32.5, 0, 5, 12, 10, 10, 9000);
+  chassis.drive_distance(-29.5, 0, 8, 12, 10, 10, 9000);
+  wait(1, sec);
+  chassis.drive_distance(-8.5, 90, 3, 12, 10, 10, 9000);
   wait(1, sec);
   solonoidA.close();
   wait(0.6, sec);
@@ -430,38 +432,40 @@ void skillsAuton(){
   wait(0.2, sec);
   chassis.drive_distance(-1.1);
   wait(0.4, sec);
-  chassis.turn_to_angle(89);
+  chassis.turn_to_angle(90);
   wait(0.1, sec);
-  chassis.drive_distance(8.5);
+  chassis.drive_distance(8.7);
   wait(0.1, sec);
-  chassis.drive_distance(-0.6);
+  chassis.drive_distance(-0.8);
   wait(0.3, sec);
   chassis.turn_to_angle(0);
   wait(0.1, sec);
   chassis.drive_distance(9);
   wait(0.1, sec);
-  chassis.drive_distance(5);
+  chassis.drive_distance(5.7);
   wait(0.3, sec);
-  chassis.drive_distance(-5.75);
+  chassis.drive_distance(-6.45);
   wait(0.1, sec);
   chassis.turn_to_angle(90);
   wait(0.1, sec);
   chassis.drive_distance(5);
   wait(0.1, sec);
   chassis.turn_to_angle(180);
-  wait(0.7, sec);
-  chassis.drive_distance(20);
   wait(0.3, sec);
-  chassis.drive_distance(-20);
+  chassis.drive_distance(23);
   wait(0.3, sec);
-  chassis.turn_to_angle(-160);
+  chassis.drive_distance(-23);
   wait(0.3, sec);
+  chassis.turn_to_angle(-155);
+  wait(1.15, sec);
   hook_motor.spin(vex::directionType::rev, 100, percent);
   wait(0.5, sec);
   solonoidA.open();
+  wait(0.2, sec);
   chassis.drive_distance(-7.5);
   wait(0.3, sec);
   chassis.drive_distance(4);
+
 
 
 
@@ -482,7 +486,7 @@ void autonomous(void) {
   
   //red_positive_auton(); //slot 4
 
-  skillsAuton();
+  skillsAuton();          //slot 5
 }
 
 /*---------------------------------------------------------------------------*/
