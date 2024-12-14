@@ -357,7 +357,7 @@ void red_positive_auton(){
   chassis.turn_to_angle(-31);
   solonoidB.open();
   wait(0.1,sec);
-  chassis.drive_distance(20);
+  chassis.drive_distance(22);
   chassis.turn_to_angle(60);
   wait(0.1, sec);
   solonoidB.close();
@@ -366,7 +366,7 @@ void red_positive_auton(){
   chassis.turn_to_angle(90);
   chassis.drive_distance(4);
   chassis.turn_to_angle(155);
-  chassis.drive_distance(6.5);
+  chassis.drive_distance(8.5);
 }
 
 
@@ -386,18 +386,18 @@ void skillsAuton(){
   wait(0.1, sec);
   chassis.drive_distance(11);
   wait(0.2, sec);
-  chassis.drive_distance(-1.1);
+  chassis.drive_distance(-1.3);
   wait(0.4, sec);
-  chassis.turn_to_angle(-90);
+  chassis.turn_to_angle(-89);
   wait(0.1, sec);
   chassis.drive_distance(8.7);
   wait(0.1, sec);
   chassis.drive_distance(-0.8);
   wait(0.3, sec);
-  chassis.turn_to_angle(0);
+  chassis.turn_to_angle(0.5);
   wait(0.1, sec);
   chassis.drive_distance(9);
-  wait(0.1, sec);
+  wait(0.5, sec);
   chassis.drive_distance(5.7);
   wait(0.3, sec);
   chassis.drive_distance(-6.45);
@@ -416,13 +416,17 @@ void skillsAuton(){
   
   //1/2 field code
   wait(0.2, sec);
-  chassis.drive_distance(3.9); //subject to change
+  chassis.drive_distance(4); //subject to change
   wait(0.3, sec);
+  setdtBrakemode(vex::brakeType::brake); // added
   chassis.turn_to_angle(-90);
+   setdtBrakemode(vex::brakeType::coast); // added
   wait(0.5, sec);
-  chassis.drive_distance(-29.5, 0, 8, 12, 10, 10, 9000);
+  hook_motor.spin(vex::directionType::fwd, 100, percent);
+  wait(0.3, sec);
+  chassis.drive_distance(-29.5, -90, 8, 12, 10, 10, 9000);
   wait(1, sec);
-  chassis.drive_distance(-8.5, 90, 3, 12, 10, 10, 9000);
+  chassis.drive_distance(-16, -90, 2, 12, 10, 10, 9000);
   wait(1, sec);
   solonoidA.close();
   wait(0.6, sec);
@@ -430,7 +434,7 @@ void skillsAuton(){
   wait(0.3, sec);
   chassis.drive_distance(11);
   wait(0.2, sec);
-  chassis.drive_distance(-1.1);
+  chassis.drive_distance(-3.1);
   wait(0.4, sec);
   chassis.turn_to_angle(90);
   wait(0.1, sec);
@@ -444,7 +448,7 @@ void skillsAuton(){
   wait(0.1, sec);
   chassis.drive_distance(5.7);
   wait(0.3, sec);
-  chassis.drive_distance(-6.45);
+  chassis.drive_distance(-5);
   wait(0.1, sec);
   chassis.turn_to_angle(90);
   wait(0.1, sec);
@@ -455,7 +459,7 @@ void skillsAuton(){
   chassis.drive_distance(23);
   wait(0.3, sec);
   chassis.drive_distance(-23);
-  wait(0.3, sec);
+  wait(0.9, sec);
   chassis.turn_to_angle(-155);
   wait(1.15, sec);
   hook_motor.spin(vex::directionType::rev, 100, percent);
@@ -465,7 +469,7 @@ void skillsAuton(){
   chassis.drive_distance(-7.5);
   wait(0.3, sec);
   chassis.drive_distance(4);
-
+  // time to addthird stake
 
 
 
@@ -484,9 +488,9 @@ void autonomous(void) {
 
   //red_negative_auton(); //slot 3
   
-  //red_positive_auton(); //slot 4
+  red_positive_auton(); //slot 4
 
-  skillsAuton();          //slot 5
+  //skillsAuton();          //slot 5
 }
 
 /*---------------------------------------------------------------------------*/
