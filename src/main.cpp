@@ -371,6 +371,7 @@ void red_positive_auton(){
 
 
 
+
 void skillsAuton(){
   default_constants();
   thread(threadedAutoDoink, nullptr);
@@ -419,15 +420,15 @@ void skillsAuton(){
   chassis.drive_distance(4); //subject to change
   wait(0.3, sec);
   setdtBrakemode(vex::brakeType::brake); // added
-  chassis.turn_to_angle(-90);
+  chassis.turn_to_angle(-89);
    setdtBrakemode(vex::brakeType::coast); // added
   wait(0.5, sec);
   hook_motor.spin(vex::directionType::fwd, 100, percent);
   wait(0.3, sec);
-  chassis.drive_distance(-29.5, -90, 8, 12, 10, 10, 9000);
-  wait(1, sec);
-  chassis.drive_distance(-16, -90, 2, 12, 10, 10, 9000);
-  wait(1, sec);
+  chassis.drive_distance(-33.5, -90, 8, 12, 10, 10, 9000);
+  wait(0.5, sec);
+  chassis.drive_distance(-12, -90, 3, 12, 10, 10, 9000);
+  wait(0.5, sec);
   solonoidA.close();
   wait(0.6, sec);
   chassis.turn_to_angle(180);
@@ -469,16 +470,6 @@ void skillsAuton(){
   chassis.drive_distance(-7.5);
   wait(0.3, sec);
   chassis.drive_distance(4);
-  // time to addthird stake
-
-
-
-
-
-
-  
-  // Step 3: Cut across the middle
-  // Step 4: Load the second stake
 }
 
 void autonomous(void) {
@@ -488,9 +479,9 @@ void autonomous(void) {
 
   //red_negative_auton(); //slot 3
   
-  red_positive_auton(); //slot 4
+  //red_positive_auton(); //slot 4
 
-  //skillsAuton();          //slot 5
+  skillsAuton();          //slot 5
 }
 
 /*---------------------------------------------------------------------------*/
