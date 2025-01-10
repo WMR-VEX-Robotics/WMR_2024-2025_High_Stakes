@@ -441,7 +441,34 @@ void skillsAuton(){
   hook_motor.spin(vex::directionType::rev, 100, percent);
   solonoidA.open();
   chassis.drive_distance(-7.5);
-  chassis.drive_distance(4);
+  chassis.drive_distance(9.5);
+  hook_motor.spin(vex::directionType::fwd, 100, percent);
+  chassis.turn_to_angle(180);
+  
+
+
+  //3/4 field code
+  chassis.drive_distance(26);
+  wait(0.3, sec);
+  hook_motor.stop();
+  chassis.turn_to_angle(-90);
+  chassis.drive_distance(10);
+  chassis.turn_to_angle(45);
+  chassis.drive_distance(-11, 45, 6, 12, 10, 10, 9000);
+  solonoidA.close();
+  hook_motor.spin(fwd, 100, percent);
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(15);
+  chassis.turn_to_angle(180);
+  chassis.drive_distance(5);
+  solonoidB.open();
+  chassis.turn_to_angle(125);
+  chassis.drive_distance(7);
+  chassis.turn_to_angle(-60);
+  solonoidA.open();
+  chassis.drive_distance(-5);
+  chassis.drive_distance(6);
+
 }
 
 void autonomous(void) {
