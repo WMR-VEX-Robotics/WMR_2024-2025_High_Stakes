@@ -465,6 +465,7 @@ void skillsAuton(){
   chassis.turn_to_angle(125);
   chassis.drive_distance(7);
   chassis.turn_to_angle(-60);
+  hook_motor.spin(vex::directionType::rev, 100, percent);
   solonoidA.open();
   chassis.drive_distance(-5);
   chassis.drive_distance(6);
