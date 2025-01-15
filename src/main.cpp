@@ -221,8 +221,8 @@ void autoDoinkBlue() {
 }
 
 void autoDoink() {
-  //autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
-  autoDoinkBlue();
+  autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
+  //autoDoinkBlue();
 }
 
 int threadedAutoDoink(void* p) {
@@ -389,31 +389,33 @@ void skillsAuton(){
   wait(0.6, sec);
   chassis.drive_distance(8.7);
   chassis.drive_distance(-0.8);
-  chassis.turn_to_angle(-5);
+  chassis.turn_to_angle(-2);
   wait(0.1, sec);
   chassis.drive_distance(8.6);
   wait(0.5, sec);
   chassis.drive_distance(5.4);
-  chassis.drive_distance(-5.6);
+  chassis.drive_distance(-5.3);
   chassis.turn_to_angle(-87.5);
   wait(0.1, sec);
   chassis.drive_distance(5);
   chassis.turn_to_angle(155);
-  wait(1.83, sec);
+  hook_motor.spin(vex::directionType::rev, 100, percent);
+  wait(1, sec);
   solonoidA.open();
   chassis.drive_distance(-7.5);
   
   //1/2 field code
   chassis.drive_distance(4); //subject to change
+  hook_motor.spin(vex::directionType::fwd, 100, percent);
   setdtBrakemode(vex::brakeType::brake); // added
-  chassis.turn_to_angle(-83);
-  wait(0.3, sec);
+  chassis.turn_to_angle(-94);
+  wait(1, sec);
   setdtBrakemode(vex::brakeType::coast); // added
   hook_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(-33.5, -90, 8, 12, 10, 10, 9000);
   chassis.drive_distance(-13, -90, 3, 12, 10, 10, 9000);
   solonoidA.close();
-  chassis.drive_distance(1.5);
+  chassis.drive_distance(1.9);
   wait(0.1, sec);
   chassis.turn_to_angle(180);
   wait(0.1, sec);
@@ -432,12 +434,12 @@ void skillsAuton(){
   chassis.turn_to_angle(90);
   wait(0.1, sec);
   chassis.drive_distance(5);
-  chassis.turn_to_angle(183);
+  chassis.turn_to_angle(177);
   wait(0.3, sec);
   chassis.drive_distance(24);
   chassis.drive_distance(-24);
   chassis.turn_to_angle(-155);
-  wait(0.3, sec);
+  wait(0.9, sec);
   hook_motor.spin(vex::directionType::rev, 100, percent);
   solonoidA.open();
   chassis.drive_distance(-7.5);
@@ -473,7 +475,7 @@ void skillsAuton(){
 }
 
 void autonomous(void) {
-  //blue_negative_auton(); //best slot 1
+  blue_negative_auton(); //best slot 1
 
   //blue_positive_auton(); //slot 2
 
@@ -481,7 +483,7 @@ void autonomous(void) {
   
   //red_positive_auton(); //slot 4
 
-  skillsAuton();          //slot 5
+  //skillsAuton();          //slot 5
 }
 
 /*---------------------------------------------------------------------------*/
