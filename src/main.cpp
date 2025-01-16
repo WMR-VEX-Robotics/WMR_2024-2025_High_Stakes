@@ -221,8 +221,8 @@ void autoDoinkBlue() {
 }
 
 void autoDoink() {
-  autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
-  //autoDoinkBlue();
+  //autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
+  autoDoinkBlue();
 }
 
 int threadedAutoDoink(void* p) {
@@ -379,7 +379,7 @@ void skillsAuton(){
   solonoidA.close();
   wait(0.4, sec);
   chassis.turn_to_angle(180);
-  intake_motor.spin(fwd, 100, percent);
+  intake_motor.spin(fwd, 90, percent);
   hook_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(11);
   chassis.drive_distance(-2);
@@ -406,7 +406,7 @@ void skillsAuton(){
   chassis.drive_distance(4); //subject to change
   hook_motor.spin(vex::directionType::fwd, 100, percent);
   setdtBrakemode(vex::brakeType::brake); // added
-  chassis.turn_to_angle(-94);
+  chassis.turn_to_angle(-98.6);
   wait(1, sec);
   setdtBrakemode(vex::brakeType::coast); // added
   hook_motor.spin(vex::directionType::fwd, 100, percent);
@@ -419,7 +419,7 @@ void skillsAuton(){
   wait(0.1, sec);
   chassis.drive_distance(10);
   chassis.drive_distance(-2.1);
-  chassis.turn_to_angle(93);
+  chassis.turn_to_angle(90);
   wait(0.3, sec);
   chassis.drive_distance(9.3);
   chassis.drive_distance(-0.8);
@@ -448,8 +448,8 @@ void skillsAuton(){
 
 
   //3/4 or most field code
-  chassis.drive_distance(24);
-  wait(0.3, sec);
+  chassis.drive_distance(21);
+  wait(0.2, sec);
   hook_motor.stop();
   chassis.turn_to_angle(-90);
   chassis.drive_distance(10);
@@ -464,9 +464,9 @@ void skillsAuton(){
   chassis.turn_to_angle(-31);
   chassis.drive_distance(12.5);
   chassis.turn_to_angle(20);
-  chassis.drive_distance(-29.5);
+  chassis.drive_distance(-35.5);
   solonoidA.open();
-  chassis.drive_distance(16);
+  chassis.drive_distance(10);
   chassis.turn_to_angle(127);
   chassis.drive_distance(65);
   /*chassis.turn_to_angle(90);
@@ -485,7 +485,7 @@ void skillsAuton(){
 }
 
 void autonomous(void) {
-  blue_negative_auton(); //best slot 1
+  //blue_negative_auton(); //best slot 1
 
   //blue_positive_auton(); //slot 2
 
@@ -493,7 +493,7 @@ void autonomous(void) {
   
   //red_positive_auton(); //slot 4
 
-  //skillsAuton();          //slot 5
+  skillsAuton();          //slot 5
 }
 
 /*---------------------------------------------------------------------------*/
