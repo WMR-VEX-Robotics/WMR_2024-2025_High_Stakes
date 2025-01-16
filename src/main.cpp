@@ -447,7 +447,7 @@ void skillsAuton(){
   
 
 
-  //3/4 field code
+  //3/4 or most field code
   chassis.drive_distance(24);
   wait(0.3, sec);
   hook_motor.stop();
