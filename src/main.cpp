@@ -234,7 +234,7 @@ int threadedAutoDoink(void* p) {
 
 
 void pre_auton(void) {
-  //inertialSensor5.calibrate();
+  //inertialSensor.calibrate();
   //ensureCalibration();
   solonoidA.open();
   solonoidB.close();
@@ -271,7 +271,6 @@ void blue_negative_auton(){
   wait(0.1,sec);
   intake_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(7.5);
-  hook_motor.spin(vex::directionType::fwd, 100, percent);
   wait(0.1, sec);
   chassis.turn_to_angle(-31);
   solonoidB.open();
@@ -284,7 +283,7 @@ void blue_negative_auton(){
   chassis.drive_distance(17);
   chassis.turn_to_angle(90);
   chassis.drive_distance(4);
-  chassis.turn_to_angle(155);
+  chassis.turn_to_angle(150);
   chassis.drive_distance(6.5);
   
 }
@@ -315,7 +314,7 @@ void blue_positive_auton() {
   chassis.turn_to_angle(-90);
   chassis.drive_distance(4);
   chassis.turn_to_angle(-155);
-  chassis.drive_distance(6.5);
+  chassis.drive_distance(8.5);
 }
 
 void red_negative_auton() {
@@ -352,7 +351,6 @@ void red_positive_auton(){
   wait(0.1,sec);
   intake_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(7.5);
-  hook_motor.spin(vex::directionType::fwd, 100, percent);
   wait(0.1, sec);
   chassis.turn_to_angle(-31);
   solonoidB.open();
@@ -365,7 +363,7 @@ void red_positive_auton(){
   chassis.drive_distance(17);
   chassis.turn_to_angle(90);
   chassis.drive_distance(4);
-  chassis.turn_to_angle(155);
+  chassis.turn_to_angle(150);
   chassis.drive_distance(8.5);
 }
 
@@ -445,12 +443,12 @@ void skillsAuton(){
   chassis.drive_distance(-7.5);
   chassis.drive_distance(11.5);
   hook_motor.spin(vex::directionType::fwd, 100, percent);
-  chassis.turn_to_angle(180);
+  chassis.turn_to_angle(178);
   
 
 
   //3/4 field code
-  chassis.drive_distance(27);
+  chassis.drive_distance(24);
   wait(0.3, sec);
   hook_motor.stop();
   chassis.turn_to_angle(-90);
@@ -459,7 +457,19 @@ void skillsAuton(){
   chassis.drive_distance(-15, 45, 6, 12, 10, 10, 9000);
   solonoidA.close();
   hook_motor.spin(fwd, 100, percent);
-  chassis.turn_to_angle(90);
+  chassis.turn_to_angle(-45);
+  chassis.drive_distance(15);
+  chassis.turn_to_angle(-90);
+  chassis.drive_distance(10);
+  chassis.turn_to_angle(-31);
+  chassis.drive_distance(12.5);
+  chassis.turn_to_angle(20);
+  chassis.drive_distance(-29.5);
+  solonoidA.open();
+  chassis.drive_distance(16);
+  chassis.turn_to_angle(127);
+  chassis.drive_distance(65);
+  /*chassis.turn_to_angle(90);
   chassis.drive_distance(15);
   chassis.turn_to_angle(180);
   chassis.drive_distance(5);
@@ -470,7 +480,7 @@ void skillsAuton(){
   hook_motor.spin(vex::directionType::rev, 100, percent);
   solonoidA.open();
   chassis.drive_distance(-5);
-  chassis.drive_distance(6);
+  chassis.drive_distance(6);*/
 
 }
 
