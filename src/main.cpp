@@ -331,11 +331,15 @@ void red_negative_auton() {
   wait(0.1,sec);
   chassis.drive_distance(7.5);
   wait(0.1, sec);
-  chassis.turn_to_angle(297);
-  wait(0.1, sec);
-  chassis.drive_distance(18);
-  wait(0.1, sec);
-  chassis.drive_distance(4.5);
+  chassis.turn_to_angle(0);
+  chassis.drive_distance(7.5);
+  chassis.turn_to_angle(-90);
+  chassis.drive_distance(15);
+  chassis.drive_distance(-5);
+  chassis.drive_distance(10);
+  chassis.drive_distance(-7);
+  chassis.turn_to_angle(180);
+  chassis.drive_distance(15);
 }
 
 void red_positive_auton(){
@@ -379,21 +383,21 @@ void skillsAuton(){
   solonoidA.close();
   wait(0.4, sec);
   chassis.turn_to_angle(180);
-  intake_motor.spin(fwd, 90, percent);
+  intake_motor.spin(fwd, 95, percent);
   hook_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(11);
   chassis.drive_distance(-2);
-  chassis.turn_to_angle(-89.7);
+  chassis.turn_to_angle(-90);
   wait(0.6, sec);
   chassis.drive_distance(8.7);
   chassis.drive_distance(-0.8);
-  chassis.turn_to_angle(-2);
+  chassis.turn_to_angle(0);
   wait(0.1, sec);
   chassis.drive_distance(8.6);
   wait(0.5, sec);
   chassis.drive_distance(5.4);
   chassis.drive_distance(-5.3);
-  chassis.turn_to_angle(-87.5);
+  chassis.turn_to_angle(-90);
   wait(0.1, sec);
   chassis.drive_distance(5);
   chassis.turn_to_angle(155);
@@ -403,10 +407,11 @@ void skillsAuton(){
   chassis.drive_distance(-7.5);
   
   //1/2 field code
-  chassis.drive_distance(4); //subject to change
+  chassis.drive_distance(3); //subject to change
+
   hook_motor.spin(vex::directionType::fwd, 100, percent);
   setdtBrakemode(vex::brakeType::brake); // added
-  chassis.turn_to_angle(-98.6);
+  chassis.turn_to_angle(-90);
   wait(0.5, sec);
   setdtBrakemode(vex::brakeType::coast); // added
   hook_motor.spin(vex::directionType::fwd, 100, percent);
@@ -426,13 +431,13 @@ void skillsAuton(){
   chassis.turn_to_angle(0);
   wait(0.1, sec);
   chassis.drive_distance(9);
-  wait(0.5, sec);
+  wait(0.7, sec);
   chassis.drive_distance(5.7);
   chassis.drive_distance(-5,6);
   chassis.turn_to_angle(90);
   wait(0.1, sec);
   chassis.drive_distance(5);
-  chassis.turn_to_angle(177);
+  chassis.turn_to_angle(179);
   wait(0.3, sec);
   chassis.drive_distance(24);
   chassis.drive_distance(-24);
@@ -485,7 +490,6 @@ void skillsAuton(){
   chassis.drive_distance(21);
   solonoidB.close();
   MotorGroupWS.spinFor(fwd, 4, sec);
-
 }
 
 void autonomous(void) {
@@ -493,11 +497,11 @@ void autonomous(void) {
 
   //blue_positive_auton(); //slot 2
 
-  //red_negative_auton(); //slot 3
+  red_negative_auton(); //slot 3
   
   //red_positive_auton(); //slot 4
 
-  skillsAuton();          //slot 5
+  //skillsAuton();          //slot 5
 }
 
 /*---------------------------------------------------------------------------*/
@@ -522,11 +526,11 @@ void usercontrol(void) {
     
 
     if (mainController.ButtonR2.pressing() == true ) {
-      intake_motor.spin(forward, 12.5, volt);
-      hook_motor.spin(forward, 12.5, volt);
+      intake_motor.spin(forward, 100, percent);
+      hook_motor.spin(forward, 100, percent);
     } else if (mainController.ButtonR1.pressing() == true) {
-      intake_motor.spin(reverse, 12.5, volt);
-      hook_motor.spin(reverse, 12.5, volt);
+      intake_motor.spin(reverse, 100, percent);
+      hook_motor.spin(reverse, 100, percent);
     } else if (mainController.ButtonX.pressing() == true) { // for getting onto wall stake contraption
       intake_motor.spin(forward, 4, volt);
       hook_motor.spin(forward , 4, volt);
