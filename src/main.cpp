@@ -398,7 +398,7 @@ void skillsAuton(){
   chassis.drive_distance(5);
   chassis.turn_to_angle(155);
   hook_motor.spin(vex::directionType::rev, 100, percent);
-  wait(1, sec);
+  wait(0.4, sec);
   solonoidA.open();
   chassis.drive_distance(-7.5);
   
@@ -407,7 +407,7 @@ void skillsAuton(){
   hook_motor.spin(vex::directionType::fwd, 100, percent);
   setdtBrakemode(vex::brakeType::brake); // added
   chassis.turn_to_angle(-98.6);
-  wait(1, sec);
+  wait(0.5, sec);
   setdtBrakemode(vex::brakeType::coast); // added
   hook_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(-33.5, -90, 8, 12, 10, 10, 9000);
