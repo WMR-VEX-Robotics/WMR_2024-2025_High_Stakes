@@ -1,10 +1,10 @@
 {
 	"project": {
-		"name": "2023-2024_Legacy",
-		"slot": 3,
-		"description": "The 42747 Legacy team bot code for 2023-2024 Over Under using JAR-Template for odometry. This code is defined for configuration Occiptor the current and only configuration of bot",
+		"name": "BlueNeg Perseverance25",
+		"slot": 1,
+		"description": "42747W Perseverance auton code",
 		"platform": "V5",
-		"creationDate": "Wed, 04 Dec 2024 19:42:06 GMT",
+		"creationDate": "Fri, 17 January 2025 9:59PM EST",
 		"language": "cpp",
 		"sdkVersion": "V5_20240802_15_00_00",
 		"cpp": {
