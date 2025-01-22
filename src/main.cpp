@@ -428,20 +428,20 @@ void skillsAuton(){
   chassis.drive_distance(9);
   wait(0.7, sec);
   chassis.drive_distance(5.7);
-  chassis.drive_distance(-5,6);
+  chassis.drive_distance(-5.6);
   chassis.turn_to_angle(90);
   wait(0.1, sec);
   chassis.drive_distance(5);
   chassis.turn_to_angle(179);
   wait(0.3, sec);
-  chassis.drive_distance(24);
-  chassis.drive_distance(-24);
+  chassis.drive_distance(23);
+  chassis.drive_distance(-23);
   chassis.turn_to_angle(-155);
   wait(0.9, sec);
   hook_motor.spin(vex::directionType::rev, 100, percent);
   solonoidA.open();
   chassis.drive_distance(-7.5);
-  chassis.drive_distance(10.75);
+  chassis.drive_distance(10);
   hook_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.turn_to_angle(179.5);
   
@@ -453,9 +453,10 @@ void skillsAuton(){
   hook_motor.stop();
   chassis.drive_distance(-4.7);
   chassis.turn_to_angle(-90);
-  chassis.drive_distance(10);
+  chassis.drive_distance(11);
+  chassis.drive_distance(-1);
   chassis.turn_to_angle(45);
-  chassis.drive_distance(-17, 45, 6, 12, 10, 10, 9000);
+  chassis.drive_distance(-18, 45, 6, 12, 10, 10, 9000);
   solonoidA.close();
   hook_motor.spin(fwd, 100, percent);
   /*chassis.turn_to_angle(-45); path 1 nah
@@ -493,11 +494,11 @@ void autonomous(void) {
 
   //blue_positive_auton(); //slot 2
 
-  red_negative_auton(); //slot 3
+  //red_negative_auton(); //slot 3
   
   //red_positive_auton(); //slot 4
 
-  //skillsAuton();          //slot 5
+  skillsAuton();          //slot 5
 }
 
 /*---------------------------------------------------------------------------*/
