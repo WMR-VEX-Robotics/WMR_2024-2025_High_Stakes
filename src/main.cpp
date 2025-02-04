@@ -20,11 +20,9 @@ motor dwlf_motor = motor(PORT20, true);
 motor dwrt_motor = motor(PORT10, false);
 motor intake_motor = motor(PORT4, true);
 motor hook_motor = motor(PORT3, true); 
-motor wall_stake_motor_one = motor(PORT16, true);
-motor wall_stake_motor_two = motor(PORT17, false);
+motor wall_stake_motor = motor(PORT16, true);
 motor_group MotorGrouplf = motor_group(tplf_motor, dwlf_motor);
 motor_group MotorGrouprt = motor_group(tprt_motor, dwrt_motor);
-motor_group MotorGroupWS = motor_group(wall_stake_motor_one, wall_stake_motor_two);
 //motor_group allDrive = motor_group(tplf_motor, dwlf_motor, tprt_motor, dwrt_motor))
 controller mainController = controller(primary);
 pneumatics solonoidA = pneumatics(Brain.ThreeWirePort.F); //goal grabber pneumatics
@@ -114,8 +112,7 @@ void motorsHalt(){
   dwrt_motor.stop(coast);
   intake_motor.stop(brake);
   hook_motor.stop(brake);
-  wall_stake_motor_one.stop(brake);
-  wall_stake_motor_two.stop(brake);
+  wall_stake_motor.stop(brake);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -185,11 +182,11 @@ void autoDoinkRed() {
     std::string result = "";
     if(read <= 20){
       result = "red";
-      solonoidC.close();
+      hook_motor.stop();
     }
     else if(read >= 100){
       result = "blue";
-      solonoidC.open();
+      hook_motor.spin(fwd, 100, percent);
     }
     else {
       result = "other";
@@ -203,13 +200,13 @@ void autoDoinkRed() {
 void autoDoinkBlue() {
     int read = colorSensor.hue();
     std::string result = "";
-    if(read <= 20){
-      result = "red";
-      solonoidC.open();
-    }
-    else if(read >= 100){
+    if(read >= 100){
       result = "blue";
-      solonoidC.close();
+      hook_motor.stop();
+    }
+    else if(read <= 20){
+      result = "red";
+      hook_motor.spin(fwd, 75, percent);
     }
     else {
       result = "other";
@@ -221,8 +218,8 @@ void autoDoinkBlue() {
 }
 
 void autoDoink() {
-  //autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
-  autoDoinkBlue();
+  autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
+  //autoDoinkBlue();
 }
 
 int threadedAutoDoink(void* p) {
@@ -269,7 +266,7 @@ void blue_negative_auton(){
   wait(0.1, sec);
   chassis.turn_to_angle(-90);
   wait(0.1,sec);
-  intake_motor.spin(vex::directionType::fwd, 100, percent);
+  intake_motor.spin(vex::directionType::fwd, 75, percent);
   chassis.drive_distance(7.5);
   wait(0.1, sec);
   chassis.turn_to_angle(-31);
@@ -289,7 +286,7 @@ void blue_negative_auton(){
 
 void blue_positive_auton() {
   thread(threadedAutoDoink, nullptr);
-  intake_motor.spin(fwd, 100, percent);
+  intake_motor.spin(fwd, 75, percent);
   chassis.drive_distance(-12);
   wait(0.1,sec);
   solonoidA.close();
@@ -314,7 +311,7 @@ void blue_positive_auton() {
 
 void red_negative_auton() {
   thread(threadedAutoDoink, nullptr);
-  intake_motor.spin(fwd, 100, percent);
+  intake_motor.spin(fwd, 75, percent);
   chassis.drive_distance(-12);
   wait(0.1,sec);
   solonoidA.close();
@@ -348,7 +345,7 @@ void red_positive_auton(){
   wait(0.1, sec);
   chassis.turn_to_angle(-90);
   wait(0.1,sec);
-  intake_motor.spin(vex::directionType::fwd, 100, percent);
+  intake_motor.spin(vex::directionType::fwd, 75, percent);
   chassis.drive_distance(7.5);
   wait(0.1, sec);
   chassis.turn_to_angle(-31);
@@ -378,7 +375,7 @@ void skillsAuton(){
   solonoidA.close();
   wait(0.4, sec);
   chassis.turn_to_angle(180);
-  intake_motor.spin(fwd, 95, percent);
+  intake_motor.spin(fwd, 75, percent);
   hook_motor.spin(vex::directionType::fwd, 100, percent);
   chassis.drive_distance(11);
   chassis.drive_distance(-2);
@@ -483,14 +480,12 @@ void skillsAuton(){
   chassis.drive_distance(15);
   chassis.turn_to_angle(42.5);
   solonoidB.open();
-  MotorGroupWS.spinFor(vex::directionType::rev, 2, sec);
   solonoidB.close();
   chassis.drive_distance(21);
-  MotorGroupWS.spinFor(fwd, 5, sec);
 }
 
 void autonomous(void) {
-  //blue_negative_auton(); //best slot 1
+  blue_negative_auton(); //best slot 1
 
   //blue_positive_auton(); //slot 2
 
@@ -498,7 +493,7 @@ void autonomous(void) {
   
   //red_positive_auton(); //slot 4
 
-  skillsAuton();          //slot 5
+  //skillsAuton();          //slot 5
 }
 
 /*---------------------------------------------------------------------------*/
@@ -523,23 +518,22 @@ void usercontrol(void) {
     
 
     if (mainController.ButtonR2.pressing() == true ) {
-      intake_motor.spin(forward, 100, percent);
+      intake_motor.spin(forward, 75, percent);
       hook_motor.spin(forward, 100, percent);
     } else if (mainController.ButtonR1.pressing() == true) {
-      intake_motor.spin(reverse, 100, percent);
+      intake_motor.spin(reverse, 75, percent);
       hook_motor.spin(reverse, 100, percent);
     } else if (mainController.ButtonX.pressing() == true) { // for getting onto wall stake contraption
       intake_motor.spin(forward, 4, volt);
       hook_motor.spin(forward , 4, volt);
     } else if(mainController.ButtonDown.pressing() == true){
-      MotorGroupWS.spin(vex::directionType::fwd, 100, percent);
+      wall_stake_motor.spin(vex::directionType::fwd, 100, percent);
     } else if(mainController.ButtonUp.pressing() == true){
-      MotorGroupWS.spin(vex::directionType::rev, 100, percent);
+      wall_stake_motor.spin(vex::directionType::rev, 100, percent);
     } else {
       intake_motor.stop(coast);
       hook_motor.stop(coast);
-      wall_stake_motor_one.stop(coast);
-      wall_stake_motor_two.stop(coast);
+      wall_stake_motor.stop(coast);
     }
  
     autoDoink();
