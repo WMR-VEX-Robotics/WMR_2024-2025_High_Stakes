@@ -186,7 +186,6 @@ void autoDoinkRed() {
     }
     else if(read >= 100){
       result = "blue";
-      hook_motor.spin(fwd, 100, percent);
     }
     else {
       result = "other";
@@ -206,7 +205,6 @@ void autoDoinkBlue() {
     }
     else if(read <= 20){
       result = "red";
-      hook_motor.spin(fwd, 75, percent);
     }
     else {
       result = "other";
@@ -484,8 +482,15 @@ void skillsAuton(){
   chassis.drive_distance(21);
 }
 
+void pidTest() {
+  solonoidA.close();
+  chassis.drive_distance(-8.5);
+  chassis.drive_distance(-6);
+  
+}
+
 void autonomous(void) {
-  blue_negative_auton(); //best slot 1
+  //blue_negative_auton(); //best slot 1
 
   //blue_positive_auton(); //slot 2
 
@@ -494,6 +499,8 @@ void autonomous(void) {
   //red_positive_auton(); //slot 4
 
   //skillsAuton();          //slot 5
+
+  pidTest();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -533,7 +540,7 @@ void usercontrol(void) {
     } else {
       intake_motor.stop(coast);
       hook_motor.stop(coast);
-      wall_stake_motor.stop(coast);
+      wall_stake_motor.stop(brake);
     }
  
     autoDoink();
