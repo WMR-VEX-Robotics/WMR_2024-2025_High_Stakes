@@ -368,35 +368,33 @@ void skillsAuton(){
   default_constants();
   //mid start code
   wall_stake_motor.setVelocity(100, percent);
-  wall_stake_motor.spinFor(forward, 2, seconds);
-  chassis.drive_distance(3);
-  wall_stake_motor.spinFor(reverse, 2, seconds);
+  wall_stake_motor.spinFor(forward, 1.3, seconds);
+  chassis.drive_distance(2.2);
+  wall_stake_motor.spinFor(reverse, 1.7, seconds);
   chassis.turn_to_angle(-90);
-  
-  chassis.drive_distance(-4);
-  chassis.drive_distance(-2.5);
+  wait(0.3, sec);
+  chassis.drive_distance(-5);
+  chassis.drive_distance(-1.5);
   solonoidA.close();
   chassis.turn_to_angle(0);
 
   //1/4th field code
   intake_motor.spin(fwd, 75, percent);
   hook_motor.spin(vex::directionType::fwd, 75, percent);
-  chassis.drive_distance(6);
-  chassis.drive_distance(-2);
-  chassis.turn_to_angle(-90);
-  wait(0.6, sec);
-  chassis.drive_distance(6);
-  chassis.drive_distance(-0.8);
-  chassis.turn_to_angle(0);
+  chassis.drive_distance(7);
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(7.8);
+  chassis.drive_distance(-0.9);
+  chassis.turn_to_angle(180);
   wait(0.1, sec);
   chassis.drive_distance(8.6);
   wait(0.5, sec);
-  chassis.drive_distance(5.4);
-  chassis.drive_distance(-2.7);
-  chassis.turn_to_angle(-90);
+  chassis.drive_distance(2.4);
+  chassis.drive_distance(-3.3);
+  chassis.turn_to_angle(90);
   wait(0.1, sec);
   chassis.drive_distance(5);
-  chassis.turn_to_angle(155);
+  chassis.turn_to_angle(-25);
   hook_motor.spin(vex::directionType::rev, 100, percent);
   wait(0.4, sec);
   solonoidA.open();
@@ -508,9 +506,9 @@ void autonomous(void) {
   
   //red_positive_auton(); //slot 4
 
-  //skillsAuton();          //slot 5
+  skillsAuton();          //slot 5
 
-  pidTest();
+  //pidTest();
 }
 
 /*---------------------------------------------------------------------------*/
