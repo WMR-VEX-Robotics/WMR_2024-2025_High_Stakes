@@ -366,27 +366,33 @@ void red_positive_auton(){
 
 void skillsAuton(){
   default_constants();
-  thread(threadedAutoDoink, nullptr);
+  //mid start code
+  wall_stake_motor.setVelocity(100, percent);
+  wall_stake_motor.spinFor(forward, 2, seconds);
+  chassis.drive_distance(3);
+  wall_stake_motor.spinFor(reverse, 2, seconds);
+  chassis.turn_to_angle(-90);
+  
+  chassis.drive_distance(-4);
+  chassis.drive_distance(-2.5);
+  solonoidA.close();
+  chassis.turn_to_angle(0);
 
   //1/4th field code
-  chassis.drive_distance(-4); 
-  solonoidA.close();
-  wait(0.4, sec);
-  chassis.turn_to_angle(180);
   intake_motor.spin(fwd, 75, percent);
-  hook_motor.spin(vex::directionType::fwd, 100, percent);
-  chassis.drive_distance(11);
+  hook_motor.spin(vex::directionType::fwd, 75, percent);
+  chassis.drive_distance(6);
   chassis.drive_distance(-2);
   chassis.turn_to_angle(-90);
   wait(0.6, sec);
-  chassis.drive_distance(8.7);
+  chassis.drive_distance(6);
   chassis.drive_distance(-0.8);
   chassis.turn_to_angle(0);
   wait(0.1, sec);
   chassis.drive_distance(8.6);
   wait(0.5, sec);
   chassis.drive_distance(5.4);
-  chassis.drive_distance(-5.3);
+  chassis.drive_distance(-2.7);
   chassis.turn_to_angle(-90);
   wait(0.1, sec);
   chassis.drive_distance(5);
@@ -480,12 +486,16 @@ void skillsAuton(){
   solonoidB.open();
   solonoidB.close();
   chassis.drive_distance(21);
+  
 }
 
 void pidTest() {
+  
+  //chassis.drive_distance(-8.5);
+  chassis.drive_distance(7);
+  hook_motor.spin(fwd);
+  //chassis.drive_distance(-4);
   solonoidA.close();
-  chassis.drive_distance(-8.5);
-  chassis.drive_distance(-6);
   
 }
 
@@ -529,7 +539,7 @@ void usercontrol(void) {
       hook_motor.spin(forward, 100, percent);
     } else if (mainController.ButtonR1.pressing() == true) {
       intake_motor.spin(reverse, 75, percent);
-      hook_motor.spin(reverse, 100, percent);
+      hook_motor.spin(reverse, 62, percent);
     } else if (mainController.ButtonX.pressing() == true) { // for getting onto wall stake contraption
       intake_motor.spin(forward, 4, volt);
       hook_motor.spin(forward , 4, volt);
