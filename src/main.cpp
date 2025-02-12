@@ -216,8 +216,8 @@ void autoDoinkBlue() {
 }
 
 void autoDoink() {
-  autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
-  //autoDoinkBlue();
+  //autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
+  autoDoinkBlue();
 }
 
 int threadedAutoDoink(void* p) {
@@ -240,7 +240,7 @@ void pre_auton(void) {
   //ensureCalibration();
   solonoidA.open();
   solonoidB.close();
-  solonoidC.open();
+  solonoidC.close();
   setdtBrakemode(brake);
   wait(25, msec);
   setdtBrakemode(brake);
@@ -393,34 +393,36 @@ void skillsAuton(){
   wait(0.5, sec);
   turnTo(90);
   chassis.drive_distance(7.35);
-  chassis.drive_distance(-1);
+  chassis.drive_distance(-1.35);
   turnTo(180);
   chassis.drive_distance(6);
   wait(0.5, sec);
-  chassis.drive_distance(5);
+  chassis.drive_distance(4);
   wait(0.5, sec);
-  chassis.drive_distance(-5.89);
+  chassis.drive_distance(-4.5);
   wait(0.3, sec);
   turnTo(90);
   chassis.drive_distance(4.5);
-  chassis.drive_distance(-1.5);
-  turnTo(0);
+  chassis.drive_distance(-1);
+  turnTo(0.5);
   chassis.drive_distance(9.41);
-  chassis.drive_distance(4);
+  chassis.drive_distance(4.5);
   chassis.drive_distance(-15);
   turnTo(-30);
+  hook_motor.spin(reverse, 10, percent);
   hook_motor.stop();
   solonoidA.open();
   chassis.drive_distance(-4);
-  chassis.drive_distance(10);
-  turnTo(0);
-  hook_motor.spin(fwd, 15.8, percent);
-  chassis.drive_distance(14);
-  chassis.drive_distance(-3.7);
-  wait(0.3, sec);
-  hook_motor.spin(reverse, 35, percent);
+  chassis.drive_distance(7);
+  turnTo(1.2);
+  hook_motor.spin(fwd, 20, percent);
+  chassis.drive_distance(12);
+  chassis.drive_distance(4);
+  chassis.drive_distance(-5.35);
+  wait(0.75, sec);
+  hook_motor.spin(reverse, 25, percent);
   turnTo(-90);
-  chassis.drive_distance(-6);
+  chassis.drive_distance(-4.76);
   wall_stake_motor.spinFor(fwd, 1.4, sec);
   chassis.drive_distance(3.5);
   wall_stake_motor.spinFor(reverse, 1.5, sec);
@@ -494,14 +496,19 @@ void skillsAuton(){
 }
 
 void pidTest() {
+  default_constants();
+  
   solonoidA.close();
+
   wait(1.5, sec);
   //chassis.drive_distance(-8.5);
   //chassis.drive_distance(7);
   //hook_motor.spin(fwd);
   //chassis.drive_distance(-4);
   //solonoidA.close();
-  chassis.turn_to_angle(90);
+  chassis.drive_distance(3);
+  wait(0.3, sec);
+  turnTo(90);
   
 }
 
