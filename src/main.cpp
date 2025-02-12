@@ -190,10 +190,10 @@ void autoDoinkRed() {
     else {
       result = "other";
     }
-    Brain.Screen.clearScreen();
+    /*Brain.Screen.clearScreen();
     Brain.Screen.setCursor(1, 1);
 
-    Brain.Screen.print(result.c_str());
+    Brain.Screen.print(result.c_str());*/
 }
 
 void autoDoinkBlue() {
@@ -209,10 +209,10 @@ void autoDoinkBlue() {
     else {
       result = "other";
     }
-    Brain.Screen.clearScreen();
+    /*Brain.Screen.clearScreen();
     Brain.Screen.setCursor(1, 1);
 
-    Brain.Screen.print(result.c_str());
+    Brain.Screen.print(result.c_str());*/
 }
 
 void autoDoink() {
@@ -225,6 +225,13 @@ int threadedAutoDoink(void* p) {
     autoDoink();
   }
   return 0;
+}
+
+void turnTo(float x) {
+  setdtBrakemode(vex::brakeType::brake); // added
+  chassis.turn_to_angle(x);
+  wait(0.3, sec);
+  setdtBrakemode(vex::brakeType::coast);
 }
 
 
@@ -241,6 +248,7 @@ void pre_auton(void) {
   chassis.set_coordinates(0,0,0);
   wait(25, msec);
   Brain.Screen.clearScreen();
+  Brain.Screen.drawImageFromFile("Name.bmp", 0, 0);
   autoDoink();
 }
 
@@ -369,52 +377,49 @@ void skillsAuton(){
   //mid start code
   wall_stake_motor.setVelocity(100, percent);
   wall_stake_motor.spinFor(forward, 1.3, seconds);
-  chassis.drive_distance(2.67);
+  chassis.drive_distance(2.66);
   wall_stake_motor.spinFor(reverse, 1.4, seconds);
-  chassis.turn_to_angle(-90);
-  wait(0.3, sec);
+  turnTo(-90);
   chassis.drive_distance(-4.5);
   chassis.drive_distance(-2.75);
   solonoidA.close();
   wait(0.75, sec);
-  chassis.turn_to_angle(0);
+  turnTo(0);
 
   //1/4th field code
   intake_motor.spin(fwd, 100, percent);
   hook_motor.spin(vex::directionType::fwd, 75, percent);
   chassis.drive_distance(6);
   wait(0.5, sec);
-  chassis.turn_to_angle(86.75);
-  wait(0.5, sec);
+  turnTo(90);
   chassis.drive_distance(7.35);
   chassis.drive_distance(-1);
-  chassis.turn_to_angle(180);
+  turnTo(180);
   chassis.drive_distance(6);
   wait(0.5, sec);
   chassis.drive_distance(5);
   wait(0.5, sec);
-  chassis.drive_distance(-3.3);
-  wait(0.5, sec);
-  chassis.turn_to_angle(90);
+  chassis.drive_distance(-5.89);
+  wait(0.3, sec);
+  turnTo(90);
   chassis.drive_distance(4.5);
   chassis.drive_distance(-1.5);
-  chassis.turn_to_angle(0);
-  wait(0.5, sec);
-  chassis.drive_distance(12);
+  turnTo(0);
+  chassis.drive_distance(9.41);
   chassis.drive_distance(4);
   chassis.drive_distance(-15);
-  chassis.turn_to_angle(-30);
+  turnTo(-30);
   hook_motor.stop();
   solonoidA.open();
   chassis.drive_distance(-4);
   chassis.drive_distance(10);
-  chassis.turn_to_angle(0);
+  turnTo(0);
   hook_motor.spin(fwd, 15.8, percent);
   chassis.drive_distance(14);
-  chassis.drive_distance(-5);
+  chassis.drive_distance(-3.7);
   wait(0.3, sec);
   hook_motor.spin(reverse, 35, percent);
-  chassis.turn_to_angle(-93.5);
+  turnTo(-90);
   chassis.drive_distance(-6);
   wall_stake_motor.spinFor(fwd, 1.4, sec);
   chassis.drive_distance(3.5);
