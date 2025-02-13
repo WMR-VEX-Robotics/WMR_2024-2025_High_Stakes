@@ -229,8 +229,8 @@ int threadedAutoDoink(void* p) {
 
 void turnTo(float x) {
   setdtBrakemode(vex::brakeType::brake); // added
-  chassis.turn_to_angle(x);
   wait(0.3, sec);
+  chassis.turn_to_angle(x);
   setdtBrakemode(vex::brakeType::coast);
 }
 
@@ -374,7 +374,7 @@ void red_positive_auton(){
 
 void skillsAuton(){
   default_constants();
-  //mid start code
+  //mid-field start code
   wall_stake_motor.setVelocity(100, percent);
   wall_stake_motor.spinFor(forward, 1.3, seconds);
   chassis.drive_distance(2.66);
@@ -390,15 +390,13 @@ void skillsAuton(){
   intake_motor.spin(fwd, 100, percent);
   hook_motor.spin(vex::directionType::fwd, 75, percent);
   chassis.drive_distance(6);
-  wait(0.5, sec);
   turnTo(90);
   chassis.drive_distance(7.35);
   chassis.drive_distance(-1.35);
   turnTo(180);
   chassis.drive_distance(6);
-  wait(0.5, sec);
   chassis.drive_distance(4);
-  wait(0.5, sec);
+  wait(0.3, sec);
   chassis.drive_distance(-4.5);
   wait(0.3, sec);
   turnTo(90);
@@ -413,8 +411,51 @@ void skillsAuton(){
   hook_motor.stop();
   solonoidA.open();
   chassis.drive_distance(-4);
+  chassis.drive_distance(2.3);
+  turnTo(90);
+
+  //1/2 fieldactual
+  chassis.drive_distance(-22.625);
+  chassis.drive_distance(-2.75);
+  solonoidA.close();
+  wait(0.75, sec);
+  turnTo(0);
+  intake_motor.spin(fwd, 100, percent);
+  hook_motor.spin(vex::directionType::fwd, 75, percent);
+  chassis.drive_distance(6);
+  turnTo(-90);
+  chassis.drive_distance(7.35);
+  chassis.drive_distance(-1.35);
+  turnTo(180);
+  chassis.drive_distance(6);
+  chassis.drive_distance(4);
+  wait(0.3, sec);
+  chassis.drive_distance(-4.5);
+  wait(0.3, sec);
+  turnTo(-90);
+  chassis.drive_distance(4.5);
+  chassis.drive_distance(-1);
+  turnTo(-0.5);
+  chassis.drive_distance(9.41);
+  chassis.drive_distance(4.5);
+  chassis.drive_distance(-15);
+  turnTo(30);
+  hook_motor.spin(reverse, 10, percent);
+  hook_motor.stop();
+  solonoidA.open();
+  chassis.drive_distance(-4);
   chassis.drive_distance(7);
-  turnTo(1.2);
+  turnTo(0);
+  chassis.drive_distance(16);
+  turnTo(30);
+  solonoidB.open();
+  chassis.drive_distance(10);
+  chassis.left_swing_to_angle(70);
+  chassis.drive_distance(15);
+  chassis.drive_distance(-1.5);
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(-32.6);
+  /*turnTo(1.2);
   hook_motor.spin(fwd, 20, percent);
   chassis.drive_distance(12);
   chassis.drive_distance(4);
