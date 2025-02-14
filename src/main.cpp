@@ -215,14 +215,68 @@ void autoDoinkBlue() {
     Brain.Screen.print(result.c_str());*/
 }
 
+void autoDoinkRedAuton() {
+  int read = colorSensor.hue();
+  std::string result = "";
+  if(read <= 20){
+    result = "red";
+    hook_motor.stop();
+  }
+  else if(read >= 100){
+    result = "blue";
+    hook_motor.spin(fwd, 75, percent);
+  }
+  else {
+    hook_motor.spin(fwd, 75, percent);
+    result = "other";
+  }
+  /*Brain.Screen.clearScreen();
+  Brain.Screen.setCursor(1, 1);
+
+  Brain.Screen.print(result.c_str());*/
+}
+
+void autoDoinkBlueAuton() {
+  int read = colorSensor.hue();
+  std::string result = "";
+  if(read >= 100){
+    result = "blue";
+    hook_motor.stop();
+  }
+  else if(read <= 20){
+    hook_motor.spin(fwd, 75, percent);
+    result = "red";
+  }
+  else {
+    hook_motor.spin(fwd, 75, percent);
+    result = "other";
+  }
+  /*Brain.Screen.clearScreen();
+  Brain.Screen.setCursor(1, 1);
+
+  Brain.Screen.print(result.c_str());*/
+}
+
 void autoDoink() {
   //autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
   autoDoinkBlue();
 }
 
+void autoDoinkAuton() {
+  //autoDoinkRedAuton(); //set to autoDoinkRedAuton() if on blue side else set to autoDoinkBlue()
+  autoDoinkBlueAuton();
+}
+
 int threadedAutoDoink(void* p) {
   while (true) {
     autoDoink();
+  }
+  return 0;
+}
+
+int threadedAutoDoinkAuton(void* p) {
+  while (true) {
+    autoDoinkAuton();
   }
   return 0;
 }
@@ -262,7 +316,7 @@ void pre_auton(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void blue_negative_auton(){
-  thread(threadedAutoDoink, nullptr);
+  thread(threadedAutoDoinkAuton, nullptr);
   chassis.drive_distance(-12);
   wait(0.1, sec);
   solonoidA.close();
@@ -291,7 +345,7 @@ void blue_negative_auton(){
 }
 
 void blue_positive_auton() {
-  thread(threadedAutoDoink, nullptr);
+  thread(threadedAutoDoinkAuton, nullptr);
   intake_motor.spin(fwd, 75, percent);
   chassis.drive_distance(-12);
   wait(0.1,sec);
@@ -316,13 +370,12 @@ void blue_positive_auton() {
 }
 
 void red_negative_auton() {
-  thread(threadedAutoDoink, nullptr);
   intake_motor.spin(fwd, 100, percent);
   chassis.drive_distance(-4.75);
   chassis.drive_distance(-3.5);
   solonoidA.close();
   wait(0.1, sec);
-  hook_motor.spin(fwd, 70, percent);
+  thread(threadedAutoDoinkAuton, nullptr);
   turnTo(90.5);
   chassis.drive_distance(7.4);
   turnTo(-0.5);
@@ -338,7 +391,7 @@ void red_negative_auton() {
 }
 
 void red_positive_auton(){
-  thread(threadedAutoDoink, nullptr);
+  thread(threadedAutoDoinkAuton, nullptr);
   chassis.drive_distance(-12);
   wait(0.1, sec);
   solonoidA.close();
