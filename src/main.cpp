@@ -31,7 +31,7 @@ pneumatics solonoidC = pneumatics(Brain.ThreeWirePort.G); //color doinker pneuma
 color Red = color(0xFF0000);
 color Blue = color(0x0000FF);
 optical colorSensor = optical(PORT14);
-
+bool runAutonDoink = true;
 
 #pragma endregion
 #pragma region Chassis
@@ -244,11 +244,11 @@ void autoDoinkBlueAuton() {
     hook_motor.stop();
   }
   else if(read <= 20){
-    hook_motor.spin(fwd, 75, percent);
+    hook_motor.spin(fwd, 80, percent);
     result = "red";
   }
   else {
-    hook_motor.spin(fwd, 75, percent);
+    hook_motor.spin(fwd, 80, percent);
     result = "other";
   }
   /*Brain.Screen.clearScreen();
@@ -269,21 +269,32 @@ void autoDoinkAuton() {
 
 int threadedAutoDoink(void* p) {
   while (true) {
-    autoDoink();
+    if(runAutonDoink) {
+      autoDoinkAuton();
+    }
+    else {
+      autoDoink();
+    }
+    Brain.Screen.setCursor(50, 0);
+    Brain.Screen.print("user sort");
   }
   return 0;
 }
 
-int threadedAutoDoinkAuton(void* p) {
+/*int threadedAutoDoinkAuton(void* p) {
   while (true) {
     autoDoinkAuton();
+    wait(5, msec);
+    //Brain.Screen.clearScreen();
+    Brain.Screen.setCursor(0, 0);
+    Brain.Screen.print("auton sort");
   }
   return 0;
-}
+}*/
 
 void turnTo(float x) {
   setdtBrakemode(vex::brakeType::brake); // added
-  wait(0.3, sec);
+  wait(0.15, sec);
   chassis.turn_to_angle(x);
   setdtBrakemode(vex::brakeType::coast);
 }
@@ -303,7 +314,7 @@ void pre_auton(void) {
   wait(25, msec);
   Brain.Screen.clearScreen();
   Brain.Screen.drawImageFromFile("Name.bmp", 0, 0);
-  autoDoink();
+  //autoDoink();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -316,7 +327,7 @@ void pre_auton(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void blue_negative_auton(){
-  thread(threadedAutoDoinkAuton, nullptr);
+  //thread autonSortthread = thread(threadedAutoDoinkAuton, nullptr);
   chassis.drive_distance(-12);
   wait(0.1, sec);
   solonoidA.close();
@@ -345,7 +356,7 @@ void blue_negative_auton(){
 }
 
 void blue_positive_auton() {
-  thread(threadedAutoDoinkAuton, nullptr);
+  //thread(threadedAutoDoinkAuton, nullptr);
   intake_motor.spin(fwd, 75, percent);
   chassis.drive_distance(-12);
   wait(0.1,sec);
@@ -371,27 +382,24 @@ void blue_positive_auton() {
 
 void red_negative_auton() {
   intake_motor.spin(fwd, 100, percent);
-  chassis.drive_distance(-4.75);
-  chassis.drive_distance(-3.5);
+  chassis.drive_distance(-9.5);
   solonoidA.close();
   wait(0.1, sec);
-  thread(threadedAutoDoinkAuton, nullptr);
-  turnTo(90.5);
-  chassis.drive_distance(7.4);
+  thread(threadedAutoDoink, nullptr);
+  turnTo(90);
+  chassis.drive_distance(9.5);
   turnTo(-0.5);
-  chassis.drive_distance(5.5);
-  chassis.turn_to_angle(-89);
-  chassis.drive_distance(7);
-  chassis.drive_distance(4.5);
+  chassis.drive_distance(8);
+  chassis.turn_to_angle(-90);
+  chassis.drive_distance(13.75);
   wait(0.5, sec);
-  chassis.drive_distance(3.5);
+  chassis.drive_distance(5);
   turnTo(180);
-  chassis.drive_distance(4);
-  hook_motor.spin(fwd, 80, percent);
+  chassis.drive_distance(6);
+
 }
 
 void red_positive_auton(){
-  thread(threadedAutoDoinkAuton, nullptr);
   chassis.drive_distance(-12);
   wait(0.1, sec);
   solonoidA.close();
@@ -427,82 +435,69 @@ void skillsAuton(){
   //mid-field start code
   wall_stake_motor.setVelocity(100, percent);
   wall_stake_motor.spinFor(forward, 1.3, seconds);
-  chassis.drive_distance(2.66);
+  chassis.drive_distance(3.25);
   wall_stake_motor.spinFor(reverse, 1.3, seconds);
   turnTo(-90);
-  chassis.drive_distance(-4.5);
-  chassis.drive_distance(-2.75);
+  chassis.drive_distance(-9);
   solonoidA.close();
-  wait(0.75, sec);
-  turnTo(0);
+  wait(0.9, sec);
+  turnTo(-1.1);
 
   //1/4th field code
   intake_motor.spin(fwd, 100, percent);
   hook_motor.spin(vex::directionType::fwd, 75, percent);
-  chassis.drive_distance(6);
-  turnTo(90);
-  chassis.drive_distance(7.35);
-  chassis.drive_distance(-1.35);
-  turnTo(180.75);
-  chassis.drive_distance(6);
-  chassis.drive_distance(4);
-  wait(0.3, sec);
-  chassis.drive_distance(-4.5);
-  wait(0.3, sec);
-  turnTo(90);
-  chassis.drive_distance(4.5);
-  chassis.drive_distance(-1);
-  turnTo(0.5);
-  chassis.drive_distance(9.41);
-  chassis.drive_distance(4.5);
-  chassis.drive_distance(-15);
+  chassis.drive_distance(9);
+  turnTo(89.75);
+  chassis.drive_distance(8.5);
+  turnTo(179.75);
+  chassis.drive_distance(12.5);
+  chassis.drive_distance(-5.2);
+  turnTo(89.5);
+  chassis.drive_distance(5);
+  chassis.drive_distance(-1.7);
+  turnTo(1);
+  chassis.drive_distance(17);
+  chassis.drive_distance(-18.25);
   turnTo(-30);
-  hook_motor.spin(reverse, 10, percent);
-  hook_motor.stop();
   solonoidA.open();
-  chassis.drive_distance(-4);
-  chassis.drive_distance(2.75);
-  turnTo(91);
+  hook_motor.stop();
+  chassis.drive_timeout = 2000;
+  chassis.drive_distance(-6);
+  chassis.drive_timeout = 4050;
+  chassis.drive_distance(4);
+  turnTo(90.75);
 
   //1/2 fieldactual
-  chassis.drive_distance(-22.625);
-  chassis.drive_distance(-2.75);
+  chassis.drive_distance(-22.725);
+  chassis.drive_distance(-5);
   solonoidA.close();
-  wait(0.75, sec);
   turnTo(0);
   intake_motor.spin(fwd, 100, percent);
   hook_motor.spin(vex::directionType::fwd, 75, percent);
-  chassis.drive_distance(6);
+  chassis.drive_distance(9);
   turnTo(-90);
-  chassis.drive_distance(7.35);
-  chassis.drive_distance(-1.35);
-  turnTo(180);
-  chassis.drive_distance(6);
-  chassis.drive_distance(4);
-  wait(0.3, sec);
+  chassis.drive_distance(8.75);
+  turnTo(180.5);
+  chassis.drive_distance(12);
   chassis.drive_distance(-4.5);
-  wait(0.3, sec);
   turnTo(-90);
-  chassis.drive_distance(4.5);
-  chassis.drive_distance(-1);
+  chassis.drive_distance(5);
+  chassis.drive_distance(-1.75);
   turnTo(-0.5);
-  chassis.drive_distance(9.41);
-  chassis.drive_distance(4.5);
-  chassis.drive_distance(-15);
+  chassis.drive_distance(16.25);
+  chassis.drive_distance(-18);
   turnTo(30);
-  hook_motor.stop();
   solonoidA.open();
-  chassis.drive_distance(-4);
-  chassis.drive_distance(7);
-  turnTo(0);
+  hook_motor.stop();
+  chassis.drive_timeout = 2000;
+  chassis.drive_distance(-5);
+  chassis.drive_timeout = 4050;
+  chassis.drive_distance(4);
+  turnTo(20);
+  chassis.drive_distance(50);
+  chassis.turn_to_angle(-70);
   chassis.drive_distance(16);
-  chassis.turn_to_angle(30);
-  chassis.drive_distance(11);
-  turnTo(-70);
-  chassis.drive_distance(15);
-  chassis.drive_distance(-1.5);
-  chassis.turn_to_angle(-91);
-  chassis.drive_distance(-32.6);
+  chassis.drive_distance(-10);
   /*turnTo(1.2);
   hook_motor.spin(fwd, 20, percent);
   chassis.drive_distance(12);
@@ -586,22 +581,22 @@ void skillsAuton(){
 
 void pidTest() {
   default_constants();
-  
-  solonoidA.close();
-
-  wait(1.5, sec);
+ 
   //chassis.drive_distance(-8.5);
   //chassis.drive_distance(7);
   //hook_motor.spin(fwd);
   //chassis.drive_distance(-4);
   //solonoidA.close();
-  chassis.drive_distance(3);
-  wait(0.3, sec);
-  turnTo(90);
+  chassis.drive_distance(-9);
+  wait(0.5, sec);
+  solonoidA.close();
+
   
 }
 
 void autonomous(void) {
+  
+  
   //blue_negative_auton(); //best slot 1
 
   //blue_positive_auton(); //slot 2
@@ -610,9 +605,11 @@ void autonomous(void) {
   
   //red_positive_auton(); //slot 4
 
-  skillsAuton();          //slot 5
+  //skillsAuton();          //slot 5
 
-  //pidTest();
+  pidTest();
+
+  //thread::interruptAll();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -627,6 +624,8 @@ void autonomous(void) {
 #pragma endregion
 #pragma region Driver
 void usercontrol(void) {
+  runAutonDoink = false;
+  Brain.Screen.clearScreen();
   setdtBrakemode(coast);
   while (1) {
    // tank drive user control left side on left right side on right
@@ -655,7 +654,7 @@ void usercontrol(void) {
       wall_stake_motor.stop(brake);
     }
  
-    autoDoink();
+    
 
 
     

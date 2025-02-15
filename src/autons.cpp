@@ -2,14 +2,14 @@
 
 void default_constants(){
   // Each constant set is in the form of (maxVoltage, kP, kI, kD, startI).
-  chassis.set_drive_constants(7.6, 1, 0.03, 0.1, 20);
+  chassis.set_drive_constants(10, 1.1, 0.0035, 0.08, 2);
   chassis.set_heading_constants(12, 1, 0.03, 0.1, 20);
   chassis.set_turn_constants(10, 0.19, 0.007, 0.5, 3);
   chassis.set_swing_constants(12, .3, .001, 2, 15);
 
   // Each exit condition set is in the form (settle_error, settle_time, timeout).
   chassis.set_drive_exit_conditions(1.5, 200, 4050);
-  chassis.set_turn_exit_conditions(1, 250, 2000);
+  chassis.set_turn_exit_conditions(1, 250, 1300);
   chassis.set_swing_exit_conditions(1, 200, 1000); 
 }
 
