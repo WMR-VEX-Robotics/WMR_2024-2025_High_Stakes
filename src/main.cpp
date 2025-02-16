@@ -180,16 +180,22 @@ void toggle_C(){                 //color doinker
 void autoDoinkRed() {
     int read = colorSensor.hue();
     std::string result = "";
-    if(read <= 20){
-      result = "red";
-      hook_motor.stop();
-    }
-    else if(read >= 100){
-      result = "blue";
+    if(mainController.ButtonY.pressing()) {
+      Brain.Screen.clearScreen();
     }
     else {
-      result = "other";
+      if(read <= 20){
+      result = "red";
+      hook_motor.stop(coast);
+      }
+      else if(read >= 40){
+        result = "blue";
+      }
+      else {
+        result = "other";
+      }
     }
+    
     /*Brain.Screen.clearScreen();
     Brain.Screen.setCursor(1, 1);
 
@@ -199,15 +205,20 @@ void autoDoinkRed() {
 void autoDoinkBlue() {
     int read = colorSensor.hue();
     std::string result = "";
-    if(read >= 100){
-      result = "blue";
-      hook_motor.stop();
-    }
-    else if(read <= 20){
-      result = "red";
+    if(mainController.ButtonY.pressing()) {
+      Brain.Screen.clearScreen();
     }
     else {
-      result = "other";
+      if(read >= 38){
+      result = "blue";
+      hook_motor.stop(coast);
+      }
+      else if(read <= 22){
+        result = "red";
+      }
+      else {
+        result = "other";
+      }
     }
     /*Brain.Screen.clearScreen();
     Brain.Screen.setCursor(1, 1);
@@ -218,16 +229,17 @@ void autoDoinkBlue() {
 void autoDoinkRedAuton() {
   int read = colorSensor.hue();
   std::string result = "";
-  if(read <= 20){
+  if(read <= 22){
     result = "red";
-    hook_motor.stop();
+    hook_motor.stop(coast);
+    wait(0.5, sec);
   }
-  else if(read >= 100){
+  else if(read >= 40){
     result = "blue";
-    hook_motor.spin(fwd, 75, percent);
+    hook_motor.spin(fwd, 77, percent);
   }
   else {
-    hook_motor.spin(fwd, 75, percent);
+    hook_motor.spin(fwd, 77, percent);
     result = "other";
   }
   /*Brain.Screen.clearScreen();
@@ -239,32 +251,33 @@ void autoDoinkRedAuton() {
 void autoDoinkBlueAuton() {
   int read = colorSensor.hue();
   std::string result = "";
-  if(read >= 100){
+  if(read >= 38){
     result = "blue";
-    hook_motor.stop();
+    hook_motor.stop(coast);
+    wait(0.5, sec);
   }
   else if(read <= 20){
-    hook_motor.spin(fwd, 80, percent);
+    hook_motor.spin(fwd, 73, percent);
     result = "red";
   }
   else {
-    hook_motor.spin(fwd, 80, percent);
+    hook_motor.spin(fwd, 73, percent);
     result = "other";
   }
   /*Brain.Screen.clearScreen();
   Brain.Screen.setCursor(1, 1);
 
-  Brain.Screen.print(result.c_str());*/
+  Brain.Screen.print(read);*/
 }
 
 void autoDoink() {
   //autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
-  autoDoinkBlue();
+  //autoDoinkBlue();
 }
 
 void autoDoinkAuton() {
   //autoDoinkRedAuton(); //set to autoDoinkRedAuton() if on blue side else set to autoDoinkBlue()
-  autoDoinkBlueAuton();
+  //autoDoinkBlueAuton();
 }
 
 int threadedAutoDoink(void* p) {
@@ -275,8 +288,6 @@ int threadedAutoDoink(void* p) {
     else {
       autoDoink();
     }
-    Brain.Screen.setCursor(50, 0);
-    Brain.Screen.print("user sort");
   }
   return 0;
 }
@@ -313,7 +324,7 @@ void pre_auton(void) {
   chassis.set_coordinates(0,0,0);
   wait(25, msec);
   Brain.Screen.clearScreen();
-  Brain.Screen.drawImageFromFile("Name.bmp", 0, 0);
+  Brain.Screen.drawImageFromFile("Name.bmp", 1, 1);
   //autoDoink();
 }
 
@@ -327,104 +338,104 @@ void pre_auton(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 void blue_negative_auton(){
-  //thread autonSortthread = thread(threadedAutoDoinkAuton, nullptr);
-  chassis.drive_distance(-12);
-  wait(0.1, sec);
-  solonoidA.close();
-  wait(0.1, sec);
-  hook_motor.spin(vex::directionType::fwd, 100, percent);
-  chassis.drive_distance(-2.3);
-  wait(0.1, sec);
-  chassis.turn_to_angle(-90);
-  wait(0.1,sec);
-  intake_motor.spin(vex::directionType::fwd, 75, percent);
-  chassis.drive_distance(7.5);
-  wait(0.1, sec);
-  chassis.turn_to_angle(-31);
-  solonoidB.open();
-  wait(0.1,sec);
-  chassis.drive_distance(22);
-  chassis.turn_to_angle(60);
-  wait(0.1, sec);
-  solonoidB.close();
-  wait(0.1, sec);
-  chassis.drive_distance(17);
-  chassis.turn_to_angle(90);
-  chassis.drive_distance(4);
-  chassis.turn_to_angle(150);
-  chassis.drive_distance(11.5);
-}
-
-void blue_positive_auton() {
-  //thread(threadedAutoDoinkAuton, nullptr);
-  intake_motor.spin(fwd, 75, percent);
-  chassis.drive_distance(-12);
-  wait(0.1,sec);
-  solonoidA.close();
-  wait(0.1, sec);
-  hook_motor.spin(fwd, 100, percent);
-  chassis.drive_distance(-1.5);
-  wait(0.1, sec);
-  chassis.turn_to_angle(90);
-  wait(0.1,sec);
-  chassis.drive_distance(7.5);
-  wait(0.1, sec);
-  chassis.turn_to_angle(0);
-  chassis.drive_distance(7.5);
-  chassis.turn_to_angle(-90);
-  chassis.drive_distance(15);
-  chassis.drive_distance(-5);
-  chassis.drive_distance(10);
-  chassis.drive_distance(-7);
-  chassis.turn_to_angle(180);
-  chassis.drive_distance(15);
-}
-
-void red_negative_auton() {
+  default_constants();
+  runAutonDoink = true;
   intake_motor.spin(fwd, 100, percent);
   chassis.drive_distance(-9.5);
   solonoidA.close();
-  wait(0.1, sec);
+  wait(0.3, sec);
   thread(threadedAutoDoink, nullptr);
-  turnTo(90);
+  turnTo(-88);
+  chassis.drive_distance(10);
+  wait(0.3, sec);
+  chassis.drive_distance(3);
+  wait(0.3, sec);
+  chassis.drive_distance(-3.4);
+  turnTo(-20.5);
+  solonoidB.open();
+  chassis.set_drive_exit_conditions(1.5, 200, 1500);
+  chassis.drive_distance(16);
+  turnTo(80);
+  chassis.set_drive_constants(12, 1.2, 0.02, 0.05, 10);
+  solonoidB.close();
+  chassis.drive_distance(7);
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(6);
+  chassis.turn_to_angle(129);
+  chassis.drive_distance(15);
+}
+
+void blue_positive_auton() {
+  default_constants();
+  runAutonDoink = true;
+  intake_motor.spin(fwd, 100, percent);
+  chassis.drive_distance(-9.5);
+  solonoidA.close();
+  wait(0.3, sec);
+  thread(threadedAutoDoink, nullptr);
+  turnTo(88);
   chassis.drive_distance(9.5);
-  turnTo(-0.5);
-  chassis.drive_distance(8);
-  chassis.turn_to_angle(-90);
-  chassis.drive_distance(13.75);
+  turnTo(-1);
+  chassis.drive_distance(8.75);
+  turnTo(-91);
+  chassis.set_drive_constants(7.5, 1.1, 0.0035, 0.08, 2);
+  chassis.drive_distance(15.75);
   wait(0.5, sec);
-  chassis.drive_distance(5);
+  chassis.drive_distance(6);
+  chassis.drive_distance(-2.35);
+  turnTo(180);
+  chassis.drive_distance(6);
+}
+
+void red_negative_auton() {
+  default_constants();
+  runAutonDoink = true;
+  intake_motor.spin(fwd, 100, percent);
+  chassis.drive_distance(-9.5);
+  solonoidA.close();
+  wait(0.3, sec);
+  thread(threadedAutoDoink, nullptr);
+  turnTo(88);
+  chassis.drive_distance(9.5);
+  turnTo(-1);
+  chassis.drive_distance(8.75);
+  turnTo(-91);
+  chassis.set_drive_constants(7.5, 1.1, 0.0035, 0.08, 2);
+  chassis.drive_distance(15.75);
+  wait(0.5, sec);
+  chassis.drive_distance(6);
+  chassis.drive_distance(-2.35);
   turnTo(180);
   chassis.drive_distance(6);
 
 }
 
 void red_positive_auton(){
-  chassis.drive_distance(-12);
-  wait(0.1, sec);
+  default_constants();
+  runAutonDoink = true;
+  intake_motor.spin(fwd, 100, percent);
+  chassis.drive_distance(-9.5);
   solonoidA.close();
-  wait(0.1, sec);
-  hook_motor.spin(vex::directionType::fwd, 100, percent);
-  chassis.drive_distance(-2.3);
-  wait(0.1, sec);
-  chassis.turn_to_angle(-90);
-  wait(0.1,sec);
-  intake_motor.spin(vex::directionType::fwd, 75, percent);
-  chassis.drive_distance(7.5);
-  wait(0.1, sec);
-  chassis.turn_to_angle(-31);
+  wait(0.3, sec);
+  thread(threadedAutoDoink, nullptr);
+  turnTo(-88);
+  chassis.drive_distance(10);
+  wait(0.3, sec);
+  chassis.drive_distance(3);
+  wait(0.3, sec);
+  chassis.drive_distance(-3.4);
+  turnTo(-20.5);
   solonoidB.open();
-  wait(0.1,sec);
-  chassis.drive_distance(22);
-  chassis.turn_to_angle(60);
-  wait(0.1, sec);
+  chassis.set_drive_exit_conditions(1.5, 200, 1500);
+  chassis.drive_distance(16);
+  turnTo(80);
+  chassis.set_drive_constants(12, 1.2, 0.02, 0.05, 10);
   solonoidB.close();
-  wait(0.1, sec);
-  chassis.drive_distance(17);
+  chassis.drive_distance(7);
   chassis.turn_to_angle(90);
-  chassis.drive_distance(4);
-  chassis.turn_to_angle(150);
-  chassis.drive_distance(11.5);
+  chassis.drive_distance(6);
+  chassis.turn_to_angle(129);
+  chassis.drive_distance(15);
 }
 
 
@@ -491,10 +502,10 @@ void skillsAuton(){
   hook_motor.stop();
   chassis.drive_timeout = 2000;
   chassis.drive_distance(-5);
-  chassis.drive_timeout = 4050;
   chassis.drive_distance(4);
   turnTo(20);
-  chassis.drive_distance(50);
+  chassis.drive_timeout = 4050;
+  chassis.drive_distance(60);
   chassis.turn_to_angle(-70);
   chassis.drive_distance(16);
   chassis.drive_distance(-10);
@@ -594,6 +605,13 @@ void pidTest() {
   
 }
 
+void colorSortTest() {
+  solonoidA.close();
+  thread(threadedAutoDoink, nullptr);
+  intake_motor.spin(fwd, 100, percent);
+  hook_motor.spin(fwd, 77, percent);
+}
+
 void autonomous(void) {
   
   
@@ -605,11 +623,13 @@ void autonomous(void) {
   
   //red_positive_auton(); //slot 4
 
-  //skillsAuton();          //slot 5
+  skillsAuton();          //slot 5
 
-  pidTest();
+  //pidTest();
 
   //thread::interruptAll();
+
+  //colorSortTest();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -625,7 +645,7 @@ void autonomous(void) {
 #pragma region Driver
 void usercontrol(void) {
   runAutonDoink = false;
-  Brain.Screen.clearScreen();
+  thread(threadedAutoDoink, nullptr);
   setdtBrakemode(coast);
   while (1) {
    // tank drive user control left side on left right side on right
@@ -636,10 +656,10 @@ void usercontrol(void) {
     
 
     if (mainController.ButtonR2.pressing() == true ) {
-      intake_motor.spin(forward, 75, percent);
-      hook_motor.spin(forward, 100, percent);
+      intake_motor.spin(forward, 100, percent);
+      hook_motor.spin(forward, 77, percent);
     } else if (mainController.ButtonR1.pressing() == true) {
-      intake_motor.spin(reverse, 75, percent);
+      intake_motor.spin(reverse, 100, percent);
       hook_motor.spin(reverse, 62, percent);
     } else if (mainController.ButtonX.pressing() == true) { // for getting onto wall stake contraption
       intake_motor.spin(forward, 4, volt);
