@@ -184,7 +184,7 @@ void autoDoinkRed() {
       Brain.Screen.clearScreen();
     }
     else {
-      if(read <= 20){
+      if(read <= 18 && colorSensor.isNearObject()){
       result = "red";
       hook_motor.stop(coast);
       }
@@ -209,9 +209,10 @@ void autoDoinkBlue() {
       Brain.Screen.clearScreen();
     }
     else {
-      if(read >= 38){
-      result = "blue";
-      hook_motor.stop(coast);
+      if(read >=50 && colorSensor.isNearObject()){
+        result = "blue";
+        hook_motor.stop(coast);
+        wait(0.7, sec);
       }
       else if(read <= 22){
         result = "red";
@@ -229,17 +230,17 @@ void autoDoinkBlue() {
 void autoDoinkRedAuton() {
   int read = colorSensor.hue();
   std::string result = "";
-  if(read <= 22){
+  if(read <= 16 && colorSensor.isNearObject()){
     result = "red";
-    hook_motor.stop(coast);
-    wait(0.5, sec);
+    hook_motor.spin(reverse, 70, percent);
+    wait(0.7, sec);
   }
   else if(read >= 40){
     result = "blue";
-    hook_motor.spin(fwd, 77, percent);
+    hook_motor.spin(fwd, 70, percent);
   }
   else {
-    hook_motor.spin(fwd, 77, percent);
+    hook_motor.spin(fwd, 70, percent);
     result = "other";
   }
   /*Brain.Screen.clearScreen();
@@ -251,17 +252,17 @@ void autoDoinkRedAuton() {
 void autoDoinkBlueAuton() {
   int read = colorSensor.hue();
   std::string result = "";
-  if(read >= 38){
+  if(read >=50 && colorSensor.isNearObject()){
     result = "blue";
-    hook_motor.stop(coast);
-    wait(0.5, sec);
+    hook_motor.spin(reverse, 80, percent);
+    wait(0.7, sec);
   }
   else if(read <= 20){
-    hook_motor.spin(fwd, 73, percent);
+    hook_motor.spin(fwd, 70, percent);
     result = "red";
   }
   else {
-    hook_motor.spin(fwd, 73, percent);
+    hook_motor.spin(fwd, 70, percent);
     result = "other";
   }
   /*Brain.Screen.clearScreen();
@@ -271,12 +272,12 @@ void autoDoinkBlueAuton() {
 }
 
 void autoDoink() {
-  //autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
+  autoDoinkRed(); //set to autoDoinkRed() if on blue side else set to autoDoinkBlue()
   //autoDoinkBlue();
 }
 
 void autoDoinkAuton() {
-  //autoDoinkRedAuton(); //set to autoDoinkRedAuton() if on blue side else set to autoDoinkBlue()
+  autoDoinkRedAuton(); //set to autoDoinkRedAuton() if on blue side else set to autoDoinkBlue()
   //autoDoinkBlueAuton();
 }
 
@@ -348,21 +349,8 @@ void blue_negative_auton(){
   turnTo(-88);
   chassis.drive_distance(10);
   wait(0.3, sec);
-  chassis.drive_distance(3);
-  wait(0.3, sec);
-  chassis.drive_distance(-3.4);
-  turnTo(-20.5);
-  solonoidB.open();
-  chassis.set_drive_exit_conditions(1.5, 200, 1500);
-  chassis.drive_distance(16);
-  turnTo(80);
-  chassis.set_drive_constants(12, 1.2, 0.02, 0.05, 10);
-  solonoidB.close();
-  chassis.drive_distance(7);
   chassis.turn_to_angle(90);
-  chassis.drive_distance(6);
-  chassis.turn_to_angle(129);
-  chassis.drive_distance(15);
+  chassis.drive_distance(20);
 }
 
 void blue_positive_auton() {
@@ -421,21 +409,8 @@ void red_positive_auton(){
   turnTo(-88);
   chassis.drive_distance(10);
   wait(0.3, sec);
-  chassis.drive_distance(3);
-  wait(0.3, sec);
-  chassis.drive_distance(-3.4);
-  turnTo(-20.5);
-  solonoidB.open();
-  chassis.set_drive_exit_conditions(1.5, 200, 1500);
-  chassis.drive_distance(16);
-  turnTo(80);
-  chassis.set_drive_constants(12, 1.2, 0.02, 0.05, 10);
-  solonoidB.close();
-  chassis.drive_distance(7);
   chassis.turn_to_angle(90);
-  chassis.drive_distance(6);
-  chassis.turn_to_angle(129);
-  chassis.drive_distance(15);
+  chassis.drive_distance(20);
 }
 
 
@@ -458,9 +433,9 @@ void skillsAuton(){
   intake_motor.spin(fwd, 100, percent);
   hook_motor.spin(vex::directionType::fwd, 75, percent);
   chassis.drive_distance(9);
-  turnTo(89.75);
+  turnTo(88.75);
   chassis.drive_distance(8.5);
-  turnTo(179.75);
+  turnTo(179);
   chassis.drive_distance(12.5);
   chassis.drive_distance(-5.2);
   turnTo(89.5);
@@ -612,6 +587,10 @@ void colorSortTest() {
   hook_motor.spin(fwd, 77, percent);
 }
 
+void NAauton() {
+  chassis.drive_distance(-6);
+}
+
 void autonomous(void) {
   
   
@@ -623,13 +602,15 @@ void autonomous(void) {
   
   //red_positive_auton(); //slot 4
 
-  skillsAuton();          //slot 5
+  //skillsAuton();          //slot 5
 
   //pidTest();
 
   //thread::interruptAll();
 
   //colorSortTest();
+
+  //NAauton();
 }
 
 /*---------------------------------------------------------------------------*/
